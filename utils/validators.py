@@ -27,9 +27,6 @@ def validate_restaurant_name(name: str) -> Tuple[bool, Optional[str]]:
     if len(name) > 200:
         return False, "Restaurant name cannot exceed 200 characters"
     
-    if not re.match(r'^[a-zA-Z0-9\s\'\-\.\,\&]+$', name):
-        return False, "Restaurant name contains invalid characters"
-    
     return True, None
 
 
