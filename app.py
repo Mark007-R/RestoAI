@@ -79,16 +79,8 @@ def build_or_get_rag(reviews_texts, docs_texts=None):
         rag.index_documents(combined)
     return rag
 
-@memoize
-def get_restaurant_image(restaurant_name):
-    api_key = app.config.get('GOOGLE_PLACES_API_KEY')
-    
-    if not api_key:
-        logger.warning("Google Places API key not set, using placeholder image")
-        hash_value = sum(ord(c) * (i + 1) for i, c in enumerate(restaurant_name))
-        unique_id = hash_value % 10000
-        return f"https://source.unsplash.com/800x600/?restaurant,{restaurant_name.replace(' ', '-')}&sig={unique_id}"
-    
+def fetch_image_from_google_places(restaurant_name, api_key):
+    """Fetch image from Google Places API"""
     try:
         import requests
         search_url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json"
@@ -107,16 +99,138 @@ def get_restaurant_image(restaurant_name):
             if 'photos' in place and len(place['photos']) > 0:
                 photo_reference = place['photos'][0]['photo_reference']
                 photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photo_reference={photo_reference}&key={api_key}"
-                logger.info(f"Found Google Places image for {restaurant_name}")
+                logger.info(f"✓ Found Google Places image for {restaurant_name}")
                 return photo_url
         
-        logger.warning(f"No Google Places image found for {restaurant_name}, using fallback")
+        logger.debug(f"No Google Places image found for {restaurant_name}")
+        return None
     except Exception as e:
-        logger.error(f"Error fetching Google Places image: {e}")
-    
+        logger.debug(f"Google Places API error for {restaurant_name}: {e}")
+        return None
+
+
+def fetch_image_from_web_search(restaurant_name):
+    """Fetch image by web scraping - Old fallback method"""
+    try:
+        import requests
+        from bs4 import BeautifulSoup
+        
+        # Try searching on restaurant review sites
+        search_urls = [
+            f"https://www.google.com/search?tbm=isch&q={restaurant_name}+restaurant",
+        ]
+        
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        
+        # More reliable: use DuckDuckGo/Bing image search approach
+        try:
+            search_url = f"https://www.bing.com/images/search?q={restaurant_name}+restaurant"
+            response = requests.get(search_url, headers=headers, timeout=5)
+            soup = BeautifulSoup(response.content, 'html.parser')
+            
+            # Looking for image tags
+            img_tags = soup.find_all('img', {'class': 'mimg'})
+            if img_tags:
+                for img in img_tags:
+                    src = img.get('src') or img.get('data-src')
+                    if src and 'http' in src and '.jpg' in src.lower() or '.png' in src.lower():
+                        logger.info(f"✓ Found web image for {restaurant_name}")
+                        return src
+        except Exception as e:
+            logger.debug(f"Web scraping attempt failed: {e}")
+        
+        return None
+    except Exception as e:
+        logger.debug(f"Web search error for {restaurant_name}: {e}")
+        return None
+
+
+def fetch_image_from_unsplash(restaurant_name):
+    """Fetch image from Unsplash with multiple query attempts"""
+    try:
+        import requests
+        
+        # Try multiple search queries with decreasing specificity
+        search_queries = [
+            f"restaurant {restaurant_name}",
+            f"{restaurant_name} food",
+            "restaurant dining",
+            "restaurant interior",
+            "restaurant food",
+            "restaurant ambiance"
+        ]
+        
+        for query in search_queries:
+            try:
+                response = requests.get(
+                    "https://api.unsplash.com/search/photos",
+                    params={
+                        'query': query,
+                        'per_page': 1,
+                        'w': 800,
+                        'h': 600
+                    },
+                    timeout=5
+                )
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    if data.get('results'):
+                        image_url = data['results'][0]['urls']['regular']
+                        logger.info(f"✓ Found Unsplash image for {restaurant_name} using '{query}'")
+                        return image_url
+            except Exception as e:
+                logger.debug(f"Unsplash search failed for '{query}': {e}")
+                continue
+        
+        return None
+    except Exception as e:
+        logger.debug(f"Unsplash error for {restaurant_name}: {e}")
+        return None
+
+
+def generate_placeholder_image(restaurant_name):
+    """Generate a consistent placeholder image URL based on restaurant name"""
     hash_value = sum(ord(c) * (i + 1) for i, c in enumerate(restaurant_name))
     unique_id = hash_value % 10000
-    return f"https://source.unsplash.com/800x600/?restaurant,{restaurant_name.replace(' ', '-')}&sig={unique_id}"
+    return f"https://source.unsplash.com/800x600/?restaurant,food&sig={unique_id}"
+
+
+@memoize
+def get_restaurant_image(restaurant_name):
+    """
+    Fetch restaurant image with multiple fallback strategies:
+    1. Google Places API (if API key available)
+    2. Web scraping from search engines
+    3. Unsplash API with multiple query attempts
+    4. Placeholder image as final fallback
+    """
+    api_key = app.config.get('GOOGLE_PLACES_API_KEY')
+    
+    # Strategy 1: Try Google Places API first
+    if api_key:
+        image_url = fetch_image_from_google_places(restaurant_name, api_key)
+        if image_url:
+            return image_url
+        logger.warning(f"Google Places API failed for {restaurant_name}, trying fallback methods...")
+    else:
+        logger.debug("Google Places API key not configured, using fallback methods")
+    
+    # Strategy 2: Try web scraping (old method)
+    image_url = fetch_image_from_web_search(restaurant_name)
+    if image_url:
+        return image_url
+    
+    # Strategy 3: Try Unsplash API
+    image_url = fetch_image_from_unsplash(restaurant_name)
+    if image_url:
+        return image_url
+    
+    # Strategy 4: Generate placeholder image
+    logger.warning(f"All image fetching methods failed for {restaurant_name}, using placeholder")
+    return generate_placeholder_image(restaurant_name)
 
 def allowed_file(filename):
     is_valid, error = validate_filename(filename, ALLOWED_EXT)
