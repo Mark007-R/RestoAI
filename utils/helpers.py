@@ -19,7 +19,7 @@ def extract_reviews_from_zomato_reviews_list(reviews_list_str) -> List[str]:
                     if review_text and isinstance(review_text, str):
                         reviews.append(review_text.strip())
         return reviews
-    except:
+    except Exception:
         try:
             cleaned = str(reviews_list_str).replace('[', '').replace(']', '')
             parts = cleaned.split('(')
@@ -28,7 +28,7 @@ def extract_reviews_from_zomato_reviews_list(reviews_list_str) -> List[str]:
                     text = part.split(')')[0].strip()
                     if text and len(text) > 10:
                         reviews.append(text.strip('"').strip("'"))
-        except:
+        except Exception:
             pass
     
     return reviews
@@ -45,7 +45,7 @@ def safe_read_csv(filepath: str, encoding: str = "utf-8") -> Optional[pd.DataFra
                 df = pd.read_csv(filepath, encoding=alt_encoding, on_bad_lines="skip")
                 df.columns = df.columns.str.strip()
                 return df
-            except:
+            except Exception:
                 continue
     except Exception as e:
         print(f"Error reading CSV {filepath}: {e}")
@@ -140,7 +140,7 @@ def extract_value_safely(row, column_name: str, default=None):
         if pd.isna(value):
             return default
         return value
-    except:
+    except Exception:
         return default
 
 

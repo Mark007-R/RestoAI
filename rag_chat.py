@@ -117,7 +117,7 @@ class RAGChat:
                         if review_text and isinstance(review_text, str) and len(review_text) > 10:
                             reviews.append(review_text.strip())
             return reviews
-        except:
+        except Exception:
             try:
                 cleaned = str(reviews_list_str).replace('[', '').replace(']', '')
                 parts = cleaned.split('(')
@@ -126,7 +126,7 @@ class RAGChat:
                         text = part.split(')')[0].strip()
                         if text and len(text) > 10:
                             reviews.append(text.strip('"').strip("'"))
-            except:
+        except Exception:
                 pass
         
         return reviews
