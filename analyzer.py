@@ -2,6 +2,7 @@ import re
 import io
 import base64
 import ast
+import logging
 import numpy as np
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from collections import Counter
@@ -14,6 +15,7 @@ import seaborn as sns
 import pandas as pd
 import os
 
+logger = logging.getLogger(__name__)
 nltk.download('stopwords', quiet=True)
 
 analyzer = SentimentIntensityAnalyzer()
@@ -1077,7 +1079,8 @@ def extract_reviews_from_zomato_list(reviews_list_str):
                     if review_text and isinstance(review_text, str) and len(review_text) > 10:
                         reviews.append(review_text.strip())
         return reviews
-    except Exception:
+    except (ValueError, SyntaxError) as e:
+        logger.debug(f"Failed to parse reviews via ast.literal_eval: {e}")
         try:
             cleaned = str(reviews_list_str).replace('[', '').replace(']', '')
             parts = cleaned.split('(')
@@ -1086,8 +1089,8 @@ def extract_reviews_from_zomato_list(reviews_list_str):
                     text = part.split(')')[0].strip()
                     if text and len(text) > 10:
                         reviews.append(text.strip('"').strip("'"))
-        except Exception:
-            pass
+        except (ValueError, IndexError, AttributeError) as e:
+            logger.debug(f"Fallback review extraction failed: {e}")
     
     return reviews
 

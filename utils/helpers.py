@@ -1,8 +1,11 @@
 """Helper utilities for data processing."""
 import pandas as pd
 import ast
+import logging
 from typing import List, Dict, Optional, Tuple
 import hashlib
+
+logger = logging.getLogger(__name__)
 
 
 def extract_reviews_from_zomato_reviews_list(reviews_list_str) -> List[str]:
@@ -19,7 +22,8 @@ def extract_reviews_from_zomato_reviews_list(reviews_list_str) -> List[str]:
                     if review_text and isinstance(review_text, str):
                         reviews.append(review_text.strip())
         return reviews
-    except Exception:
+    except (ValueError, SyntaxError) as e:
+        logger.debug(f"Failed to parse reviews via ast.literal_eval: {e}")
         try:
             cleaned = str(reviews_list_str).replace('[', '').replace(']', '')
             parts = cleaned.split('(')
@@ -28,8 +32,8 @@ def extract_reviews_from_zomato_reviews_list(reviews_list_str) -> List[str]:
                     text = part.split(')')[0].strip()
                     if text and len(text) > 10:
                         reviews.append(text.strip('"').strip("'"))
-        except Exception:
-            pass
+        except (ValueError, IndexError, AttributeError) as e:
+            logger.debug(f"Fallback review extraction failed: {e}")
     
     return reviews
 
@@ -45,10 +49,11 @@ def safe_read_csv(filepath: str, encoding: str = "utf-8") -> Optional[pd.DataFra
                 df = pd.read_csv(filepath, encoding=alt_encoding, on_bad_lines="skip")
                 df.columns = df.columns.str.strip()
                 return df
-            except Exception:
+            except (FileNotFoundError, PermissionError, ValueError) as e:
+                logger.debug(f"Failed to read CSV with {alt_encoding} encoding: {e}")
                 continue
-    except Exception as e:
-        print(f"Error reading CSV {filepath}: {e}")
+    except (FileNotFoundError, PermissionError, ValueError) as e:
+        logger.error(f"Error reading CSV {filepath}: {e}")
     
     return None
 
@@ -140,7 +145,8 @@ def extract_value_safely(row, column_name: str, default=None):
         if pd.isna(value):
             return default
         return value
-    except Exception:
+    except (AttributeError, TypeError, KeyError) as e:
+        logger.debug(f"Error extracting value from {column_name}: {e}")
         return default
 
 

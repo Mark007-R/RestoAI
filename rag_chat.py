@@ -1,5 +1,6 @@
 import os
 import ast
+import logging
 import pandas as pd
 import numpy as np
 import textwrap
@@ -11,12 +12,14 @@ import re
 import pickle
 from datetime import datetime
 
+logger = logging.getLogger(__name__)
+
 try:
     import faiss
     FAISS_AVAILABLE = True
 except ImportError:
     FAISS_AVAILABLE = False
-    print("⚠️  FAISS not installed. Install with: pip install faiss-cpu")
+    logger.warning("FAISS not installed. Install with: pip install faiss-cpu")
 
 class RAGChat:
     def __init__(self, data_folder="datasets", vector_db_folder="vector_db"):
@@ -117,7 +120,8 @@ class RAGChat:
                         if review_text and isinstance(review_text, str) and len(review_text) > 10:
                             reviews.append(review_text.strip())
             return reviews
-        except Exception:
+        except (ValueError, SyntaxError) as e:
+            logger.debug(f"Failed to parse reviews via ast.literal_eval: {e}")
             try:
                 cleaned = str(reviews_list_str).replace('[', '').replace(']', '')
                 parts = cleaned.split('(')
@@ -126,8 +130,8 @@ class RAGChat:
                         text = part.split(')')[0].strip()
                         if text and len(text) > 10:
                             reviews.append(text.strip('"').strip("'"))
-        except Exception:
-                pass
+            except (ValueError, IndexError, AttributeError) as e:
+                logger.debug(f"Fallback review extraction failed: {e}")
         
         return reviews
 
