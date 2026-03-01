@@ -592,22 +592,3 @@ class RAGChat:
         except Exception as e:
             return (f"❌ Couldn't find information in local reviews. "
                    f"Error searching online: {str(e)}")
-
-    def get_statistics(self):
-        if not self.doc_texts:
-            return "No documents indexed."
-        
-        stats = {
-            'total_vectors': self.faiss_index.ntotal if self.faiss_index else 0,
-            'vector_dimensions': self.embedding_dimension,
-            'restaurant': self.current_restaurant or 'All',
-            'index_type': 'FAISS IndexFlatIP (Cosine Similarity)',
-            'embedding_model': 'all-MiniLM-L6-v2',
-            'sources': {}
-        }
-        
-        for meta in self.doc_metadata:
-            source = meta.get('source', 'unknown')
-            stats['sources'][source] = stats['sources'].get(source, 0) + 1
-        
-        return stats
