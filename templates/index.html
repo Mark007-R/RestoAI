@@ -818,7 +818,6 @@
 </div>
 
 <script>
-  // Show loading spinner on form submit
   document.getElementById('analyzeForm').addEventListener('submit', function (e) {
     const restaurantName = document.getElementById('restaurantName').value.trim();
     if (!restaurantName) {
@@ -831,7 +830,6 @@
     document.querySelector('.search-container form').style.display = 'none';
   });
 
-  // Restaurant search autocomplete enhancement
   const restaurantInput = document.getElementById('restaurantName');
   restaurantInput.addEventListener('input', function () {
     if (this.value) {
@@ -843,7 +841,6 @@
     }
   });
 
-  // File input enhancement
   const fileInput = document.getElementById('fileInput');
   fileInput.addEventListener('change', function () {
     const fileName = this.files[0]?.name;
@@ -854,7 +851,6 @@
     }
   });
 
-  // Scroll to search function
   function scrollToSearch() {
     document.querySelector('.search-container').scrollIntoView({
       behavior: 'smooth',
@@ -865,7 +861,6 @@
     }, 800);
   }
 
-  // Lazy loading for images
   document.addEventListener('DOMContentLoaded', function () {
     const images = document.querySelectorAll('img[loading="lazy"]');
 
@@ -885,7 +880,6 @@
     }
   });
 
-  // Add subtle animation to cards on scroll
   const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -907,7 +901,6 @@
     observer.observe(card);
   });
 
-  // Restaurant card click analytics (optional)
   document.querySelectorAll('.restaurant-card').forEach(card => {
     card.addEventListener('click', function (e) {
       if (!e.target.closest('a, button')) {
@@ -917,27 +910,22 @@
     });
   });
 
-  // Add keyboard shortcuts
   document.addEventListener('keydown', function (e) {
-    // Ctrl/Cmd + K to focus search
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
       e.preventDefault();
       scrollToSearch();
     }
 
-    // Escape to clear search
     if (e.key === 'Escape' && document.activeElement === restaurantInput) {
       restaurantInput.value = '';
       restaurantInput.blur();
     }
   });
 
-  // Show success message if redirected after analysis
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('analyzed') === 'true') {
     const restaurantName = urlParams.get('restaurant');
     if (restaurantName) {
-      // Create a temporary success message
       const alert = document.createElement('div');
       alert.className = 'alert alert-success alert-dismissible fade show';
       alert.innerHTML = `
@@ -953,7 +941,6 @@
     }
   }
 
-  // Add search filter functionality
   let searchTimeout;
   restaurantInput.addEventListener('input', function () {
     clearTimeout(searchTimeout);
@@ -976,7 +963,6 @@
         }
       });
 
-      // Show "no results" message if needed
       const existingNoResults = document.querySelector('.no-results-message');
       if (existingNoResults) {
         existingNoResults.remove();
@@ -995,7 +981,6 @@
     }, 300);
   });
 
-  // Add animation for feature cards
   const featureCards = document.querySelectorAll('.feature-card');
   featureCards.forEach((card, index) => {
     card.style.opacity = '0';
@@ -1008,7 +993,6 @@
     }, 200 + (index * 100));
   });
 
-  // Add quick stats counter animation
   function animateCounter(element, target, duration = 2000) {
     const start = 0;
     const increment = target / (duration / 16);
@@ -1025,7 +1009,6 @@
     }, 16);
   }
 
-  // Animate stats on load
   window.addEventListener('load', () => {
     const statNumbers = document.querySelectorAll('.hero-stat-number');
     statNumbers.forEach(stat => {
@@ -1037,13 +1020,11 @@
     });
   });
 
-  // Add tooltip for file size limit
   const fileInputLabel = document.querySelector('.upload-section label');
   if (fileInputLabel) {
     fileInputLabel.title = 'Upload CSV or TXT files (max 16MB)';
   }
 
-  // Show helpful hints
   const hints = [
     'Try analyzing popular restaurants like "Leopold Cafe" or "Taj Hotel"',
     'Enable web scraping to get fresh reviews from the internet',
@@ -1075,13 +1056,10 @@
     hintIndex = (hintIndex + 1) % hints.length;
   }
 
-  // Show first hint after 5 seconds
   setTimeout(showHint, 5000);
 
-  // Show hints every 30 seconds
   setInterval(showHint, 30000);
 
-  // Add print styles
   if (window.matchMedia) {
     const mediaQueryList = window.matchMedia('print');
     mediaQueryList.addListener((mql) => {
@@ -1091,7 +1069,6 @@
     });
   }
 
-  // Performance monitoring (optional)
   if ('performance' in window) {
     window.addEventListener('load', () => {
       setTimeout(() => {
@@ -1102,7 +1079,6 @@
     });
   }
 
-  // Add CSS for fadeIn animation
   const style = document.createElement('style');
   style.textContent = `
   @keyframes fadeIn {

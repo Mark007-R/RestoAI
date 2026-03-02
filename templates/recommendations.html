@@ -735,9 +735,7 @@
 </div>
 
 <script>
-  // Animate elements on page load
   document.addEventListener('DOMContentLoaded', function () {
-    // Animate category bars
     const bars = document.querySelectorAll('.category-bar-fill');
     bars.forEach((bar, index) => {
       const width = bar.style.width;
@@ -747,7 +745,6 @@
       }, 200 + (index * 100));
     });
 
-    // Animate stat boxes
     const statBoxes = document.querySelectorAll('.stat-box');
     statBoxes.forEach((box, index) => {
       box.style.opacity = '0';
@@ -759,7 +756,6 @@
       }, 100 + (index * 150));
     });
 
-    // Animate recommendation cards
     const cards = document.querySelectorAll('.recommendation-card');
     cards.forEach((card, index) => {
       card.style.opacity = '0';

@@ -1134,9 +1134,7 @@
 </div>
 
 <script>
-// Animate elements on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Animate stat cards
     const statCards = document.querySelectorAll('.stat-card');
     statCards.forEach((card, index) => {
         card.style.opacity = '0';
@@ -1148,7 +1146,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100 + (index * 100));
     });
 
-    // Animate review items
     const reviewItems = document.querySelectorAll('.review-item');
     const observerOptions = {
         threshold: 0.1,
@@ -1172,7 +1169,6 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(item);
     });
 
-    // Animate viz cards
     const vizCards = document.querySelectorAll('.viz-card');
     vizCards.forEach(card => {
         card.style.opacity = '0';
@@ -1181,7 +1177,6 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(card);
     });
 
-    // Add pulse effect to stat numbers
     statCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
             const h3 = this.querySelector('h3');
@@ -1193,7 +1188,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Lazy load images
 if ('IntersectionObserver' in window) {
     const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

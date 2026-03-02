@@ -714,7 +714,6 @@
     let isFirstMessage = true;
     let messageCount = 0;
 
-    // Format timestamp
     function getTimestamp() {
         const now = new Date();
         return now.toLocaleTimeString('en-US', {
@@ -724,7 +723,6 @@
         });
     }
 
-    // Add message to chat
     function addMessage(text, isUser = false, metadata = {}) {
         if (isFirstMessage) {
             box.innerHTML = '';
@@ -741,7 +739,6 @@
         const content = document.createElement('div');
         content.className = 'message-content';
 
-        // Enhanced formatting for bot messages
         let formattedText = text;
         if (!isUser) {
             formattedText = text
@@ -761,7 +758,6 @@
             </div>
         `;
 
-        // Add RAG badge for bot messages with sources
         if (!isUser && metadata.hasSources) {
             contentHTML += `
                 <div class="rag-badge">
@@ -786,7 +782,6 @@
 
         messageCount++;
 
-        // Add a subtle animation
         messageDiv.style.opacity = '0';
         messageDiv.style.transform = 'translateY(20px)';
         setTimeout(() => {
@@ -796,13 +791,11 @@
         }, 10);
     }
 
-    // Show/hide typing indicator
     function setTyping(isTyping) {
         if (isTyping) {
             typingIndicator.classList.add('active');
             sendBtn.disabled = true;
             questionInput.disabled = true;
-            // Scroll to show typing indicator
             setTimeout(() => {
                 box.scrollTop = box.scrollHeight;
             }, 100);
@@ -814,22 +807,18 @@
         }
     }
 
-    // Handle form submission
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const question = questionInput.value.trim();
         if (!question) return;
 
-        // Add user message
         addMessage(question, true);
         questionInput.value = '';
 
-        // Show typing indicator
         setTyping(true);
 
         try {
-            // Send request to backend
             const response = await fetch('/chat', {
                 method: 'POST',
                 headers: {
@@ -840,10 +829,8 @@
 
             const data = await response.json();
 
-            // Hide typing indicator
             setTyping(false);
 
-            // Add bot response
             if (data.answer) {
                 const hasSources = data.sources && data.sources.length > 0;
                 addMessage(data.answer, false, { hasSources });
@@ -860,14 +847,12 @@
         }
     });
 
-    // Handle suggested questions
     document.querySelectorAll('.suggestion-chip').forEach(chip => {
         chip.addEventListener('click', function () {
             const question = this.getAttribute('data-question');
             questionInput.value = question;
             questionInput.focus();
 
-            // Visual feedback
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = '';
@@ -875,7 +860,6 @@
         });
     });
 
-    // Input focus effects
     questionInput.addEventListener('focus', function () {
         this.style.borderColor = '#667eea';
     });
@@ -886,7 +870,6 @@
         }
     });
 
-    // Character counter
     questionInput.addEventListener('input', function () {
         const remaining = 500 - this.value.length;
         if (remaining < 50) {
@@ -894,21 +877,17 @@
         }
     });
 
-    // Keyboard shortcuts
     questionInput.addEventListener('keydown', function (e) {
-        // Ctrl/Cmd + Enter to send
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
             e.preventDefault();
             form.dispatchEvent(new Event('submit'));
         }
     });
 
-    // Auto-focus input on page load
     window.addEventListener('load', () => {
         questionInput.focus();
     });
 
-    // Easter egg: Konami code for debug mode
     let konamiCode = [];
     const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 
@@ -925,7 +904,6 @@
         }
     });
 
-    // Show connection status
     window.addEventListener('online', () => {
         console.log('✅ Connection restored');
     });
@@ -935,7 +913,6 @@
         addMessage('⚠️ **Connection Lost:** You appear to be offline. Messages will not be sent until connection is restored.', false);
     });
 
-    // Welcome message
     setTimeout(() => {
         if (isFirstMessage && '{{ restaurant }}') {
             addMessage(

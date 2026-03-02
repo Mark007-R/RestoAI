@@ -716,7 +716,6 @@
 
   
   <script>
-    // Initialize AOS (Animate On Scroll)
     AOS.init({
       duration: 800,
       easing: 'ease-in-out',
@@ -724,7 +723,6 @@
       offset: 100
     });
 
-    // Auto-hide alerts after 6 seconds
     setTimeout(() => {
       const alerts = document.querySelectorAll('.alert');
       alerts.forEach(alert => {
@@ -733,7 +731,6 @@
       });
     }, 6000);
 
-    // Navbar scroll effect
     window.addEventListener('scroll', () => {
       const navbar = document.querySelector('.navbar');
       if (window.scrollY > 50) {
@@ -743,7 +740,6 @@
       }
     });
 
-    // Scroll to top button
     const scrollTopBtn = document.getElementById('scrollTop');
 
     window.addEventListener('scroll', () => {
@@ -761,7 +757,6 @@
       });
     });
 
-    // Add smooth scroll to all anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
