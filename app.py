@@ -73,6 +73,11 @@ def login_required(f):
         if 'user_id' not in session:
             flash('Please login to access this page.', 'warning')
             return redirect(url_for('login'))
+        user = db.session.get(User, session['user_id'])
+        if not user or not user.is_active:
+            session.clear()
+            flash('Please login to continue.', 'warning')
+            return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -82,8 +87,9 @@ def manager_required(f):
         if 'user_id' not in session:
             flash('Please login to access this page.', 'warning')
             return redirect(url_for('login'))
-        user = User.query.get(session['user_id'])
-        if not user or user.role != 'manager':
+        user = db.session.get(User, session['user_id'])
+        if not user or not user.is_active or user.role != 'manager':
+            session.clear()
             flash('Manager access required.', 'danger')
             return redirect(url_for('login'))
         return f(*args, **kwargs)
@@ -95,11 +101,15 @@ def manager_required(f):
 def index():
     """Redirect to appropriate dashboard or login"""
     if 'user_id' in session:
-        user = User.query.get(session['user_id'])
-        if user and user.role == 'manager':
-            return redirect('/manager/dashboard')
-        elif user:
-            return redirect('/user/dashboard')
+        user = db.session.get(User, session['user_id'])
+        if user and user.is_active:
+            if user.role == 'manager':
+                return redirect('/manager/dashboard')
+            else:
+                return redirect('/user/dashboard')
+        else:
+            # Invalid session - clear it
+            session.clear()
     return redirect(url_for('login'))
 
 @app.route("/login", methods=["GET", "POST"])
