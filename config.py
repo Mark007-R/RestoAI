@@ -67,9 +67,9 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = _normalize_database_url(os.environ.get('DEV_DATABASE_URL')) or \
-        _mysql_uri_from_env('DEV_') or \
-        _mysql_uri_from_env() or \
+    SQLALCHEMY_DATABASE_URI = _normalize_database_url(os.environ.get('DEV_DATABASE_URL')) or\
+        _mysql_uri_from_env('DEV_') or\
+        _mysql_uri_from_env() or\
         'sqlite:///reviews.db'
     SQLALCHEMY_ECHO = False
     SESSION_COOKIE_SECURE = False
@@ -77,10 +77,10 @@ class DevelopmentConfig(Config):
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = _normalize_database_url(os.environ.get('DATABASE_URL')) or \
-        _normalize_database_url(os.environ.get('PROD_DATABASE_URL')) or \
-        _mysql_uri_from_env('PROD_') or \
-        _mysql_uri_from_env() or \
+    SQLALCHEMY_DATABASE_URI = _normalize_database_url(os.environ.get('DATABASE_URL')) or\
+        _normalize_database_url(os.environ.get('PROD_DATABASE_URL')) or\
+        _mysql_uri_from_env('PROD_') or\
+        _mysql_uri_from_env() or\
         'sqlite:///reviews.db'
     
     SESSION_COOKIE_SECURE = True

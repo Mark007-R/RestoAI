@@ -26,7 +26,7 @@ for folder in [UPLOAD_FOLDER, DATASET_FOLDER, VECTOR_DB_FOLDER]:
     if not os.path.exists(folder):
         os.makedirs(folder, exist_ok=True)
 
-# Database Models
+                 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False, index=True)
@@ -66,7 +66,7 @@ with app.app_context():
     db.create_all()
     logger.info("Database tables created/verified")
 
-# Authentication decorators
+                           
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -95,7 +95,7 @@ def manager_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# ========== ROUTES ==========
+                              
 
 @app.route("/")
 def index():
@@ -108,7 +108,7 @@ def index():
             else:
                 return redirect('/user/dashboard')
         else:
-            # Invalid session - clear it
+                                        
             session.clear()
     return redirect(url_for('login'))
 
@@ -132,20 +132,20 @@ def login():
                 flash('Your account has been deactivated. Please contact support.', 'danger')
                 return render_template('login.html')
             
-            # Login successful
+                              
             session['user_id'] = user.id
             session['username'] = user.username
             session['role'] = user.role
             session.permanent = True
             
-            # Update last login
+                               
             user.last_login = datetime.utcnow()
             db.session.commit()
             
             flash(f'Welcome back, {user.username}!', 'success')
             logger.info(f"User logged in: {username} ({user.role})")
             
-            # Redirect based on role
+                                    
             if user.role == 'manager':
                 return redirect('/manager/dashboard')
             else:
@@ -168,7 +168,7 @@ def signup():
         confirm_password = request.form.get('confirm_password', '')
         role = request.form.get('role', 'user')
         
-        # Validation
+                    
         if not username or not email or not password:
             flash('All fields are required.', 'danger')
             return render_template('signup.html')
@@ -189,7 +189,7 @@ def signup():
             flash('Invalid role selected.', 'danger')
             return render_template('signup.html')
         
-        # Check if user already exists
+                                      
         if User.query.filter_by(username=username).first():
             flash('Username already exists. Please choose another.', 'danger')
             return render_template('signup.html')
@@ -198,7 +198,7 @@ def signup():
             flash('Email already registered. Please use another email.', 'danger')
             return render_template('signup.html')
         
-        # Create new user
+                         
         try:
             new_user = User(username=username, email=email, role=role)
             new_user.set_password(password)
@@ -223,11 +223,11 @@ def logout():
     logger.info(f"User logged out: {username}")
     return redirect(url_for('login'))
 
-# Import route modules
+                      
 from manager import register_manager_routes
 from user import register_user_routes
 
-# Register routes
+                 
 register_manager_routes(app, db, User, Review, manager_required, login_required)
 register_user_routes(app, db, User, Review, login_required)
 

@@ -25,14 +25,14 @@ from utils.cache import memoize
 
 logger = setup_logger(__name__)
 
-# Global state
+              
 rag_instance = None
 current_indexed_restaurant = None
 google_api_failures = 0
 use_google_api = True
 MAX_GOOGLE_FAILURES = 10
 
-# ============= Helper Functions =============
+                                              
 
 def build_or_get_rag(reviews_texts, docs_texts=None):
     rag = RAGChat()
@@ -140,19 +140,19 @@ def generate_placeholder_image(restaurant_name):
 def get_restaurant_image(restaurant_name, api_key=None):
     global google_api_failures, use_google_api
     
-    # Try Google Places API only if not disabled and key is available
+                                                                     
     if api_key and use_google_api:
         image_url = fetch_image_from_google_places(restaurant_name, api_key)
         if image_url:
-            # Success - reset failure counter
+                                             
             google_api_failures = 0
             return image_url
         else:
-            # Failed - increment counter
+                                        
             google_api_failures += 1
             logger.debug(f"Google Places API failed ({google_api_failures}/{MAX_GOOGLE_FAILURES}) for {restaurant_name}")
             
-            # Disable Google API after MAX_GOOGLE_FAILURES consecutive failures
+                                                                               
             if google_api_failures >= MAX_GOOGLE_FAILURES:
                 use_google_api = False
                 logger.warning(f"⚠️ Google Places API disabled after {MAX_GOOGLE_FAILURES} consecutive failures. Switching to alternative methods.")
@@ -161,17 +161,17 @@ def get_restaurant_image(restaurant_name, api_key=None):
     else:
         logger.debug("Google Places API disabled due to previous failures, using alternative methods")
     
-    # Try web search (Bing)
+                           
     image_url = fetch_image_from_web_search(restaurant_name)
     if image_url:
         return image_url
     
-    # Try Unsplash
+                  
     image_url = fetch_image_from_unsplash(restaurant_name)
     if image_url:
         return image_url
     
-    # Last resort: placeholder
+                              
     logger.warning(f"All image fetching methods failed for {restaurant_name}, using placeholder")
     return generate_placeholder_image(restaurant_name)
 
@@ -379,7 +379,7 @@ def process_all_datasets(dataset_folder, restaurant_filter=None):
                 print(f"Error processing {filename}: {e}")
     return all_reviews, all_restaurants
 
-# ============= Manager Routes Registration =============
+                                                         
 
 def register_manager_routes(app, db, User, Review, manager_required, login_required):
     """Register all manager-specific routes"""
@@ -405,7 +405,7 @@ def register_manager_routes(app, db, User, Review, manager_required, login_requi
             for r in restaurants_data:
                 name = r['name']
                 if name not in unique_restaurants:
-                    # Use placeholder images for fast loading (skip expensive API calls)
+                                                                                        
                     r['photo'] = generate_placeholder_image(name)
                     unique_restaurants[name] = r
             restaurants = list(unique_restaurants.values())
