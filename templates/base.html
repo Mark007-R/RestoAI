@@ -633,6 +633,36 @@
               <i class="fas fa-comments"></i> AI Chat
             </a>
           </li>
+          {% if session.get('user_id') %}
+            <li class="nav-item">
+              <a class="nav-link" href="/profile">
+                <i class="fas fa-user"></i> Profile
+              </a>
+            </li>
+            {% if session.get('role') == 'manager' %}
+              <li class="nav-item">
+                <span class="nav-link" style="color: #f59e0b !important;">
+                  <i class="fas fa-crown"></i> Manager
+                </span>
+              </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">
+                <i class="fas fa-sign-out-alt"></i> Logout ({{ session.get('username') }})
+              </a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="/login">
+                <i class="fas fa-sign-in-alt"></i> Login
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/signup" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%); color: #fff !important;">
+                <i class="fas fa-user-plus"></i> Sign Up
+              </a>
+            </li>
+          {% endif %}
         </ul>
       </div>
     </div>

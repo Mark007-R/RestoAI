@@ -4,6 +4,8 @@ load_dotenv()
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
 from analyzer import (analyze_text_and_keywords, categorize_complaints, 
                      summarize_reviews_for_recommendations, generate_visualizations)
 from scraper import scrape_generic_reviews, scrape_zomato_placeholder
@@ -34,6 +36,25 @@ for folder in [UPLOAD_FOLDER, DATASET_FOLDER, app.config.get('VECTOR_DB_FOLDER',
     if not os.path.exists(folder):
         os.makedirs(folder, exist_ok=True)
         logger.info(f"Created directory: {folder}")
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False, index=True)
+    email = db.Column(db.String(120), unique=True, nullable=False, index=True)
+    password_hash = db.Column(db.String(255), nullable=False)
+    role = db.Column(db.String(20), nullable=False, default='user')  # 'user' or 'manager'
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    last_login = db.Column(db.DateTime)
+    is_active = db.Column(db.Boolean, default=True)
+    
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+    
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+    
+    def __repr__(self):
+        return f'<User {self.username} ({self.role})>'
+
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     restaurant = db.Column(db.String(200), index=True, nullable=False)
@@ -55,8 +76,38 @@ class Review(db.Model):
 with app.app_context():
     db.create_all()
     logger.info("Database tables created/verified")
+
+# Authentication decorators
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            flash('Please login to access this page.', 'warning')
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
+def manager_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            flash('Please login to access this page.', 'warning')
+            return redirect(url_for('login'))
+        user = User.query.get(session['user_id'])
+        if not user or user.role != 'manager':
+            flash('Manager access required.', 'danger')
+            return redirect(url_for('index'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 rag_instance = None
 current_indexed_restaurant = None
+
+# Image fetching failure tracking
+google_api_failures = 0
+use_google_api = True
+MAX_GOOGLE_FAILURES = 10
+
 def build_or_get_rag(reviews_texts, docs_texts=None):
     rag = RAGChat()
     combined = list(reviews_texts)
@@ -158,22 +209,45 @@ def generate_placeholder_image(restaurant_name):
     hash_value = sum(ord(c) * (i + 1) for i, c in enumerate(restaurant_name))
     unique_id = hash_value % 10000
     return f"https://source.unsplash.com/800x600/?restaurant,food&sig={unique_id}"
+
 @memoize
 def get_restaurant_image(restaurant_name):
+    global google_api_failures, use_google_api
+    
     api_key = app.config.get('GOOGLE_PLACES_API_KEY')
-    if api_key:
+    
+    # Try Google Places API only if not disabled and key is available
+    if api_key and use_google_api:
         image_url = fetch_image_from_google_places(restaurant_name, api_key)
         if image_url:
+            # Success - reset failure counter
+            google_api_failures = 0
             return image_url
-        logger.warning(f"Google Places API failed for {restaurant_name}, trying fallback methods...")
-    else:
+        else:
+            # Failed - increment counter
+            google_api_failures += 1
+            logger.debug(f"Google Places API failed ({google_api_failures}/{MAX_GOOGLE_FAILURES}) for {restaurant_name}")
+            
+            # Disable Google API after MAX_GOOGLE_FAILURES consecutive failures
+            if google_api_failures >= MAX_GOOGLE_FAILURES:
+                use_google_api = False
+                logger.warning(f"⚠️ Google Places API disabled after {MAX_GOOGLE_FAILURES} consecutive failures. Switching to alternative methods.")
+    elif not api_key:
         logger.debug("Google Places API key not configured, using fallback methods")
+    else:
+        logger.debug("Google Places API disabled due to previous failures, using alternative methods")
+    
+    # Try web search (Bing)
     image_url = fetch_image_from_web_search(restaurant_name)
     if image_url:
         return image_url
+    
+    # Try Unsplash
     image_url = fetch_image_from_unsplash(restaurant_name)
     if image_url:
         return image_url
+    
+    # Last resort: placeholder
     logger.warning(f"All image fetching methods failed for {restaurant_name}, using placeholder")
     return generate_placeholder_image(restaurant_name)
 
@@ -379,8 +453,154 @@ def process_all_datasets(restaurant_filter=None):
             except Exception as e:
                 print(f"Error processing {filename}: {e}")
     return all_reviews, all_restaurants
+
+# ============= Authentication Routes =============
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if 'user_id' in session:
+        return redirect(url_for('index'))
+    
+    if request.method == "POST":
+        username = request.form.get('username', '').strip()
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '')
+        confirm_password = request.form.get('confirm_password', '')
+        role = request.form.get('role', 'user')
+        
+        # Validation
+        if not username or not email or not password:
+            flash('All fields are required.', 'danger')
+            return render_template('signup.html')
+        
+        if len(username) < 3:
+            flash('Username must be at least 3 characters long.', 'danger')
+            return render_template('signup.html')
+        
+        if len(password) < 6:
+            flash('Password must be at least 6 characters long.', 'danger')
+            return render_template('signup.html')
+        
+        if password != confirm_password:
+            flash('Passwords do not match.', 'danger')
+            return render_template('signup.html')
+        
+        if role not in ['user', 'manager']:
+            flash('Invalid role selected.', 'danger')
+            return render_template('signup.html')
+        
+        # Check if user already exists
+        if User.query.filter_by(username=username).first():
+            flash('Username already exists. Please choose another.', 'danger')
+            return render_template('signup.html')
+        
+        if User.query.filter_by(email=email).first():
+            flash('Email already registered. Please use another email.', 'danger')
+            return render_template('signup.html')
+        
+        # Create new user
+        try:
+            new_user = User(username=username, email=email, role=role)
+            new_user.set_password(password)
+            db.session.add(new_user)
+            db.session.commit()
+            
+            flash(f'Account created successfully! Welcome {username}. Please login.', 'success')
+            logger.info(f"New user registered: {username} ({role})")
+            return redirect(url_for('login'))
+        except Exception as e:
+            db.session.rollback()
+            logger.error(f"Error creating user: {e}", exc_info=True)
+            flash('An error occurred. Please try again.', 'danger')
+            return render_template('signup.html')
+    
+    return render_template('signup.html')
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if 'user_id' in session:
+        return redirect(url_for('index'))
+    
+    if request.method == "POST":
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '')
+        
+        if not username or not password:
+            flash('Username and password are required.', 'danger')
+            return render_template('login.html')
+        
+        user = User.query.filter_by(username=username).first()
+        
+        if user and user.check_password(password):
+            if not user.is_active:
+                flash('Your account has been deactivated. Please contact support.', 'danger')
+                return render_template('login.html')
+            
+            # Login successful
+            session['user_id'] = user.id
+            session['username'] = user.username
+            session['role'] = user.role
+            session.permanent = True
+            
+            # Update last login
+            user.last_login = datetime.utcnow()
+            db.session.commit()
+            
+            flash(f'Welcome back, {user.username}!', 'success')
+            logger.info(f"User logged in: {username} ({user.role})")
+            
+            # Redirect based on role
+            if user.role == 'manager':
+                return redirect(url_for('manager_dashboard'))
+            else:
+                return redirect(url_for('user_dashboard'))
+        else:
+            flash('Invalid username or password.', 'danger')
+            logger.warning(f"Failed login attempt for username: {username}")
+            return render_template('login.html')
+    
+    return render_template('login.html')
+
+@app.route("/logout")
+def logout():
+    username = session.get('username', 'User')
+    session.clear()
+    flash(f'Goodbye {username}! You have been logged out successfully.', 'info')
+    logger.info(f"User logged out: {username}")
+    return redirect(url_for('login'))
+
+@app.route("/profile")
+@login_required
+def profile():
+    user = User.query.get(session['user_id'])
+    if not user:
+        flash('User not found.', 'danger')
+        return redirect(url_for('logout'))
+    
+    # Get user's activity stats
+    review_count = Review.query.count()
+    
+    return render_template('profile.html', user=user, review_count=review_count)
+
+# ============= Main Application Routes =============
+
 @app.route("/", methods=["GET"])
 def index():
+    """Route users to appropriate dashboard based on role"""
+    if 'user_id' in session:
+        user = User.query.get(session['user_id'])
+        if user and user.role == 'manager':
+            return redirect(url_for('manager_dashboard'))
+        elif user:
+            return redirect(url_for('user_dashboard'))
+    
+    # Not logged in - show public landing page
+    return redirect(url_for('login'))
+
+@app.route("/manager/dashboard", methods=["GET"])
+@manager_required
+def manager_dashboard():
+    """Full-featured dashboard for managers (app.py features)"""
     try:
         _, restaurants_data = process_all_datasets(restaurant_filter=None)
         unique_restaurants = {}
@@ -394,14 +614,46 @@ def index():
             logger.warning("No restaurant data found in datasets folder")
             flash("No restaurant data found in datasets folder.", "warning")
         else:
-            logger.info(f"Loaded {len(restaurants)} restaurants for index page")
-        return render_template("index.html", restaurants=restaurants[:50])
+            logger.info(f"Loaded {len(restaurants)} restaurants for manager dashboard")
+        return render_template("manager_dashboard.html", restaurants=restaurants[:50])
     except Exception as e:
-        logger.error(f"Error loading index page: {e}", exc_info=True)
+        logger.error(f"Error loading manager dashboard: {e}", exc_info=True)
         flash("An error occurred while loading restaurants. Please try again.", "error")
-        return render_template("index.html", restaurants=[])
+        return render_template("manager_dashboard.html", restaurants=[])
+
+@app.route("/user/dashboard", methods=["GET"])
+@login_required
+def user_dashboard():
+    """Simplified dashboard for regular users (app2.py features)"""
+    try:
+        user = User.query.get(session['user_id'])
+        
+        # Get limited restaurant data for users
+        _, restaurants_data = process_all_datasets(restaurant_filter=None)
+        unique_restaurants = {}
+        for r in restaurants_data:
+            name = r['name']
+            if name not in unique_restaurants:
+                r['photo'] = get_restaurant_image(name)
+                unique_restaurants[name] = r
+        restaurants = list(unique_restaurants.values())[:20]  # Limit to 20 for users
+        
+        # Get some basic stats
+        total_reviews = Review.query.count()
+        total_restaurants = len(restaurants)
+        
+        logger.info(f"Loaded user dashboard for {user.username}")
+        return render_template("user_dashboard.html", 
+                             restaurants=restaurants,
+                             total_reviews=total_reviews,
+                             total_restaurants=total_restaurants)
+    except Exception as e:
+        logger.error(f"Error loading user dashboard: {e}", exc_info=True)
+        flash("An error occurred while loading your dashboard. Please try again.", "error")
+        return render_template("user_dashboard.html", restaurants=[], total_reviews=0, total_restaurants=0)
 
 @app.route("/analyze", methods=["GET", "POST"])
+@login_required
 def analyze():
     try:
         if request.method == "GET":
@@ -562,6 +814,7 @@ def analyze():
         return redirect(url_for("index"))
 
 @app.route("/results")
+@login_required
 def results():
     restaurant = request.args.get("restaurant_name", "")
     if not restaurant:
@@ -597,6 +850,7 @@ def results():
                          source_counts=source_counts,
                          visualizations=viz_images)
 @app.route("/recommendations")
+@login_required
 def recommendations():
     restaurant = request.args.get("restaurant_name", "")
     if not restaurant:
@@ -613,6 +867,7 @@ def recommendations():
                          category_counts=counts,
                          sentiment_counts=sentiments)
 @app.route("/chat", methods=["GET", "POST"])
+@login_required
 def chat():
     global rag_instance, current_indexed_restaurant
     if request.method == "GET":
@@ -637,6 +892,36 @@ def search_restaurants():
         if r['name'] not in unique:
             unique[r['name']] = r
     return jsonify(list(unique.values())[:10])
+
+@app.route("/api/image-status")
+@manager_required
+def image_status():
+    """Check image loading status - Manager only"""
+    global google_api_failures, use_google_api
+    return jsonify({
+        'google_api_enabled': use_google_api,
+        'google_api_failures': google_api_failures,
+        'max_failures_threshold': MAX_GOOGLE_FAILURES,
+        'current_method': 'Google Places API' if use_google_api else 'Alternative Methods (Web Search/Unsplash)',
+        'api_key_configured': bool(app.config.get('GOOGLE_PLACES_API_KEY'))
+    })
+
+@app.route("/api/reset-google-api", methods=["POST"])
+@manager_required
+def reset_google_api():
+    """Reset Google API failure counter - Manager only"""
+    global google_api_failures, use_google_api
+    google_api_failures = 0
+    use_google_api = True
+    logger.info("Google Places API failure counter reset by manager")
+    flash("Google Places API has been re-enabled successfully!", "success")
+    return jsonify({
+        'success': True,
+        'message': 'Google API reset successfully',
+        'google_api_enabled': use_google_api,
+        'google_api_failures': google_api_failures
+    })
+
 if __name__ == "__main__":
     debug_mode = app.config.get('DEBUG', False)
     app.run(debug=debug_mode, use_reloader=False, host='0.0.0.0', port=5000)

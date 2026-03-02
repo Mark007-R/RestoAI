@@ -1,0 +1,1123 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  
+  .hero-section {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-radius: 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .hero-section h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeInUp 0.8s ease;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-section h1 i {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .hero-section p {
+    font-size: 1.3rem;
+    color: #64748b;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    animation: fadeInUp 0.8s ease 0.2s both;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-stat {
+    text-align: center;
+  }
+
+  .hero-stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+  }
+
+  .hero-stat-label {
+    color: #64748b;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  
+  .search-container {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    margin-bottom: 3rem;
+    border: 2px solid rgba(102, 126, 234, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .search-container:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  }
+
+  .search-container h4 {
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .search-container h4 i {
+    color: #667eea;
+    font-size: 1.25rem;
+  }
+
+  
+  .upload-section {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    padding: 2rem;
+    border-radius: 1.25rem;
+    margin-top: 2rem;
+    border: 2px dashed rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .upload-section:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+    border-color: #667eea;
+  }
+
+  .upload-section label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #1e293b;
+    font-size: 1.05rem;
+  }
+
+  .upload-section label i {
+    color: #667eea;
+    font-size: 1.25rem;
+  }
+
+  
+  .form-label {
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .form-label i {
+    color: #667eea;
+  }
+
+  .form-control-lg {
+    padding: 1rem 1.5rem;
+    font-size: 1.05rem;
+    border-radius: 1rem;
+  }
+
+  .form-check-input:checked {
+    background-color: #667eea;
+    border-color: #667eea;
+  }
+
+  
+  .restaurant-card {
+    position: relative;
+    overflow: hidden;
+    border: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+  }
+
+  .restaurant-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+  }
+
+  .restaurant-card:hover::before {
+    opacity: 1;
+  }
+
+  .restaurant-card:hover {
+    transform: translateY(-12px) scale(1.03);
+  }
+
+  .restaurant-card .card-img-top {
+    height: 240px;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .restaurant-card:hover .card-img-top {
+    transform: scale(1.2);
+  }
+
+  .restaurant-card .card-img-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+  }
+
+  .restaurant-card:hover .card-img-overlay {
+    opacity: 1;
+  }
+
+  .restaurant-card .card-img-overlay h5 {
+    color: white;
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    font-size: 1.1rem;
+  }
+
+  .restaurant-card .card-body {
+    padding: 1.75rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .restaurant-card .card-title {
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  
+  .rating-badge {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 0.6rem 1.25rem;
+    border-radius: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+    font-size: 0.95rem;
+  }
+
+  .rating-badge i {
+    font-size: 1rem;
+  }
+
+  
+  .source-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #667eea;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 3;
+  }
+
+  
+  .feature-card {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 2px solid rgba(102, 126, 234, 0.05);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    border-color: rgba(102, 126, 234, 0.2);
+  }
+
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    position: relative;
+  }
+
+  .feature-icon::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 1.5rem;
+    background: inherit;
+    opacity: 0.3;
+    animation: pulse-icon 2s infinite;
+  }
+
+  @keyframes pulse-icon {
+
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.3;
+    }
+
+    50% {
+      transform: scale(1.1);
+      opacity: 0;
+    }
+  }
+
+  .feature-card h5 {
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+    font-size: 1.15rem;
+  }
+
+  .feature-card p {
+    color: #64748b;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  
+  .loading-spinner {
+    display: none;
+    text-align: center;
+    padding: 3rem;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .loading-spinner .spinner-border {
+    width: 4rem;
+    height: 4rem;
+    border-width: 0.4rem;
+    border-color: #667eea;
+    border-right-color: transparent;
+  }
+
+  
+  .restaurant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-header h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .section-header h3 i {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .section-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+  }
+
+  
+  .empty-state {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    border-radius: 1.5rem;
+    border: 2px dashed rgba(102, 126, 234, 0.3);
+  }
+
+  .empty-state i {
+    font-size: 5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.5rem;
+    opacity: 0.6;
+  }
+
+  .empty-state h4 {
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+  }
+
+  .empty-state p {
+    color: #64748b;
+    font-size: 1rem;
+  }
+
+  
+  .info-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #667eea;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .info-card p {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.9rem;
+  }
+
+  .info-card p i {
+    color: #667eea;
+    margin-right: 0.5rem;
+  }
+
+  
+  .quick-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .quick-action-btn {
+    flex: 1;
+    min-width: 150px;
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 2px solid #e2e8f0;
+    background: white;
+    color: #1e293b;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .quick-action-btn:hover {
+    border-color: #667eea;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    color: #667eea;
+    transform: translateY(-3px);
+  }
+
+  
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: 2.5rem 1.5rem;
+    }
+
+    .hero-section h1 {
+      font-size: 2rem;
+    }
+
+    .hero-section p {
+      font-size: 1.1rem;
+    }
+
+    .hero-stats {
+      gap: 2rem;
+    }
+
+    .hero-stat-number {
+      font-size: 2rem;
+    }
+
+    .restaurant-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .search-container {
+      padding: 1.5rem;
+    }
+
+    .section-header h3 {
+      font-size: 1.5rem;
+    }
+
+    .quick-actions {
+      flex-direction: column;
+    }
+
+    .quick-action-btn {
+      min-width: 100%;
+    }
+  }
+
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .loading-shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+  }
+</style>
+
+<div class="hero-section" data-aos="fade-down">
+  <h1>
+    <i class="fas fa-utensils"></i>
+    Discover Restaurant Insights
+  </h1>
+  <p>AI-Powered sentiment analysis with FAISS vector search & RAG technology</p>
+
+  <div class="hero-stats">
+    <div class="hero-stat" data-aos="zoom-in" data-aos-delay="100">
+      <span class="hero-stat-number">{{ restaurants|length }}</span>
+      <span class="hero-stat-label">Restaurants</span>
+    </div>
+    <div class="hero-stat" data-aos="zoom-in" data-aos-delay="200">
+      <span class="hero-stat-number">5+</span>
+      <span class="hero-stat-label">Data Sources</span>
+    </div>
+    <div class="hero-stat" data-aos="zoom-in" data-aos-delay="300">
+      <span class="hero-stat-number">9</span>
+      <span class="hero-stat-label">Visualizations</span>
+    </div>
+  </div>
+</div>
+
+<div class="search-container" data-aos="fade-up">
+  <h4>
+    <i class="fas fa-search-plus"></i>
+    Analyze Restaurant Reviews
+  </h4>
+
+  <form method="POST" action="{{ url_for('analyze') }}" enctype="multipart/form-data" id="analyzeForm">
+    <div class="row g-3 align-items-end">
+      
+      <div class="col-md-6">
+        <label class="form-label">
+          <i class="fas fa-store"></i> Restaurant Name
+        </label>
+        <input type="text" name="restaurant_name" id="restaurantName"
+          placeholder="e.g., Leopold Cafe, Taj Hotel, Cafe Mondegar..." required class="form-control form-control-lg"
+          list="restaurantSuggestions" autocomplete="off">
+        <datalist id="restaurantSuggestions">
+          {% for r in restaurants %}
+          <option value="{{ r.name }}">
+            {% endfor %}
+        </datalist>
+      </div>
+
+      
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-success btn-lg w-100">
+          <i class="fas fa-chart-line"></i> Analyze Now
+        </button>
+      </div>
+
+      
+      <div class="col-md-3">
+        <div class="form-check form-switch" style="padding-top: 1rem;">
+          <input class="form-check-input" type="checkbox" name="try_scrape" id="enableScraping">
+          <label class="form-check-label" for="enableScraping">
+            <i class="fas fa-globe"></i> <small>Enable web scraping</small>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="upload-section">
+      <label class="form-label">
+        <i class="fas fa-cloud-upload-alt"></i> Or Upload Your Own Dataset
+      </label>
+      <input type="file" name="datafile" class="form-control" accept=".csv,.txt" id="fileInput">
+      <small class="text-muted d-flex align-items-center gap-2 mt-2">
+        <i class="fas fa-info-circle"></i>
+        Supported formats: CSV (Zomato, Mumbai Aires, Google Reviews), TXT | Max size: 16MB
+      </small>
+    </div>
+  </form>
+
+  
+  <div class="loading-spinner" id="loadingSpinner">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <h5 class="mt-3 text-primary">Analyzing Reviews...</h5>
+    <p class="text-muted">Processing reviews with AI • Creating vector embeddings • Generating insights</p>
+  </div>
+</div>
+
+<div class="row mb-5" data-aos="fade-up">
+  <div class="col-md-4 mb-4">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-brain"></i>
+      </div>
+      <h5>AI-Powered Analysis</h5>
+      <p>Advanced VADER sentiment analysis with intelligent categorization into 8 complaint types</p>
+    </div>
+  </div>
+  <div class="col-md-4 mb-4">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-chart-pie"></i>
+      </div>
+      <h5>Visual Insights</h5>
+      <p>9 beautiful visualizations including heatmaps, trends, and distribution charts</p>
+    </div>
+  </div>
+  <div class="col-md-4 mb-4">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-robot"></i>
+      </div>
+      <h5>RAG Chat Bot</h5>
+      <p>Ask questions using FAISS vector search with Sentence-BERT embeddings (384D)</p>
+    </div>
+  </div>
+</div>
+
+<hr class="my-5">
+
+<div class="section-header" data-aos="fade-up">
+  <h3>
+    <i class="fas fa-store"></i>
+    Available Restaurants
+  </h3>
+  <p>Browse {{ restaurants|length }} restaurants from our curated datasets</p>
+</div>
+
+<div class="quick-actions" data-aos="fade-up">
+  <a href="/chat" class="quick-action-btn">
+    <i class="fas fa-comments"></i> Open AI Chat
+  </a>
+  <button class="quick-action-btn" onclick="scrollToSearch()">
+    <i class="fas fa-search"></i> Search Restaurant
+  </button>
+  <a href="#" class="quick-action-btn" data-bs-toggle="modal" data-bs-target="#infoModal">
+    <i class="fas fa-info-circle"></i> How It Works
+  </a>
+</div>
+
+<div class="restaurant-grid">
+  {% for r in restaurants %}
+  <div class="card restaurant-card h-100" data-aos="zoom-in" data-aos-delay="{{ loop.index0 * 50 }}">
+    <img src="{{ r.photo or 'https://source.unsplash.com/800x600/?restaurant,food' }}" class="card-img-top"
+      alt="{{ r.name }}" loading="lazy"
+      onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4'">
+
+    <span class="source-badge">
+      <i class="fas fa-database"></i> Dataset
+    </span>
+
+    <div class="card-img-overlay">
+      <h5>{{ r.name }}</h5>
+      <p class="text-white-50 mb-0">
+        <i class="fas fa-map-marker-alt"></i>
+        {{ r.location or r.address or 'Mumbai' }}
+      </p>
+    </div>
+
+    <div class="card-body">
+      <h5 class="card-title">{{ r.name }}</h5>
+
+      <div class="mb-3">
+        <span class="rating-badge">
+          <i class="fas fa-star"></i>
+          {{ r.rating or 'N/A' }}
+        </span>
+      </div>
+
+      {% if r.address or r.location %}
+      <p class="text-muted mb-2 small">
+        <i class="fas fa-map-marker-alt"></i>
+        {{ (r.address or r.location)[:60] }}{% if (r.address or r.location)|length > 60 %}...{% endif %}
+      </p>
+      {% endif %}
+
+      {% if r.cuisines %}
+      <p class="text-muted small mb-2">
+        <i class="fas fa-utensils"></i>
+        {{ r.cuisines[:50] }}{% if r.cuisines|length > 50 %}...{% endif %}
+      </p>
+      {% endif %}
+
+      {% if r.cost %}
+      <p class="text-muted small mb-3">
+        <i class="fas fa-rupee-sign"></i>
+        {{ r.cost }} for two
+      </p>
+      {% endif %}
+
+      <a href="{{ url_for('analyze') }}?restaurant={{ r.name|urlencode }}" class="btn btn-outline-success w-100">
+        <i class="fas fa-chart-bar"></i> Analyze Reviews
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% if not restaurants %}
+<div class="empty-state" data-aos="fade-up">
+  <i class="fas fa-folder-open"></i>
+  <h4>No Restaurants Found</h4>
+  <p>Please ensure dataset files are placed in the 'datasets' folder</p>
+  <div class="info-card mt-4" style="max-width: 600px; margin: 2rem auto 0;">
+    <p><i class="fas fa-file-csv"></i> Expected files: mumbaires.csv, Resreviews.csv, reviews.csv, zomato.csv,
+      zomato2.csv</p>
+  </div>
+</div>
+{% endif %}
+
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <h5 class="modal-title" id="infoModalLabel">
+          <i class="fas fa-info-circle"></i> How It Works
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h6 class="fw-bold mb-3"><i class="fas fa-1"></i> Select or Search</h6>
+        <p>Choose a restaurant from the grid or search by name</p>
+
+        <h6 class="fw-bold mb-3 mt-4"><i class="fas fa-2"></i> Analyze</h6>
+        <p>Our AI processes reviews from multiple datasets using VADER sentiment analysis</p>
+
+        <h6 class="fw-bold mb-3 mt-4"><i class="fas fa-3"></i> View Results</h6>
+        <p>Get 9 detailed visualizations, sentiment breakdown, and actionable recommendations</p>
+
+        <h6 class="fw-bold mb-3 mt-4"><i class="fas fa-4"></i> Chat with AI</h6>
+        <p>Ask questions about the reviews using our RAG-powered chatbot with FAISS vector search</p>
+
+        <div class="alert alert-info mt-4">
+          <i class="fas fa-lightbulb"></i>
+          <strong>Pro Tip:</strong> Enable web scraping for restaurants not in our datasets!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Show loading spinner on form submit
+  document.getElementById('analyzeForm').addEventListener('submit', function (e) {
+    const restaurantName = document.getElementById('restaurantName').value.trim();
+    if (!restaurantName) {
+      e.preventDefault();
+      alert('Please enter a restaurant name');
+      return;
+    }
+
+    document.getElementById('loadingSpinner').style.display = 'block';
+    document.querySelector('.search-container form').style.display = 'none';
+  });
+
+  // Restaurant search autocomplete enhancement
+  const restaurantInput = document.getElementById('restaurantName');
+  restaurantInput.addEventListener('input', function () {
+    if (this.value) {
+      this.style.borderColor = '#10b981';
+      this.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
+    } else {
+      this.style.borderColor = '#e2e8f0';
+      this.style.boxShadow = 'none';
+    }
+  });
+
+  // File input enhancement
+  const fileInput = document.getElementById('fileInput');
+  fileInput.addEventListener('change', function () {
+    const fileName = this.files[0]?.name;
+    if (fileName) {
+      const label = document.querySelector('.upload-section label');
+      label.innerHTML = `<i class="fas fa-check-circle"></i> File Selected: ${fileName}`;
+      label.style.color = '#10b981';
+    }
+  });
+
+  // Scroll to search function
+  function scrollToSearch() {
+    document.querySelector('.search-container').scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+    setTimeout(() => {
+      document.getElementById('restaurantName').focus();
+    }, 800);
+  }
+
+  // Lazy loading for images
+  document.addEventListener('DOMContentLoaded', function () {
+    const images = document.querySelectorAll('img[loading="lazy"]');
+
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src || img.src;
+            img.classList.add('loaded');
+            observer.unobserve(img);
+          }
+        });
+      });
+
+      images.forEach(img => imageObserver.observe(img));
+    }
+  });
+
+  // Add subtle animation to cards on scroll
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.restaurant-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(card);
+  });
+
+  // Restaurant card click analytics (optional)
+  document.querySelectorAll('.restaurant-card').forEach(card => {
+    card.addEventListener('click', function (e) {
+      if (!e.target.closest('a, button')) {
+        const restaurantName = this.querySelector('.card-title').textContent;
+        console.log('Restaurant card viewed:', restaurantName);
+      }
+    });
+  });
+
+  // Add keyboard shortcuts
+  document.addEventListener('keydown', function (e) {
+    // Ctrl/Cmd + K to focus search
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      scrollToSearch();
+    }
+
+    // Escape to clear search
+    if (e.key === 'Escape' && document.activeElement === restaurantInput) {
+      restaurantInput.value = '';
+      restaurantInput.blur();
+    }
+  });
+
+  // Show success message if redirected after analysis
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('analyzed') === 'true') {
+    const restaurantName = urlParams.get('restaurant');
+    if (restaurantName) {
+      // Create a temporary success message
+      const alert = document.createElement('div');
+      alert.className = 'alert alert-success alert-dismissible fade show';
+      alert.innerHTML = `
+      <i class="fas fa-check-circle"></i>
+      Successfully analyzed <strong>${restaurantName}</strong>!
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+      document.querySelector('.main-container').prepend(alert);
+
+      setTimeout(() => {
+        alert.remove();
+      }, 5000);
+    }
+  }
+
+  // Add search filter functionality
+  let searchTimeout;
+  restaurantInput.addEventListener('input', function () {
+    clearTimeout(searchTimeout);
+    const query = this.value.toLowerCase();
+
+    searchTimeout = setTimeout(() => {
+      const cards = document.querySelectorAll('.restaurant-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const restaurantName = card.querySelector('.card-title').textContent.toLowerCase();
+        const cuisines = card.querySelector('.card-body p:nth-of-type(2)')?.textContent.toLowerCase() || '';
+
+        if (restaurantName.includes(query) || cuisines.includes(query)) {
+          card.style.display = '';
+          card.style.animation = 'fadeIn 0.3s ease';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Show "no results" message if needed
+      const existingNoResults = document.querySelector('.no-results-message');
+      if (existingNoResults) {
+        existingNoResults.remove();
+      }
+
+      if (visibleCount === 0 && query.length > 0) {
+        const noResultsDiv = document.createElement('div');
+        noResultsDiv.className = 'no-results-message col-12 text-center py-5';
+        noResultsDiv.innerHTML = `
+        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+        <h5>No restaurants found matching "${query}"</h5>
+        <p class="text-muted">Try a different search term or analyze it directly above</p>
+      `;
+        document.querySelector('.restaurant-grid').appendChild(noResultsDiv);
+      }
+    }, 300);
+  });
+
+  // Add animation for feature cards
+  const featureCards = document.querySelectorAll('.feature-card');
+  featureCards.forEach((card, index) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+
+    setTimeout(() => {
+      card.style.transition = 'all 0.6s ease';
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, 200 + (index * 100));
+  });
+
+  // Add quick stats counter animation
+  function animateCounter(element, target, duration = 2000) {
+    const start = 0;
+    const increment = target / (duration / 16);
+    let current = start;
+
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        element.textContent = target;
+        clearInterval(timer);
+      } else {
+        element.textContent = Math.floor(current);
+      }
+    }, 16);
+  }
+
+  // Animate stats on load
+  window.addEventListener('load', () => {
+    const statNumbers = document.querySelectorAll('.hero-stat-number');
+    statNumbers.forEach(stat => {
+      const target = parseInt(stat.textContent.replace('+', ''));
+      if (!isNaN(target)) {
+        stat.textContent = '0';
+        setTimeout(() => animateCounter(stat, target), 500);
+      }
+    });
+  });
+
+  // Add tooltip for file size limit
+  const fileInputLabel = document.querySelector('.upload-section label');
+  if (fileInputLabel) {
+    fileInputLabel.title = 'Upload CSV or TXT files (max 16MB)';
+  }
+
+  // Show helpful hints
+  const hints = [
+    'Try analyzing popular restaurants like "Leopold Cafe" or "Taj Hotel"',
+    'Enable web scraping to get fresh reviews from the internet',
+    'Upload your own CSV file for custom restaurant analysis',
+    'Use the chat feature to ask specific questions about reviews'
+  ];
+
+  let hintIndex = 0;
+  function showHint() {
+    const hintElement = document.createElement('div');
+    hintElement.className = 'alert alert-info alert-dismissible fade show';
+    hintElement.style.position = 'fixed';
+    hintElement.style.bottom = '2rem';
+    hintElement.style.right = '2rem';
+    hintElement.style.maxWidth = '400px';
+    hintElement.style.zIndex = '1050';
+    hintElement.innerHTML = `
+    <i class="fas fa-lightbulb"></i>
+    <strong>Tip:</strong> ${hints[hintIndex]}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  `;
+
+    document.body.appendChild(hintElement);
+
+    setTimeout(() => {
+      hintElement.remove();
+    }, 8000);
+
+    hintIndex = (hintIndex + 1) % hints.length;
+  }
+
+  // Show first hint after 5 seconds
+  setTimeout(showHint, 5000);
+
+  // Show hints every 30 seconds
+  setInterval(showHint, 30000);
+
+  // Add print styles
+  if (window.matchMedia) {
+    const mediaQueryList = window.matchMedia('print');
+    mediaQueryList.addListener((mql) => {
+      if (mql.matches) {
+        console.log('Page is being printed');
+      }
+    });
+  }
+
+  // Performance monitoring (optional)
+  if ('performance' in window) {
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const perfData = window.performance.timing;
+        const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+        console.log('Page load time:', pageLoadTime + 'ms');
+      }, 0);
+    });
+  }
+
+  // Add CSS for fadeIn animation
+  const style = document.createElement('style');
+  style.textContent = `
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  
+  .no-results-message {
+    animation: fadeIn 0.5s ease;
+  }
+`;
+  document.head.appendChild(style);
+
+  console.log('🍽️ Restaurant Analytics System loaded successfully!');
+  console.log('💡 Tip: Press Ctrl+K (Cmd+K on Mac) to quickly search for restaurants');
+</script>
+
+{% endblock %}

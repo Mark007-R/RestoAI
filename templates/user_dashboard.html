@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .user-hero {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.1) 0%, rgba(14, 165, 233, 0.1) 100%);
+    border-radius: 2rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .user-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .user-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .user-hero p {
+    font-size: 1.2rem;
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .welcome-badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+    color: white;
+    border-radius: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .stat-card {
+    background: rgba(17, 28, 47, 0.95);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #e2e8f0;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    color: #94a3b8;
+    font-size: 0.95rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 {
+    color: #e2e8f0;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-header h2 i {
+    color: #14b8a6;
+  }
+
+  .restaurant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .restaurant-card {
+    background: rgba(17, 28, 47, 0.95);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .restaurant-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border-color: #14b8a6;
+  }
+
+  .restaurant-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+  }
+
+  .restaurant-content {
+    padding: 1.5rem;
+  }
+
+  .restaurant-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin-bottom: 0.75rem;
+  }
+
+  .restaurant-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #f59e0b;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .restaurant-info {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .view-btn {
+    background: linear-gradient(135deg, #14b8a6 0%, #0ea5e9 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .view-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(20, 184, 166, 0.4);
+  }
+
+  .info-box {
+    background: rgba(14, 165, 233, 0.1);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .info-box h4 {
+    color: #0ea5e9;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .info-box p {
+    color: #94a3b8;
+    margin: 0;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .feature-card {
+    background: rgba(17, 28, 47, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover {
+    background: rgba(17, 28, 47, 0.9);
+    border-color: #14b8a6;
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+    color: #14b8a6;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-title {
+    color: #e2e8f0;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-desc {
+    color: #64748b;
+    font-size: 0.85rem;
+  }
+
+  .no-restaurants {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #64748b;
+  }
+
+  .no-restaurants i {
+    font-size: 4rem;
+    color: #475569;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<div class="user-hero" data-aos="fade-down">
+  <div class="welcome-badge">
+    <i class="fas fa-user"></i> User Dashboard
+  </div>
+  <h1>
+    <i class="fas fa-utensils"></i>
+    Welcome, {{ session.get('username', 'User') }}!
+  </h1>
+  <p>Explore restaurant reviews and discover your next dining experience</p>
+</div>
+
+<div class="stats-grid" data-aos="fade-up">
+  <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
+    <div class="stat-icon">
+      <i class="fas fa-store"></i>
+    </div>
+    <div class="stat-value">{{ total_restaurants }}</div>
+    <div class="stat-label">Restaurants Available</div>
+  </div>
+
+  <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+    <div class="stat-icon">
+      <i class="fas fa-comment-dots"></i>
+    </div>
+    <div class="stat-value">{{ total_reviews }}</div>
+    <div class="stat-label">Total Reviews</div>
+  </div>
+
+  <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
+    <div class="stat-icon">
+      <i class="fas fa-star"></i>
+    </div>
+    <div class="stat-value">{{ restaurants|length }}</div>
+    <div class="stat-label">Showing Now</div>
+  </div>
+</div>
+
+<div class="info-box" data-aos="fade-up">
+  <h4>
+    <i class="fas fa-info-circle"></i>
+    User Access Level
+  </h4>
+  <p>
+    You have <strong>User</strong> access. You can view restaurant information and read reviews. 
+    For advanced analytics and management features, contact your administrator for Manager access.
+  </p>
+</div>
+
+<div class="section-header" data-aos="fade-up">
+  <h2>
+    <i class="fas fa-utensils"></i>
+    Browse Restaurants
+  </h2>
+</div>
+
+{% if restaurants and restaurants|length > 0 %}
+<div class="restaurant-grid">
+  {% for restaurant in restaurants %}
+  <div class="restaurant-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 50 }}">
+    <img src="{{ restaurant.photo }}" alt="{{ restaurant.name }}" class="restaurant-image" 
+         onerror="this.src='https://source.unsplash.com/400x300/?restaurant,food'">
+    
+    <div class="restaurant-content">
+      <div class="restaurant-name">{{ restaurant.name }}</div>
+      
+      {% if restaurant.rating and restaurant.rating != 'N/A' %}
+      <div class="restaurant-rating">
+        <i class="fas fa-star"></i>
+        {{ restaurant.rating }}
+      </div>
+      {% endif %}
+      
+      {% if restaurant.address and restaurant.address != 'Address not available' %}
+      <div class="restaurant-info">
+        <i class="fas fa-map-marker-alt"></i>
+        {{ restaurant.address[:50] }}{% if restaurant.address|length > 50 %}...{% endif %}
+      </div>
+      {% endif %}
+      
+      <a href="/analyze?restaurant={{ restaurant.name }}" class="view-btn">
+        <i class="fas fa-eye me-2"></i>
+        View Details
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% else %}
+<div class="no-restaurants" data-aos="fade-up">
+  <i class="fas fa-utensils"></i>
+  <h3 style="color: #e2e8f0; margin-top: 1rem;">No Restaurants Available</h3>
+  <p>Check back later for restaurant listings</p>
+</div>
+{% endif %}
+
+<div class="section-header" data-aos="fade-up" style="margin-top: 3rem;">
+  <h2>
+    <i class="fas fa-rocket"></i>
+    Available Features
+  </h2>
+</div>
+
+<div class="feature-grid" data-aos="fade-up">
+  <div class="feature-card">
+    <div class="feature-icon">
+      <i class="fas fa-search"></i>
+    </div>
+    <div class="feature-title">Browse Restaurants</div>
+    <div class="feature-desc">Explore available restaurants</div>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon">
+      <i class="fas fa-comment-alt"></i>
+    </div>
+    <div class="feature-title">Read Reviews</div>
+    <div class="feature-desc">View customer feedback</div>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon">
+      <i class="fas fa-info-circle"></i>
+    </div>
+    <div class="feature-title">View Details</div>
+    <div class="feature-desc">See restaurant information</div>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon">
+      <i class="fas fa-user"></i>
+    </div>
+    <div class="feature-title">User Profile</div>
+    <div class="feature-desc">Manage your account</div>
+  </div>
+</div>
+
+{% endblock %}
