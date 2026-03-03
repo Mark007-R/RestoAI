@@ -50,25 +50,52 @@ class RAGChat:
             print("Install sentence-transformers: pip install sentence-transformers")
             self.model = None
 
-    def _get_vector_db_path(self, restaurant_name):
-        safe_name = re.sub(r'[^\w\s-]', '', restaurant_name).strip().replace(' ', '_')
+    def list_cached_restaurants(self):
+        """List all restaurants that have cached vectors."""
+        if not os.path.exists(self.vector_db_folder):
+            return []
+        
+        cached = []
+        for filename in os.listdir(self.vector_db_folder):
+            if filename.endswith('.faiss'):
+                restaurant_name = filename.replace('.faiss', '').replace('_', ' ')
+                metadata_path = os.path.join(self.vector_db_folder, filename.replace('.faiss', '_metadata.pkl'))
+                
+                if os.path.exists(metadata_path):
+                    try:
+                        with open(metadata_path, 'rb') as f:
+                            metadata = pickle.load(f)
+                            cached.append({
+                                'name': restaurant_name,
+                                'vectors': metadata.get('total_vectors', 0),
+                                'timestamp': metadata.get('timestamp', 'Unknown'),
+                                'dimension': metadata.get('embedding_dimension', 384)
+                            })
+                    except:
+                        pass
+        
+        return cached
+
+    def _get_vector_db_path(self):
+        """Return path to unified vector store for all restaurants."""
         return {
-            'index': os.path.join(self.vector_db_folder, f"{safe_name}.faiss"),
-            'metadata': os.path.join(self.vector_db_folder, f"{safe_name}_metadata.pkl")
+            'index': os.path.join(self.vector_db_folder, "all_restaurants.faiss"),
+            'metadata': os.path.join(self.vector_db_folder, "all_restaurants_metadata.pkl")
         }
 
-    def _save_vector_db(self, restaurant_name):
+    def _save_vector_db(self):
+        """Save consolidated vector store to disk."""
         if not FAISS_AVAILABLE or self.faiss_index is None:
             return False
 
         try:
-            paths = self._get_vector_db_path(restaurant_name)
+            paths = self._get_vector_db_path()
 
             faiss.write_index(self.faiss_index, paths['index'])
 
             metadata = {
                 'doc_texts': self.doc_texts,
-                'doc_metadata': self.doc_metadata,
+                'doc_metadata': self.doc_metadata,  # Now includes restaurant name for each doc
                 'embedding_dimension': self.embedding_dimension,
                 'timestamp': datetime.now(),
                 'total_vectors': self.faiss_index.ntotal
@@ -76,18 +103,19 @@ class RAGChat:
             with open(paths['metadata'], 'wb') as f:
                 pickle.dump(metadata, f)
 
-            print(f"💾 Saved vector DB: {self.faiss_index.ntotal} vectors for '{restaurant_name}'")
+            print(f"💾 Consolidated vector DB: {self.faiss_index.ntotal} total vectors across all restaurants")
             return True
         except Exception as e:
             print(f"⚠️  Error saving vector DB: {e}")
             return False
 
-    def _load_vector_db(self, restaurant_name):
+    def _load_vector_db(self):
+        """Load consolidated vector store from disk."""
         if not FAISS_AVAILABLE:
             return False
 
         try:
-            paths = self._get_vector_db_path(restaurant_name)
+            paths = self._get_vector_db_path()
 
             if not os.path.exists(paths['index']) or not os.path.exists(paths['metadata']):
                 return False
@@ -101,7 +129,7 @@ class RAGChat:
             self.doc_metadata = metadata['doc_metadata']
             self.embedding_dimension = metadata['embedding_dimension']
 
-            print(f"✅ Loaded vector DB: {self.faiss_index.ntotal} vectors for '{restaurant_name}'")
+            print(f"✅ Loaded consolidated vector DB: {self.faiss_index.ntotal} total vectors")
             return True
         except Exception as e:
             print(f"⚠️  Error loading vector DB: {e}")
@@ -288,6 +316,7 @@ class RAGChat:
         return all_reviews
 
     def index_documents(self, texts, metadata=None):
+        """Add new document embeddings to consolidated store (append, don't replace)."""
         if self.model is None:
             print("❌ Embedding model not loaded. Cannot create vectors.")
             return
@@ -297,37 +326,57 @@ class RAGChat:
             return
 
         valid_indices = [i for i, t in enumerate(texts) if t and len(str(t)) > 20]
-        self.doc_texts = [texts[i] for i in valid_indices]
+        new_texts = [texts[i] for i in valid_indices]
 
-        if metadata:
-            self.doc_metadata = [metadata[i] for i in valid_indices]
-        else:
-            self.doc_metadata = [{}] * len(self.doc_texts)
-
-        if not self.doc_texts:
+        if not new_texts:
             print("No valid documents to index.")
             return
 
-        print(f"🔄 Creating embeddings for {len(self.doc_texts)} documents...")
+        # Load existing store if available
+        if not self._load_vector_db():
+            # First time: create new index
+            self.faiss_index = faiss.IndexFlatIP(self.embedding_dimension)
+            self.doc_texts = []
+            self.doc_metadata = []
+            print("📝 Creating new consolidated vector store...")
+
+        print(f"🔄 Creating embeddings for {len(new_texts)} new documents...")
 
         embeddings = self.model.encode(
-            self.doc_texts,
+            new_texts,
             show_progress_bar=True,
             convert_to_numpy=True,
             normalize_embeddings=True
         )
 
-        self.faiss_index = faiss.IndexFlatIP(self.embedding_dimension)
-
+        # Append new embeddings to existing index
         self.faiss_index.add(embeddings.astype('float32'))
+        self.doc_texts.extend(new_texts)
 
-        print(f"✅ Indexed {self.faiss_index.ntotal} documents in FAISS")
-        print(f"✅ Vector dimension: {self.embedding_dimension}")
+        # Add metadata with restaurant name for each new document
+        if metadata:
+            for m in [metadata[i] for i in valid_indices]:
+                m_copy = m.copy() if isinstance(m, dict) else {}
+                m_copy['restaurant'] = self.current_restaurant
+                self.doc_metadata.append(m_copy)
+        else:
+            for _ in new_texts:
+                self.doc_metadata.append({'restaurant': self.current_restaurant})
 
+        print(f"✅ Added {len(new_texts)} new vectors to consolidated store")
+        print(f"📊 Total vectors: {self.faiss_index.ntotal}")
+        print(f"📊 Vector dimension: {self.embedding_dimension}")
+
+        # Always save to disk
         if self.current_restaurant:
-            self._save_vector_db(self.current_restaurant)
+            saved = self._save_vector_db()
+            if saved:
+                print(f"💾 Consolidated store saved. Fast loading enabled.")
+        else:
+            print("⚠️  No restaurant name set. Vectors not persisted.")
 
-    def semantic_search(self, query, top_k=5):
+    def semantic_search(self, query, top_k=5, restaurant_filter=None):
+        """Search consolidated store, optionally filtered by restaurant."""
         if self.faiss_index is None or self.model is None:
             return [], []
 
@@ -338,19 +387,29 @@ class RAGChat:
                 normalize_embeddings=True
             ).astype('float32')
 
-            scores, indices = self.faiss_index.search(query_embedding, top_k)
+            # Search more results than needed to account for filtering
+            search_k = top_k * 3 if restaurant_filter else top_k
+            scores, indices = self.faiss_index.search(query_embedding, min(search_k, len(self.doc_texts)))
 
             results = []
             score_list = []
 
             for score, idx in zip(scores[0], indices[0]):
                 if idx < len(self.doc_texts):
+                    meta = self.doc_metadata[idx]
+                    # Filter by restaurant if specified
+                    if restaurant_filter and meta.get('restaurant', '').lower() != restaurant_filter.lower():
+                        continue
+                    
                     results.append({
                         'text': self.doc_texts[idx],
-                        'metadata': self.doc_metadata[idx],
+                        'metadata': meta,
                         'score': float(score)
                     })
                     score_list.append(float(score))
+                    
+                    if len(results) >= top_k:
+                        break
 
             return results, score_list
 
@@ -359,25 +418,33 @@ class RAGChat:
             return [], []
 
     def answer_query(self, query, restaurant_name=None, top_k=5):
-        if not self.loaded or (restaurant_name and restaurant_name != self.current_restaurant):
-            print(f"📥 Loading reviews for '{restaurant_name}'...")
-
-            if restaurant_name and self._load_vector_db(restaurant_name):
+        # Load consolidated vector store once on first query
+        if not self.loaded:
+            print(f"📥 Loading consolidated vector store...")
+            if self._load_vector_db():
                 self.loaded = True
-                self.current_restaurant = restaurant_name
+                print(f"✅ Consolidated store loaded. {self.faiss_index.ntotal} vectors available.")
             else:
-                reviews = self.load_csv_data(restaurant_name)
-
-                if reviews:
-                    texts = [r['text'] for r in reviews]
-                    self.index_documents(texts, metadata=reviews)
-                else:
-                    return "❌ No reviews found for this restaurant in the datasets.", []
+                # First time: load data from CSVs if not already in database
+                print(f"📝 Building consolidated vector store from datasets...")
+                # This will be built incrementally as restaurants are analyzed
+                self.loaded = True
+        
+        # If querying a new restaurant not yet analyzed, add its vectors
+        if restaurant_name and not self._restaurant_has_vectors(restaurant_name):
+            print(f"📥 Adding vectors for '{restaurant_name}'...")
+            reviews = self.load_csv_data(restaurant_name)
+            if reviews:
+                self.current_restaurant = restaurant_name
+                texts = [r['text'] for r in reviews]
+                self.index_documents(texts, metadata=reviews)
+            else:
+                return f"❌ No reviews found for '{restaurant_name}' in the datasets.", []
 
         if self.faiss_index is None or self.model is None:
             return "❌ No indexed reviews available. Please analyze the restaurant first.", []
 
-        retrieved_docs, scores = self.semantic_search(query, top_k=top_k)
+        retrieved_docs, scores = self.semantic_search(query, top_k=top_k, restaurant_filter=restaurant_name)
 
         if not retrieved_docs:
             web_answer = self._search_google_fallback(query, restaurant_name)
@@ -387,6 +454,16 @@ class RAGChat:
         source_texts = [doc['text'] for doc in retrieved_docs]
 
         return answer, source_texts
+
+    def _restaurant_has_vectors(self, restaurant_name):
+        """Check if consolidated store has vectors for a specific restaurant."""
+        if self.faiss_index is None:
+            return False
+        
+        for meta in self.doc_metadata:
+            if meta.get('restaurant', '').lower() == restaurant_name.lower():
+                return True
+        return False
 
     def _generate_answer(self, query, retrieved_docs, scores, restaurant_name):
         query_lower = query.lower()
