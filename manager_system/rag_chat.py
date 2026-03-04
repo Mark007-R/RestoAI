@@ -455,7 +455,15 @@ class RAGChat:
             return web_answer, []
 
         answer = self._generate_answer(query, retrieved_docs, scores, restaurant_name)
-        source_texts = [doc['text'] for doc in retrieved_docs]
+        
+        # Deduplicate source texts to avoid showing same review multiple times
+        seen_texts = set()
+        source_texts = []
+        for doc in retrieved_docs:
+            text = doc['text'].strip()
+            if text not in seen_texts:
+                seen_texts.add(text)
+                source_texts.append(text)
 
         return answer, source_texts
 
@@ -490,18 +498,12 @@ class RAGChat:
         restaurant_phrase = f"**{restaurant_name}**" if restaurant_name else "this restaurant"
         answer = f"💬 Based on {len(retrieved_docs)} relevant reviews about {restaurant_phrase}:\n\n"
 
-        answer += "**📋 Most Relevant Reviews (by FAISS similarity):**\n"
+        answer += "**📋 Most Relevant Reviews:**\n"
         for i, (doc, score) in enumerate(zip(retrieved_docs, scores), 1):
             text = doc['text']
-            meta = doc['metadata']
-
             snippet = textwrap.shorten(text, width=180, placeholder="...")
-            rating = meta.get('rating', 'N/A')
-            source = meta.get('source', 'unknown')
-            relevance = int(score * 100)
 
             answer += f"\n**{i}.** {snippet}"
-            answer += f"\n   📊 Similarity: {relevance}% | ⭐ Rating: {rating} | 📁 Source: {source}\n"
 
         answer += "\n**🎯 AI Summary:**\n"
         summary = self._synthesize_intelligent_answer(
