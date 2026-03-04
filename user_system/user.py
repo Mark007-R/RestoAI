@@ -6,10 +6,14 @@ Handles user authentication, profile management, and preferences
 from datetime import datetime, timedelta
 import hashlib
 import secrets
+import os
+import logging
 from typing import Optional, Dict, List, Any
 from dataclasses import dataclass, field, asdict
 from enum import Enum
 import json
+import pandas as pd
+from flask import render_template, request, session, flash, redirect, url_for
 
 
 class UserRole(Enum):
@@ -468,6 +472,242 @@ class UserManager:
         except Exception as e:
             print(f"Error loading user: {e}")
             return None
+
+
+logger = logging.getLogger(__name__)
+
+
+def _safe_float(value):
+    if value is None:
+        return None
+
+    text = str(value).strip()
+    if not text or text.lower() in {"nan", "none"}:
+        return None
+
+    if "/" in text:
+        text = text.split("/")[0].strip()
+
+    filtered = "".join(ch for ch in text if ch.isdigit() or ch in {".", "-"})
+    if not filtered:
+        return None
+
+    try:
+        return float(filtered)
+    except ValueError:
+        return None
+
+
+def _placeholder_image(restaurant_name):
+    lock = (sum(ord(ch) for ch in (restaurant_name or "restaurant")) % 10000) + 1
+    return f"https://loremflickr.com/800/600/restaurant,food,dining?lock={lock}"
+
+
+def _load_user_restaurant_catalog(dataset_folder, Review):
+    dataset_files = ["mumbaires.csv", "Resreviews.csv", "reviews.csv", "zomato.csv", "zomato2.csv"]
+
+    catalog = {}
+
+    def ensure_entry(name):
+        key = (name or "").strip()
+        if not key:
+            return None
+
+        if key not in catalog:
+            catalog[key] = {
+                "name": key,
+                "ratings": [],
+                "cuisines": set(),
+                "prices": [],
+                "review_count": 0,
+                "sample_review": "",
+            }
+        return catalog[key]
+
+    def add_dataset_row(row):
+        name = ""
+        for k in ["Restaurant Name", "Restaurant", "business_name", "name", "Restaurant_Name"]:
+            value = row.get(k)
+            if pd.notna(value) and str(value).strip():
+                name = str(value).strip()
+                break
+
+        entry = ensure_entry(name)
+        if not entry:
+            return
+
+        for k in ["Rating", "Reviewer Rating", "rating", "rate", "Avg_Rating_Restaurant", "Average_Rating"]:
+            score = _safe_float(row.get(k))
+            if score is not None:
+                entry["ratings"].append(score)
+                break
+
+        for k in ["cuisines", "Cuisine", "Item_Offered"]:
+            value = row.get(k)
+            if pd.notna(value):
+                cuisine_text = str(value).strip()
+                if cuisine_text and cuisine_text.lower() != "nan":
+                    for cuisine in cuisine_text.replace("/", ",").split(","):
+                        cleaned = cuisine.strip()
+                        if cleaned:
+                            entry["cuisines"].add(cleaned)
+
+        for k in ["approx_cost(for two people)", "Price Level", "cost", "Average_Cost", "Cost_for_Two"]:
+            value = row.get(k)
+            if pd.notna(value):
+                price_text = str(value).strip()
+                if price_text and price_text.lower() != "nan":
+                    if k == "Price Level":
+                        entry["prices"].append(price_text)
+                    else:
+                        numeric = _safe_float(price_text)
+                        entry["prices"].append(f"₹{int(numeric)} for two" if numeric is not None else price_text)
+                    break
+
+        review_text = ""
+        for k in ["Review Text", "Review", "text", "reviews_list", "Item_Name"]:
+            value = row.get(k)
+            if pd.notna(value):
+                candidate = str(value).strip()
+                if candidate and candidate.lower() != "nan":
+                    review_text = candidate
+                    break
+
+        if review_text:
+            entry["review_count"] += 1
+            if not entry["sample_review"]:
+                entry["sample_review"] = review_text[:180]
+
+    for filename in dataset_files:
+        file_path = os.path.join(dataset_folder, filename)
+        if not os.path.exists(file_path):
+            continue
+
+        try:
+            df = pd.read_csv(file_path, encoding="utf-8", on_bad_lines="skip")
+            df.columns = df.columns.str.strip()
+            for _, row in df.iterrows():
+                add_dataset_row(row)
+        except Exception as exc:
+            logger.warning("Failed reading dataset %s: %s", filename, exc)
+
+    db_reviews = Review.query.order_by(Review.created_at.desc()).all()
+    for review in db_reviews:
+        entry = ensure_entry(review.restaurant)
+        if not entry:
+            continue
+
+        entry["review_count"] += 1
+        score = _safe_float(review.rating)
+        if score is not None:
+            entry["ratings"].append(score)
+        if review.text and not entry["sample_review"]:
+            entry["sample_review"] = review.text[:180]
+
+    restaurants = []
+    total_reviews = 0
+    for data in catalog.values():
+        rating_display = "N/A"
+        if data["ratings"]:
+            rating_display = f"{(sum(data['ratings']) / len(data['ratings'])):.1f}"
+
+        cuisines_display = ", ".join(sorted(data["cuisines"])) if data["cuisines"] else "Not specified"
+        price_display = data["prices"][0] if data["prices"] else "Not available"
+        review_count = data["review_count"]
+        total_reviews += review_count
+
+        restaurants.append(
+            {
+                "name": data["name"],
+                "rating": rating_display,
+                "cuisines": cuisines_display,
+                "price": price_display,
+                "review_count": review_count,
+                "sample_review": data["sample_review"] or "No review text available yet.",
+                "photo": _placeholder_image(data["name"]),
+            }
+        )
+
+    restaurants.sort(key=lambda item: (item["review_count"], item["name"]), reverse=True)
+    return restaurants[:60], total_reviews
+
+
+def _generate_ai_booking_summary(restaurant_name, service_mode, party_size, preferred_time, delivery_address):
+    booking_id = f"BK_{secrets.token_hex(4).upper()}"
+
+    if service_mode == "home_delivery":
+        eta = min(65, 30 + party_size * 4)
+        return {
+            "booking_id": booking_id,
+            "restaurant": restaurant_name,
+            "mode": "Home Delivery",
+            "summary": f"AI confirmed delivery from {restaurant_name}. Estimated arrival in {eta} minutes.",
+            "details": f"Delivery to: {delivery_address or 'saved address'}",
+        }
+
+    slot = preferred_time or "8:00 PM"
+    return {
+        "booking_id": booking_id,
+        "restaurant": restaurant_name,
+        "mode": "Restaurant Table",
+        "summary": f"AI reserved a table for {party_size} at {restaurant_name} around {slot}.",
+        "details": "Please arrive 10 minutes early for smooth check-in.",
+    }
+
+
+def register_user_routes(app, Review, login_required):
+    """Register user-specific routes for dashboard and automated booking."""
+
+    @app.route("/user/dashboard")
+    @login_required
+    def user_dashboard():
+        restaurants, total_reviews = _load_user_restaurant_catalog(app.config["DATASET_FOLDER"], Review)
+        last_booking = session.pop("last_user_booking", None)
+
+        return render_template(
+            "user_dashboard.html",
+            restaurants=restaurants,
+            total_restaurants=len(restaurants),
+            total_reviews=total_reviews,
+            last_booking=last_booking,
+        )
+
+    @app.route("/user/auto-booking", methods=["POST"])
+    @login_required
+    def user_auto_booking():
+        restaurant_name = request.form.get("restaurant_name", "").strip()
+        service_mode = request.form.get("service_mode", "restaurant").strip().lower()
+        preferred_time = request.form.get("preferred_time", "").strip()
+        delivery_address = request.form.get("delivery_address", "").strip()
+
+        try:
+            party_size = int(request.form.get("party_size", "2"))
+        except ValueError:
+            party_size = 2
+
+        if not restaurant_name:
+            flash("Restaurant is required for auto booking.", "warning")
+            return redirect(url_for("user_dashboard"))
+
+        if service_mode not in {"restaurant", "home_delivery"}:
+            flash("Invalid service mode selected.", "warning")
+            return redirect(url_for("user_dashboard"))
+
+        if party_size < 1 or party_size > 20:
+            flash("Party size must be between 1 and 20.", "warning")
+            return redirect(url_for("user_dashboard"))
+
+        booking_result = _generate_ai_booking_summary(
+            restaurant_name=restaurant_name,
+            service_mode=service_mode,
+            party_size=party_size,
+            preferred_time=preferred_time,
+            delivery_address=delivery_address,
+        )
+
+        session["last_user_booking"] = booking_result
+        flash(f"AI booking completed: {booking_result['booking_id']}", "success")
+        return redirect(url_for("user_dashboard"))
 
 
 # Example usage and testing
