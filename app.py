@@ -1,30 +1,44 @@
 import os
+import subprocess
+import sys
 from datetime import datetime
+from functools import wraps
+from pathlib import Path
+
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
-from functools import wraps
 
-from config import get_config
-from utils.logger import setup_logger
+BASE_DIR = Path(__file__).resolve().parent
+MANAGER_SYSTEM_DIR = BASE_DIR / "manager_system"
+BOOKING_SYSTEM_DIR = BASE_DIR / "booking_system"
+
+if str(MANAGER_SYSTEM_DIR) not in sys.path:
+    sys.path.insert(0, str(MANAGER_SYSTEM_DIR))
+
+from manager_system.config import get_config
+from manager_system.utils.logger import setup_logger
 
 load_dotenv()
 
-app = Flask(__name__)
-config_class = get_config(os.environ.get('FLASK_ENV', 'development'))
+app = Flask(
+    __name__,
+    template_folder=str(MANAGER_SYSTEM_DIR / "templates"),
+    static_folder=str(MANAGER_SYSTEM_DIR / "static"),
+)
+config_class = get_config(os.environ.get("FLASK_ENV", "development"))
 app.config.from_object(config_class)
 
 logger = setup_logger(__name__)
 db = SQLAlchemy(app)
 
-UPLOAD_FOLDER = app.config.get('UPLOAD_FOLDER', 'uploads')
-DATASET_FOLDER = app.config.get('DATASET_FOLDER', 'datasets')
-VECTOR_DB_FOLDER = app.config.get('VECTOR_DB_FOLDER', 'vector_db')
+UPLOAD_FOLDER = MANAGER_SYSTEM_DIR / app.config.get("UPLOAD_FOLDER", "uploads")
+DATASET_FOLDER = BASE_DIR / app.config.get("DATASET_FOLDER", "datasets")
+VECTOR_DB_FOLDER = MANAGER_SYSTEM_DIR / app.config.get("VECTOR_DB_FOLDER", "vector_db")
 
 for folder in [UPLOAD_FOLDER, DATASET_FOLDER, VECTOR_DB_FOLDER]:
-    if not os.path.exists(folder):
-        os.makedirs(folder, exist_ok=True)
+    folder.mkdir(parents=True, exist_ok=True)
 
 
 class User(db.Model):
@@ -32,7 +46,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False, index=True)
     email = db.Column(db.String(120), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(255), nullable=False)
-    role = db.Column(db.String(20), nullable=False, default='user')
+    role = db.Column(db.String(20), nullable=False, default="user")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     last_login = db.Column(db.DateTime)
     is_active = db.Column(db.Boolean, default=True)
@@ -44,7 +58,8 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return f'<User {self.username} ({self.role})>'
+        return f"<User {self.username} ({self.role})>"
+
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -60,144 +75,161 @@ class Review(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 
     def __repr__(self):
-        return f'<Review {self.id}: {self.restaurant}>'
+        return f"<Review {self.id}: {self.restaurant}>"
+
 
 with app.app_context():
     db.create_all()
     logger.info("Database tables created/verified")
 
 
+def launch_role_script(target_dir: Path, script_name: str):
+    script_path = target_dir / script_name
+    if not script_path.exists():
+        flash(f"Cannot find script: {script_name}", "danger")
+        return redirect(url_for("login"))
+
+    subprocess.Popen([sys.executable, script_name], cwd=str(target_dir))
+    flash(f"Started {script_name} from {target_dir.name} folder.", "success")
+    return redirect(url_for("login"))
+
+
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'user_id' not in session:
-            flash('Please login to access this page.', 'warning')
-            return redirect(url_for('login'))
-        user = db.session.get(User, session['user_id'])
+        if "user_id" not in session:
+            flash("Please login to access this page.", "warning")
+            return redirect(url_for("login"))
+        user = db.session.get(User, session["user_id"])
         if not user or not user.is_active:
             session.clear()
-            flash('Please login to continue.', 'warning')
-            return redirect(url_for('login'))
+            flash("Please login to continue.", "warning")
+            return redirect(url_for("login"))
         return f(*args, **kwargs)
+
     return decorated_function
+
 
 def manager_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'user_id' not in session:
-            flash('Please login to access this page.', 'warning')
-            return redirect(url_for('login'))
-        user = db.session.get(User, session['user_id'])
-        if not user or not user.is_active or user.role != 'manager':
+        if "user_id" not in session:
+            flash("Please login to access this page.", "warning")
+            return redirect(url_for("login"))
+        user = db.session.get(User, session["user_id"])
+        if not user or not user.is_active or user.role != "manager":
             session.clear()
-            flash('Manager access required.', 'danger')
-            return redirect(url_for('login'))
+            flash("Manager access required.", "danger")
+            return redirect(url_for("login"))
         return f(*args, **kwargs)
-    return decorated_function
 
+    return decorated_function
 
 
 @app.route("/")
 def index():
-    """Redirect to appropriate dashboard or login"""
-    if 'user_id' in session:
-        user = db.session.get(User, session['user_id'])
+    if "user_id" in session:
+        user = db.session.get(User, session["user_id"])
         if user and user.is_active:
-            if user.role == 'manager':
-                return redirect('/manager/dashboard')
-            else:
-                return redirect('/user/dashboard')
-        else:
+            if user.role == "manager":
+                return redirect(url_for("start_manager"))
+            return redirect(url_for("start_user"))
+        session.clear()
+    return redirect(url_for("login"))
 
-            session.clear()
-    return redirect(url_for('login'))
+
+@app.route("/manager/start")
+@login_required
+def start_manager():
+    return launch_role_script(MANAGER_SYSTEM_DIR, "manager.py")
+
+
+@app.route("/user/start")
+@login_required
+def start_user():
+    return launch_role_script(BOOKING_SYSTEM_DIR, "user.py")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if 'user_id' in session:
-        return redirect(url_for('index'))
+    if "user_id" in session:
+        return redirect(url_for("index"))
 
     if request.method == "POST":
-        username = request.form.get('username', '').strip()
-        password = request.form.get('password', '')
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
 
         if not username or not password:
-            flash('Username and password are required.', 'danger')
-            return render_template('login.html')
+            flash("Username and password are required.", "danger")
+            return render_template("login.html")
 
         user = User.query.filter_by(username=username).first()
 
         if user and user.check_password(password):
             if not user.is_active:
-                flash('Your account has been deactivated. Please contact support.', 'danger')
-                return render_template('login.html')
+                flash("Your account has been deactivated. Please contact support.", "danger")
+                return render_template("login.html")
 
-
-            session['user_id'] = user.id
-            session['username'] = user.username
-            session['role'] = user.role
+            session["user_id"] = user.id
+            session["username"] = user.username
+            session["role"] = user.role
             session.permanent = True
-
 
             user.last_login = datetime.utcnow()
             db.session.commit()
 
-            flash(f'Welcome back, {user.username}!', 'success')
+            flash(f"Welcome back, {user.username}!", "success")
             logger.info(f"User logged in: {username} ({user.role})")
 
+            if user.role == "manager":
+                return redirect(url_for("start_manager"))
+            return redirect(url_for("start_user"))
 
-            if user.role == 'manager':
-                return redirect('/manager/dashboard')
-            else:
-                return redirect('/user/dashboard')
-        else:
-            flash('Invalid username or password.', 'danger')
-            logger.warning(f"Failed login attempt for username: {username}")
+        flash("Invalid username or password.", "danger")
+        logger.warning(f"Failed login attempt for username: {username}")
 
-    return render_template('login.html')
+    return render_template("login.html")
+
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-    if 'user_id' in session:
-        return redirect(url_for('index'))
+    if "user_id" in session:
+        return redirect(url_for("index"))
 
     if request.method == "POST":
-        username = request.form.get('username', '').strip()
-        email = request.form.get('email', '').strip()
-        password = request.form.get('password', '')
-        confirm_password = request.form.get('confirm_password', '')
-        role = request.form.get('role', 'user')
-
+        username = request.form.get("username", "").strip()
+        email = request.form.get("email", "").strip()
+        password = request.form.get("password", "")
+        confirm_password = request.form.get("confirm_password", "")
+        role = request.form.get("role", "user")
 
         if not username or not email or not password:
-            flash('All fields are required.', 'danger')
-            return render_template('signup.html')
+            flash("All fields are required.", "danger")
+            return render_template("signup.html")
 
         if len(username) < 3:
-            flash('Username must be at least 3 characters long.', 'danger')
-            return render_template('signup.html')
+            flash("Username must be at least 3 characters long.", "danger")
+            return render_template("signup.html")
 
         if len(password) < 6:
-            flash('Password must be at least 6 characters long.', 'danger')
-            return render_template('signup.html')
+            flash("Password must be at least 6 characters long.", "danger")
+            return render_template("signup.html")
 
         if password != confirm_password:
-            flash('Passwords do not match.', 'danger')
-            return render_template('signup.html')
+            flash("Passwords do not match.", "danger")
+            return render_template("signup.html")
 
-        if role not in ['user', 'manager']:
-            flash('Invalid role selected.', 'danger')
-            return render_template('signup.html')
-
+        if role not in ["user", "manager"]:
+            flash("Invalid role selected.", "danger")
+            return render_template("signup.html")
 
         if User.query.filter_by(username=username).first():
-            flash('Username already exists. Please choose another.', 'danger')
-            return render_template('signup.html')
+            flash("Username already exists. Please choose another.", "danger")
+            return render_template("signup.html")
 
         if User.query.filter_by(email=email).first():
-            flash('Email already registered. Please use another email.', 'danger')
-            return render_template('signup.html')
-
+            flash("Email already registered. Please use another email.", "danger")
+            return render_template("signup.html")
 
         try:
             new_user = User(username=username, email=email, role=role)
@@ -205,31 +237,30 @@ def signup():
             db.session.add(new_user)
             db.session.commit()
 
-            flash(f'Account created successfully! Welcome {username}. Please login.', 'success')
+            flash(f"Account created successfully! Welcome {username}. Please login.", "success")
             logger.info(f"New user registered: {username} ({role})")
-            return redirect(url_for('login'))
+            return redirect(url_for("login"))
         except Exception as e:
             db.session.rollback()
             logger.error(f"Error creating user: {e}", exc_info=True)
-            flash('An error occurred. Please try again.', 'danger')
+            flash("An error occurred. Please try again.", "danger")
 
-    return render_template('signup.html')
+    return render_template("signup.html")
+
 
 @app.route("/logout")
 def logout():
-    username = session.get('username', 'User')
+    username = session.get("username", "User")
     session.clear()
-    flash(f'Goodbye {username}! You have been logged out successfully.', 'info')
+    flash(f"Goodbye {username}! You have been logged out successfully.", "info")
     logger.info(f"User logged out: {username}")
-    return redirect(url_for('login'))
+    return redirect(url_for("login"))
 
 
-from manager import register_manager_routes
-from user import register_user_routes
-
+from manager_system.manager import register_manager_routes
 
 register_manager_routes(app, db, User, Review, manager_required, login_required)
-register_user_routes(app, db, User, Review, login_required)
+
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5000)
