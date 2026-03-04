@@ -634,11 +634,6 @@
             </a>
           </li>
           {% if session.get('user_id') %}
-            <li class="nav-item">
-              <a class="nav-link" href="/profile">
-                <i class="fas fa-user"></i> Profile
-              </a>
-            </li>
             {% if session.get('role') == 'manager' %}
               <li class="nav-item">
                 <span class="nav-link" style="color: #f59e0b !important;">
