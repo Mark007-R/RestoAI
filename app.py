@@ -1,5 +1,4 @@
 import os
-import subprocess
 import sys
 from datetime import datetime
 from functools import wraps
@@ -8,11 +7,12 @@ from pathlib import Path
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_sqlalchemy import SQLAlchemy
+from jinja2 import ChoiceLoader, FileSystemLoader
 from werkzeug.security import check_password_hash, generate_password_hash
 
 BASE_DIR = Path(__file__).resolve().parent
 MANAGER_SYSTEM_DIR = BASE_DIR / "manager_system"
-USER_SYSTEM_DIR = BASE_DIR / "user_system"
+TEMPLATES_DIR = BASE_DIR / "templates"
 
 if str(MANAGER_SYSTEM_DIR) not in sys.path:
     sys.path.insert(0, str(MANAGER_SYSTEM_DIR))
@@ -24,8 +24,14 @@ load_dotenv()
 
 app = Flask(
     __name__,
-    template_folder=str(MANAGER_SYSTEM_DIR / "templates"),
+    template_folder=str(TEMPLATES_DIR),
     static_folder=str(MANAGER_SYSTEM_DIR / "static"),
+)
+app.jinja_loader = ChoiceLoader(
+    [
+        FileSystemLoader(str(TEMPLATES_DIR)),
+        FileSystemLoader(str(MANAGER_SYSTEM_DIR / "templates")),
+    ]
 )
 config_class = get_config(os.environ.get("FLASK_ENV", "development"))
 app.config.from_object(config_class)
@@ -87,17 +93,6 @@ with app.app_context():
     logger.info("Database tables created/verified")
 
 
-def launch_role_script(target_dir: Path, script_name: str):
-    script_path = target_dir / script_name
-    if not script_path.exists():
-        flash(f"Cannot find script: {script_name}", "danger")
-        return redirect(url_for("login"))
-
-    subprocess.Popen([sys.executable, script_name], cwd=str(target_dir))
-    flash(f"Started {script_name} from {target_dir.name} folder.", "success")
-    return redirect(url_for("login"))
-
-
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -136,8 +131,8 @@ def index():
         user = db.session.get(User, session["user_id"])
         if user and user.is_active:
             if user.role == "manager":
-                return redirect(url_for("start_manager"))
-            return redirect(url_for("start_user"))
+                return redirect(url_for("manager_dashboard"))
+            return redirect(url_for("user_dashboard"))
         session.clear()
     return redirect(url_for("login"))
 
@@ -145,13 +140,44 @@ def index():
 @app.route("/manager/start")
 @login_required
 def start_manager():
-    return launch_role_script(MANAGER_SYSTEM_DIR, "manager.py")
+    return redirect(url_for("manager_dashboard"))
 
 
 @app.route("/user/start")
 @login_required
 def start_user():
-    return launch_role_script(USER_SYSTEM_DIR, "user.py")
+    return redirect(url_for("user_dashboard"))
+
+
+@app.route("/user/dashboard")
+@login_required
+def user_dashboard():
+    restaurants = []
+    seen = set()
+
+    for review in Review.query.order_by(Review.created_at.desc()).all():
+        name = (review.restaurant or "").strip()
+        if not name or name in seen:
+            continue
+        seen.add(name)
+        restaurants.append(
+            {
+                "name": name,
+                "rating": f"{review.rating:.1f}" if review.rating is not None else "N/A",
+                "address": "Address not available",
+                "photo": "https://loremflickr.com/800/600/restaurant,food,dining",
+            }
+        )
+        if len(restaurants) >= 50:
+            break
+
+    total_reviews = Review.query.count()
+    return render_template(
+        "user_dashboard.html",
+        restaurants=restaurants,
+        total_restaurants=len(restaurants),
+        total_reviews=total_reviews,
+    )
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -186,8 +212,8 @@ def login():
             logger.info(f"User logged in: {username} ({user.role})")
 
             if user.role == "manager":
-                return redirect(url_for("start_manager"))
-            return redirect(url_for("start_user"))
+                return redirect(url_for("manager_dashboard"))
+            return redirect(url_for("user_dashboard"))
 
         flash("Invalid username or password.", "danger")
         logger.warning(f"Failed login attempt for username: {username}")
