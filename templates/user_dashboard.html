@@ -309,8 +309,7 @@
     User Access Level
   </h4>
   <p>
-    You have <strong>User</strong> access. You can view restaurant information and read reviews. 
-    For advanced analytics and management features, contact your administrator for Manager access.
+    You have <strong>User</strong> access. This dashboard stays on one page and does not open analysis pages.
   </p>
 </div>
 
@@ -345,10 +344,38 @@
       </div>
       {% endif %}
 
-      <a href="/analyze?restaurant={{ restaurant.name }}" class="view-btn">
-        <i class="fas fa-eye me-2"></i>
-        View Details
-      </a>
+      {% if restaurant.cuisines %}
+      <div class="restaurant-info">
+        <i class="fas fa-bowl-food"></i>
+        {{ restaurant.cuisines }}
+      </div>
+      {% endif %}
+
+      {% if restaurant.price %}
+      <div class="restaurant-info">
+        <i class="fas fa-indian-rupee-sign"></i>
+        {{ restaurant.price }}
+      </div>
+      {% endif %}
+
+      {% if restaurant.review_count is defined %}
+      <div class="restaurant-info">
+        <i class="fas fa-comment-dots"></i>
+        {{ restaurant.review_count }} reviews
+      </div>
+      {% endif %}
+
+      {% if restaurant.sample_review %}
+      <div class="restaurant-info">
+        <i class="fas fa-quote-left"></i>
+        {{ restaurant.sample_review }}
+      </div>
+      {% endif %}
+
+      <button type="button" class="view-btn" disabled>
+        <i class="fas fa-circle-info me-2"></i>
+        Details shown on this page
+      </button>
     </div>
   </div>
   {% endfor %}

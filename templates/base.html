@@ -628,11 +628,13 @@
               <i class="fas fa-home"></i> Home
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/chat">
-              <i class="fas fa-comments"></i> AI Chat
-            </a>
-          </li>
+          {% if session.get('role') == 'manager' %}
+            <li class="nav-item">
+              <a class="nav-link" href="/chat">
+                <i class="fas fa-comments"></i> AI Chat
+              </a>
+            </li>
+          {% endif %}
           {% if session.get('user_id') %}
             {% if session.get('role') == 'manager' %}
               <li class="nav-item">
