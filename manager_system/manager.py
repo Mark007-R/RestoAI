@@ -3,14 +3,20 @@ Manager Routes Module
 Registers all manager-specific routes for restaurant analysis, recommendations, chat, and scraping
 """
 import os
+import sys
 from flask import render_template, request, redirect, url_for, flash, jsonify, session
 from werkzeug.utils import secure_filename
 import pandas as pd
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
 
 from analyzer import (analyze_text_and_keywords, categorize_complaints, 
                      summarize_reviews_for_recommendations, generate_visualizations)
 from scraper import scrape_generic_reviews, scrape_zomato_placeholder
 from rag_chat import RAGChat
+from shared.restaurant_search import search_restaurants_by_name
 from utils.logger import setup_logger
 from utils.validators import (
     validate_restaurant_name, validate_filename, sanitize_string,
@@ -676,12 +682,13 @@ def register_manager_routes(app, db, User, Review, manager_required, login_requi
         if not query:
             return jsonify([])
         _, restaurants_data = process_all_datasets(DATASET_FOLDER, restaurant_filter=None)
-        matches = [r for r in restaurants_data if query in r['name'].lower()]
-        unique = {}
-        for r in matches:
-            if r['name'] not in unique:
-                unique[r['name']] = r
-        return jsonify(list(unique.values())[:10])
+        matches = search_restaurants_by_name(
+            items=restaurants_data,
+            query=query,
+            name_getter=lambda restaurant: restaurant.get("name", ""),
+            limit=10,
+        )
+        return jsonify(matches)
 
     @app.route("/api/image-status")
     @manager_required
