@@ -1,1 +1,1 @@
-"""Utility modules for Smart Restaurant System."""
+"""Utility modules for RestoAI."""

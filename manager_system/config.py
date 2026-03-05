@@ -1,4 +1,4 @@
-"""Configuration management for Smart Restaurant System."""
+"""Configuration management for RestoAI."""
 import os
 from datetime import timedelta
 from urllib.parse import quote_plus

@@ -1,4 +1,4 @@
-"""Logging configuration for Smart Restaurant System."""
+"""Logging configuration for RestoAI."""
 import logging
 
 

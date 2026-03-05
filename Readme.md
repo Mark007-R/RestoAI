@@ -1,4 +1,4 @@
-# Restaurant Review Analysis System
+# RestoAI
 
 AI-powered restaurant review analysis platform with sentiment analysis, RAG chat, and intelligent visualizations.
 
@@ -36,7 +36,7 @@ AI-powered restaurant review analysis platform with sentiment analysis, RAG chat
 ```bash
 # Clone and setup
 git clone <repo-url>
-cd Smart_Restaurant_System
+cd Smart_Restaurant_System  # RestoAI project directory
 python -m venv venv
 
 # Windows
@@ -67,7 +67,7 @@ python app.py
 ## Project Structure
 
 ```
-Smart_Restaurant_System/
+RestoAI/
 ├── app.py                  # Main Flask application
 ├── analyzer.py             # Sentiment analysis & visualizations
 ├── scraper.py              # Data loading & web scraping

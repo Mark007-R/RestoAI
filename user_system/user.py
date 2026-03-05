@@ -1,5 +1,5 @@
 """
-User Management Module for Smart Restaurant System
+User Management Module for RestoAI
 Handles user authentication, profile management, and preferences
 """
 
@@ -97,7 +97,7 @@ class UserBookingHistory:
 
 @dataclass
 class User:
-    """Main User Model for Smart Restaurant System"""
+    """Main User Model for RestoAI"""
     user_id: str
     email: str
     username: str
