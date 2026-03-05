@@ -36,7 +36,7 @@ AI-powered restaurant review analysis platform with sentiment analysis, RAG chat
 ```bash
 # Clone and setup
 git clone <repo-url>
-cd Smart_Restaurant_System  # RestoAI project directory
+cd Smart_Restaurant_System
 python -m venv venv
 
 # Windows
