@@ -180,38 +180,67 @@
   }
 
   .rating-badge {
-    padding: 0.75rem 1.25rem;
-    border-radius: 0.75rem;
-    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 800;
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    justify-content: center;
+    gap: 0.35rem;
     font-size: 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
     transition: all 0.3s ease;
   }
 
   .rating-badge:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.2);
   }
 
   .rating-badge.rating-red {
-    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-    color: #dc2626;
-    border: 1px solid #fca5a5;
+    color: #ff6b6b;
+    border-color: rgba(255, 107, 107, 0.4);
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
+  }
+
+  .rating-badge.rating-red:hover {
+    box-shadow: 0 6px 25px rgba(255, 107, 107, 0.4);
+    background: rgba(255, 107, 107, 0.1);
   }
 
   .rating-badge.rating-yellow {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    color: #d97706;
-    border: 1px solid #fcd34d;
+    color: #ffd93d;
+    border-color: rgba(255, 217, 61, 0.4);
+    box-shadow: 0 4px 20px rgba(255, 217, 61, 0.3);
+  }
+
+  .rating-badge.rating-yellow:hover {
+    box-shadow: 0 6px 25px rgba(255, 217, 61, 0.4);
+    background: rgba(255, 217, 61, 0.1);
   }
 
   .rating-badge.rating-green {
-    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-    color: #15803d;
-    border: 1px solid #86efac;
+    color: #51cf66;
+    border-color: rgba(81, 207, 102, 0.4);
+    box-shadow: 0 4px 20px rgba(81, 207, 102, 0.3);
+  }
+
+  .rating-badge.rating-green:hover {
+    box-shadow: 0 6px 25px rgba(81, 207, 102, 0.4);
+    background: rgba(81, 207, 102, 0.1);
+  }
+
+  .rating-badge span {
+    font-size: 1.25rem;
+    font-weight: 900;
+  }
+
+  .rating-badge i {
+    font-size: 0.9rem;
   }
 
   
@@ -359,8 +388,8 @@
       {% set rating_class = 'rating-red' if rating_val < 2.5 else 'rating-yellow' if rating_val < 3.7 else 'rating-green' %}
       <div class="meta-item">
         <span class="rating-badge {{ rating_class }}">
-          <span style="font-size: 1.2rem; font-weight: 800;">{{ "%.1f"|format(rating_val) }}</span>
-          <span style="font-size: 0.9rem; opacity: 0.8;">★</span>
+          <span>{{ "%.1f"|format(rating_val) }}</span>
+          <i class="fas fa-star"></i>
         </span>
       </div>
       {% endif %}
