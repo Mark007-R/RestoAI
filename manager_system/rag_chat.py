@@ -312,8 +312,9 @@ class RAGChat:
                     all_reviews.extend(reviews)
                     if restaurant_name and reviews:
                         logger.info(f"Loaded {len(reviews)} reviews from {filename}")
-                    except Exception as e:
-                        logger.error(f"Error processing {filename}: {e}")
+                except Exception as e:
+                    logger.error(f"Error processing {filename}: {e}")
+
         self.loaded = True
         self.current_restaurant = restaurant_name
         return all_reviews
@@ -637,8 +638,8 @@ class RAGChat:
                     snippets.append(text)
 
             if not snippets:
-            return (f"I couldn't find relevant information in the reviews or online "
-                   f"about '{query}' for {restaurant_name or 'this restaurant'}.")
+                return (f"I couldn't find relevant information in the reviews or online "
+                       f"about '{query}' for {restaurant_name or 'this restaurant'}.")
 
             result = "Online Search Results:\n\n"
             for i, snippet in enumerate(snippets, 1):

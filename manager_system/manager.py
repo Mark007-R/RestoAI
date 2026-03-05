@@ -173,7 +173,7 @@ def get_restaurant_image(restaurant_name, api_key=None):
 
             if google_api_failures >= MAX_GOOGLE_FAILURES:
                 use_google_api = False
-                logger.warning(f"⚠️ Google Places API disabled after {MAX_GOOGLE_FAILURES} consecutive failures. Switching to alternative methods.")
+                logger.warning(f"Google Places API disabled after {MAX_GOOGLE_FAILURES} consecutive failures. Switching to alternative methods.")
     elif not api_key:
         logger.debug("Google Places API key not configured, using fallback methods")
     else:
@@ -537,7 +537,7 @@ def register_manager_routes(app, db, User, Review, manager_required, login_requi
                         logger.error(f"Scraping error: {scrape_error}", exc_info=True)
                         flash("Scraping failed. Please try another method.", "warning")
             if not reviews_data:
-                flash(f"❌ No reviews found for '{restaurant}'. Try uploading a CSV or enabling scraping.", "error")
+                flash(f"No reviews found for '{restaurant}'. Try uploading a CSV or enabling scraping.", "error")
                 logger.warning(f"No reviews found for restaurant: {restaurant}")
                 return redirect(url_for("index"))
             original_count = len(reviews_data)

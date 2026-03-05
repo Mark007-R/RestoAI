@@ -570,7 +570,7 @@ def generate_visualizations(reviews):
         ax.scatter(counts_sorted, y_pos, s=sizes, c=colors, alpha=0.85,
                    edgecolor='#e2e8f0', linewidth=1.2, zorder=3)
 
-        ax.set_title("🎯 Top Customer Concerns & Keywords", fontsize=20, fontweight='bold', 
+        ax.set_title("Top Customer Concerns & Keywords", fontsize=20, fontweight='bold', 
                     pad=25, color='#e2e8f0')
         ax.set_xlabel("Frequency", fontsize=14, fontweight='bold', color='#e2e8f0')
         ax.set_yticks(y_pos)
@@ -616,7 +616,7 @@ def generate_visualizations(reviews):
                        color='#0ea5e9', linewidth=1.5, ax=ax)
         mean_val = np.mean(rating_list)
         ax.scatter([mean_val], [0], color='#f59e0b', s=90, zorder=3, label='Mean')
-        ax.set_title("📊 Rating Spread Analysis", fontsize=20, fontweight='bold', 
+        ax.set_title("Rating Spread Analysis", fontsize=20, fontweight='bold', 
                     pad=25, color='#e2e8f0')
         ax.set_xlabel("Rating", fontsize=14, fontweight='bold', color='#e2e8f0')
         ax.set_yticks([])
@@ -879,7 +879,7 @@ def generate_visualizations(reviews):
         ax.axvline(x=p25, color='#94a3b8', linestyle='--', linewidth=1.5, label='25th')
         ax.axvline(x=p50, color='#f59e0b', linestyle='--', linewidth=2, label='Median')
         ax.axvline(x=p75, color='#22c55e', linestyle='--', linewidth=1.5, label='75th')
-        ax.set_title("📝 Review Length Distribution", fontsize=20, fontweight='bold', 
+        ax.set_title("Review Length Distribution", fontsize=20, fontweight='bold', 
                     pad=25, color='#e2e8f0')
         ax.set_xlabel("Character Count", fontsize=14, fontweight='bold', color='#e2e8f0')
         ax.set_ylabel("Frequency", fontsize=14, fontweight='bold', color='#e2e8f0')
@@ -893,7 +893,7 @@ def generate_visualizations(reviews):
             fig, ax = plt.subplots(figsize=(12, 6))
             hb = ax.hexbin(review_lengths, rating_list, gridsize=25, cmap='viridis',
                            mincnt=1, linewidths=0.2, edgecolors='#0f172a')
-            ax.set_title("📊 Review Length vs Rating", fontsize=20, fontweight='bold', 
+            ax.set_title("Review Length vs Rating", fontsize=20, fontweight='bold', 
                        pad=25, color='#e2e8f0')
             ax.set_xlabel("Review Length (characters)", fontsize=14, fontweight='bold', color='#e2e8f0')
             ax.set_ylabel("Rating", fontsize=14, fontweight='bold', color='#e2e8f0')
@@ -925,7 +925,7 @@ def generate_visualizations(reviews):
         ax.hlines(y_pos, 0, vals, color='#334155', linewidth=3, alpha=0.7)
         ax.scatter(vals, y_pos, s=200, c=colors, edgecolor='#e2e8f0',
                    linewidth=1.2, zorder=3)
-        ax.set_title("🔍 Complaint Category Frequency", fontsize=20, fontweight='bold', 
+        ax.set_title("Complaint Category Frequency", fontsize=20, fontweight='bold', 
                    pad=25, color='#e2e8f0')
         ax.set_xlabel("Frequency", fontsize=14, fontweight='bold', color='#e2e8f0')
         ax.set_yticks(y_pos)
@@ -1286,7 +1286,7 @@ def summarize_reviews_for_recommendations(reviews, restaurant_name=None):
         recs.append({
             "category": "overall",
             "priority": "INFO",
-            "recommendation": f"✅ Overall sentiment is positive ({positive_percentage:.1f}%); maintain quality consistency",
+            "recommendation": f"Overall sentiment is positive ({positive_percentage:.1f}%); maintain quality consistency",
             "percentage": positive_percentage
         })
 
@@ -1298,7 +1298,7 @@ def summarize_reviews_for_recommendations(reviews, restaurant_name=None):
             recs.insert(0, {
                 "category": "sentiment",
                 "priority": "CRITICAL",
-                "recommendation": f"⚠️ ALERT: {neg_percentage:.1f}% negative reviews - immediate action required!",
+                "recommendation": f"ALERT: {neg_percentage:.1f}% negative reviews - immediate action required!",
                 "percentage": neg_percentage
             })
         elif pos_percentage > 70:
