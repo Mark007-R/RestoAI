@@ -394,13 +394,13 @@
         font-weight: 700 !important;
         display: inline-flex !important;
         align-items: center !important;
-        gap: 0.5rem !important;
+        gap: 0.75rem !important;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
         transition: all 0.3s ease !important;
     }
 
     .rating-badge-value:hover {
-        transform: translateY(-2px);
+        transform: translateY(-2px) !important;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
     }
 
@@ -420,36 +420,6 @@
         background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%) !important;
         color: #15803d !important;
         border: 1px solid #86efac !important;
-    }
-
-    .rating-badge-value i {
-        font-size: 0.85rem;
-    }
-
-    .rating-badge-value i[data-index="0"],
-    .rating-badge-value i[data-index="1"],
-    .rating-badge-value i[data-index="2"],
-    .rating-badge-value i[data-index="3"],
-    .rating-badge-value i[data-index="4"] {
-        opacity: 0.3;
-    }
-
-    .rating-badge-value i[data-rating="1"] ~ i[data-index="0"],
-    .rating-badge-value i[data-rating="2"] ~ i[data-index="0"],
-    .rating-badge-value i[data-rating="2"] ~ i[data-index="1"],
-    .rating-badge-value i[data-rating="3"] ~ i[data-index="0"],
-    .rating-badge-value i[data-rating="3"] ~ i[data-index="1"],
-    .rating-badge-value i[data-rating="3"] ~ i[data-index="2"],
-    .rating-badge-value i[data-rating="4"] ~ i[data-index="0"],
-    .rating-badge-value i[data-rating="4"] ~ i[data-index="1"],
-    .rating-badge-value i[data-rating="4"] ~ i[data-index="2"],
-    .rating-badge-value i[data-rating="4"] ~ i[data-index="3"],
-    .rating-badge-value i[data-rating="5"] ~ i[data-index="0"],
-    .rating-badge-value i[data-rating="5"] ~ i[data-index="1"],
-    .rating-badge-value i[data-rating="5"] ~ i[data-index="2"],
-    .rating-badge-value i[data-rating="5"] ~ i[data-index="3"],
-    .rating-badge-value i[data-rating="5"] ~ i[data-index="4"] {
-        opacity: 1;
     }
 
     .review-header {
@@ -661,10 +631,8 @@
                 {% set avg_rating_val = visualizations.kpi_metrics.avg_rating|float %}
                 {% set avg_rating_class = 'rating-red' if avg_rating_val < 2.5 else 'rating-yellow' if avg_rating_val < 3.7 else 'rating-green' %}
                 <h3><span class="rating-badge-value {{ avg_rating_class }}">
-                  {% for i in range(5) %}
-                    <i class="fas fa-star" data-rating="{{ avg_rating_val|int }}" data-index="{{ i }}"></i>
-                  {% endfor %}
-                  <span style="font-size: 1.1rem; font-weight: 800;">{{ "%.1f"|format(avg_rating_val) }}</span>
+                  <span style="font-size: 1.2rem; font-weight: 800;">{{ "%.1f"|format(avg_rating_val) }}</span>
+                  <span style="font-size: 0.9rem; opacity: 0.8;">★</span>
                 </span></h3>
                 <p>Average Rating</p>
             </div>
