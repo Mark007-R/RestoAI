@@ -657,12 +657,7 @@
                 <div class="stat-icon">
                     <i class="fas fa-star"></i>
                 </div>
-                {% set avg_rating_val = visualizations.kpi_metrics.avg_rating|float %}
-                {% set avg_rating_class = 'rating-red' if avg_rating_val < 2.5 else 'rating-yellow' if avg_rating_val < 3.7 else 'rating-green' %}
-                <h3><span class="rating-badge-value {{ avg_rating_class }}">
-                  <span>{{ "%.1f"|format(avg_rating_val) }}</span>
-                  <i class="fas fa-star"></i>
-                </span></h3>
+                <h3>{{ visualizations.kpi_metrics.avg_rating }}</h3>
                 <p>Average Rating</p>
             </div>
 
