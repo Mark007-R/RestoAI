@@ -128,3 +128,52 @@ Day 2 — Phase 2a comparisons:
 - `scripts/structural_rag_metrics.py` (NEW) — deterministic RAG structural metrics that replaced the failed LLM judge
 - `.gitignore` — allow `data/`, `results/`, `docs/`, `reports/`, `scripts/`, `tests/`
 - No changes to `manager_system/analyzer.py` or `manager_system/rag_chat.py` today (Day 4 is the modification day; Day 1 is read-only audit per the SKILL).
+
+---
+
+## Day-1 polish addendum — slice analysis + visualizations
+**Added:** 2026-05-11 (same day as the baseline)
+**New files:** `scripts/baseline_slice_analysis.py`, `scripts/baseline_visualizations.py`, `results/baseline_slices.json`, `results/charts/*.png` (6 PNGs)
+
+The first thing a hiring manager asks of a baseline is "is the model failing uniformly or on a specific data slice?" The polish pass cuts the three baselines by source dataset (sentiment, complaints) and by intent (RAG) and produces the chart artifacts referenced in this report.
+
+### Polish Experiment 1.4 — Sentiment by source dataset
+
+| source | n | macro-F1 | acc | Pos F1 | Neu F1 | Neg F1 |
+|---|---|---|---|---|---|---|
+| Resreviews.csv | 79 | 0.467 | 0.582 | 0.706 | **0.000** | 0.696 |
+| mumbaires.csv | 54 | 0.487 | 0.593 | 0.667 | 0.143 | 0.650 |
+| reviews.csv | 9 | 0.400 | 0.556 | 0.800 | **0.000** | 0.400 |
+| zomato.csv | 58 | 0.450 | 0.466 | 0.526 | 0.133 | 0.690 |
+
+**Finding:** Neutral F1 is ≤ 0.15 across **every** source (and exactly 0.00 on two of them). VADER's failure on Neutral is not a dataset-distribution problem — it is a fundamental threshold problem with the (-0.05, +0.05) compound corridor on restaurant prose. zomato.csv is also the worst overall (acc 0.466) because its review snippets (extracted from list literals) are noisier and tend toward borderline language. Charts: `results/charts/sentiment_confusion.png`, `results/charts/sentiment_by_source.png`.
+
+### Polish Experiment 1.5 — Complaint baseline by source dataset
+
+| source | n | macro-F1* | subset_acc | classes_present |
+|---|---|---|---|---|
+| Resreviews.csv | 38 | 0.829 | **0.526** | 8 |
+| mumbaires.csv | 32 | 0.834 | 0.406 | 8 |
+| zomato.csv | 28 | 0.736 | **0.321** | 8 |
+
+*Macro excludes classes absent in that slice's gold.
+
+**Finding:** subset accuracy varies almost 2× across sources (0.32 zomato → 0.53 Resreviews). The keyword scan does noticeably worse on zomato — the same noisier-text problem that hurts VADER. Charts: `results/charts/complaints_per_class_f1.png`, `results/charts/complaints_failure_breakdown.png` (the failure breakdown shows `delivery` is the dominant spurious-label source, confirming the precision = 0.43 finding from the main baseline).
+
+### Polish Experiment 1.6 — RAG template baseline by intent
+
+| intent | n | sent dir | top cat | rating cite | intent addr | specificity |
+|---|---|---|---|---|---|---|
+| quality   | 9 | 0.89 | 1.00 | **1.00** | 1.00 | **1.00** |
+| recommend | 8 | 0.75 | 1.00 | 0.88 | 1.00 | 0.94 |
+| price     | 8 | 0.88 | 1.00 | **0.12** | **0.38** | 0.59 |
+| service   | 9 | 0.67 | 1.00 | **0.00** | 1.00 | 0.72 |
+| ambience  | 8 | 0.62 | 1.00 | **0.00** | 1.00 | 0.69 |
+| hygiene   | 8 | 0.62 | 0.88 | **0.00** | 1.00 | 0.69 |
+
+**Finding (the most concrete one of Day 1):** The RAG composite of 0.686 is not uniform across intents — it is a **per-branch template defect**. The `quality` and `recommend` branches in `_synthesize_intelligent_answer` happen to print the avg rating; the four other branches **never** do (rating_cite ≤ 0.12). Likewise, the `price` branch (line 561+) uses vocabulary that doesn't overlap our `price` intent set (`expensive/cheap/value/worth`), giving intent_addressed only 0.38. **A 5-line fix to the existing template — append the rating sentence to every branch, broaden the price vocabulary — would lift the composite from 0.686 toward ~0.85 without any LLM.** That would normally be tempting low-hanging fruit, but it's exactly the wrong direction for this sprint: Day 3 replaces the templates wholesale with real LLM synthesis, so the right move is to leave the template baseline as a clean comparison floor rather than patch it up.
+
+Charts: `results/charts/rag_per_intent_metrics.png`, `results/charts/rag_specificity_distribution.png`.
+
+### Polish key takeaway
+The slice-by-source breakdown turns three macro numbers into a **structural map** of where the baseline fails: VADER fails uniformly on Neutral (threshold problem, not data problem), the keyword-scan complaints fail worst on noisy zomato extracted text (data problem, helped by a real model), and the RAG template fails per-intent-branch (4 of 6 branches never cite ratings). All three failure modes are addressable in Days 2–3 by exactly the strategies the SKILL prescribes — the polish makes the prescription specific.
