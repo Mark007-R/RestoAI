@@ -1,0 +1,164 @@
+{
+  "sentiment_by_source": {
+    "Resreviews.csv": {
+      "n": 79,
+      "macro_f1": 0.46717817561807334,
+      "accuracy": 0.5822784810126582,
+      "per_class_f1": {
+        "Positive": 0.7058823529411765,
+        "Neutral": 0.0,
+        "Negative": 0.6956521739130435
+      },
+      "support": {
+        "Positive": 30,
+        "Neutral": 24,
+        "Negative": 25
+      }
+    },
+    "mumbaires.csv": {
+      "n": 54,
+      "macro_f1": 0.48650793650793656,
+      "accuracy": 0.5925925925925926,
+      "per_class_f1": {
+        "Positive": 0.6666666666666666,
+        "Neutral": 0.14285714285714285,
+        "Negative": 0.65
+      },
+      "support": {
+        "Positive": 18,
+        "Neutral": 12,
+        "Negative": 24
+      }
+    },
+    "reviews.csv": {
+      "n": 9,
+      "macro_f1": 0.4000000000000001,
+      "accuracy": 0.5555555555555556,
+      "per_class_f1": {
+        "Positive": 0.8,
+        "Neutral": 0.0,
+        "Negative": 0.4
+      },
+      "support": {
+        "Positive": 4,
+        "Neutral": 3,
+        "Negative": 2
+      }
+    },
+    "zomato.csv": {
+      "n": 58,
+      "macro_f1": 0.4497680984069368,
+      "accuracy": 0.46551724137931033,
+      "per_class_f1": {
+        "Positive": 0.5263157894736842,
+        "Neutral": 0.13333333333333333,
+        "Negative": 0.6896551724137931
+      },
+      "support": {
+        "Positive": 16,
+        "Neutral": 27,
+        "Negative": 15
+      }
+    }
+  },
+  "complaints_by_source": {
+    "Resreviews.csv": {
+      "n": 38,
+      "macro_f1_excl_absent_classes": 0.8291575067890857,
+      "subset_accuracy": 0.5263157894736842,
+      "per_class_f1": {
+        "service": 0.972972972972973,
+        "food_quality": 0.8421052631578947,
+        "hygiene": 0.9090909090909091,
+        "price": 0.8333333333333334,
+        "delivery": 0.6666666666666666,
+        "portion": 0.9090909090909091,
+        "ambience": 1.0,
+        "variety": 0.5
+      },
+      "n_classes_present": 8
+    },
+    "mumbaires.csv": {
+      "n": 32,
+      "macro_f1_excl_absent_classes": 0.8341269841269842,
+      "subset_accuracy": 0.40625,
+      "per_class_f1": {
+        "service": 1.0,
+        "food_quality": 0.8,
+        "hygiene": 0.8888888888888888,
+        "price": 1.0,
+        "delivery": 0.5555555555555556,
+        "portion": 0.7619047619047619,
+        "ambience": 0.8888888888888888,
+        "variety": 0.7777777777777778
+      },
+      "n_classes_present": 8
+    },
+    "zomato.csv": {
+      "n": 28,
+      "macro_f1_excl_absent_classes": 0.7363972832722833,
+      "subset_accuracy": 0.32142857142857145,
+      "per_class_f1": {
+        "service": 1.0,
+        "food_quality": 0.8888888888888888,
+        "hygiene": 0.3333333333333333,
+        "price": 0.6153846153846154,
+        "delivery": 0.42857142857142855,
+        "portion": 0.875,
+        "ambience": 1.0,
+        "variety": 0.75
+      },
+      "n_classes_present": 8
+    }
+  },
+  "rag_by_intent": {
+    "ambience": {
+      "n": 8,
+      "sentiment_dir_match": 0.625,
+      "top_category_hit": 1.0,
+      "rating_mention": 0.0,
+      "intent_addressed": 1.0,
+      "specificity_score": 0.6875
+    },
+    "hygiene": {
+      "n": 8,
+      "sentiment_dir_match": 0.625,
+      "top_category_hit": 0.875,
+      "rating_mention": 0.0,
+      "intent_addressed": 1.0,
+      "specificity_score": 0.6875
+    },
+    "price": {
+      "n": 8,
+      "sentiment_dir_match": 0.875,
+      "top_category_hit": 1.0,
+      "rating_mention": 0.125,
+      "intent_addressed": 0.375,
+      "specificity_score": 0.59375
+    },
+    "quality": {
+      "n": 9,
+      "sentiment_dir_match": 0.8888888888888888,
+      "top_category_hit": 1.0,
+      "rating_mention": 1.0,
+      "intent_addressed": 1.0,
+      "specificity_score": 1.0
+    },
+    "recommend": {
+      "n": 8,
+      "sentiment_dir_match": 0.75,
+      "top_category_hit": 1.0,
+      "rating_mention": 0.875,
+      "intent_addressed": 1.0,
+      "specificity_score": 0.9375
+    },
+    "service": {
+      "n": 9,
+      "sentiment_dir_match": 0.6666666666666666,
+      "top_category_hit": 1.0,
+      "rating_mention": 0.0,
+      "intent_addressed": 1.0,
+      "specificity_score": 0.7222222222222222
+    }
+  }
+}
