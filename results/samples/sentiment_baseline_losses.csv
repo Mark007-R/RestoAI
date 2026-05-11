@@ -1,0 +1,6 @@
+text_preview,gold,vader_pred,vader_compound,rating,source,correct
+"ItÃÃÃÃÃÃÃÃs a decent place if you are looking for Indian Chinese. Though the staff is not high on customer experience, but t",Neutral,Positive,0.2263,3.0,zomato.csv,False
+The place was pretty crowded for a weekday. We ordered a couple of chicken items. I only remember the food to be extra spicy. The brews of t,Neutral,Positive,0.7269,3.0,Resreviews.csv,False
+"No AC and cooling...we finally had to take away our order...kids were not even able to sit comfortably. Despite of lot of space, no congesti",Neutral,Negative,-0.5109,3.0,mumbaires.csv,False
+"Bad ambience, ok food.  Soups were great. Had some non veg starters which were not very tasty and felt a bit raw.  Naans and curry was nice.",Negative,Positive,0.2732,2.0,Resreviews.csv,False
+"Very disappointing. How can we call this as a fruit bowl. The box became full wet and grapes, chickoo are not added at all but it was mentio",Negative,Positive,0.1787,1.0,zomato.csv,False

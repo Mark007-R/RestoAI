@@ -156,3 +156,21 @@ sessions/
 !static/images/.gitkeep
 !templates/.gitkeep
 !**/.gitkeep
+
+# Sprint upgrade outputs (RestoAI 7-day production sprint, see docs/COMPONENT_AUDIT.md)
+!data/
+!data/**
+!results/
+!results/**
+!docs/
+!docs/*.md
+!reports/
+!reports/**
+!scripts/
+!scripts/**
+!tests/
+!tests/**
+# Still keep secrets/large blobs out
+results/.judge_cache.json
+results/*.faiss
+results/*.pkl

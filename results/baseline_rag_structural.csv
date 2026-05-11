@@ -1,0 +1,235 @@
+id,intent,restaurant,sentiment_dir_match,top_category_hit,rating_mention,intent_addressed,specificity_score,pred_dir,gold_dir,answer_failed,answer_preview
+q001,quality,Desi Bytes,0,1,1,1,1.0,negative,positive,False,"Based on 1 relevant reviews about **Desi Bytes**:
+
+Most Relevant Reviews:
+
+**1.** Pathetic quality of food! Waste of money and the chur chur naan I ordered was "
+q002,service,eat.fit,1,1,0,1,0.75,positive,positive,False,"Based on 5 relevant reviews about **eat.fit**:
+
+Most Relevant Reviews:
+
+**1.** Great food came up with neatly packed and the delivery person was handled the pac"
+q003,price,Mustang Terrace Lounge,1,1,1,0,0.75,positive,positive,False,"Based on 5 relevant reviews about **Mustang Terrace Lounge**:
+
+Most Relevant Reviews:
+
+**1.** Yes... Mustang is a great lounge..just went in the late evening..."
+q004,hygiene,Olive Garden,1,1,0,1,0.75,positive,positive,False,"Based on 3 relevant reviews about **Olive Garden**:
+
+Most Relevant Reviews:
+
+**1.** Good food. Great service. Lovely ambience, especially the lighting. The staf"
+q005,ambience,Barista,0,1,0,1,0.5,mixed,positive,False,I couldn't find relevant information in the reviews or online about 'What is the ambience like at Barista?' for Barista.
+q006,recommend,McDonald's,1,1,1,1,1.0,positive,positive,False,"Based on 5 relevant reviews about **McDonald's**:
+
+Most Relevant Reviews:
+
+**1.** I recently visited a McDonald's outlet, and honestly, it was not a great exper"
+q007,quality,Hyderabad Chefs,1,1,1,1,1.0,positive,positive,False,"Based on 1 relevant reviews about **Hyderabad Chefs**:
+
+Most Relevant Reviews:
+
+**1.** This place surprised me with its taste and quantity whenever I ordered fr"
+q008,service,BOX8 - India's Largest Desi Meals Brand,1,1,0,1,0.75,positive,positive,False,"Based on 5 relevant reviews about **BOX8 - India's Largest Desi Meals Brand**:
+
+Most Relevant Reviews:
+
+**1.** Box8 makes the freshest and fastest meals, and is"
+q009,price,Zega - Sheraton Hyderabad Hotel,1,1,0,1,0.75,positive,positive,False,"Based on 5 relevant reviews about **Zega - Sheraton Hyderabad Hotel**:
+
+Most Relevant Reviews:
+
+**1.** Zega is surely the best restaurant in Hyderabad. Second t"
+q010,hygiene,Mohammedia Shawarma,1,1,0,1,0.75,negative,negative,False,"Based on 5 relevant reviews about **Mohammedia Shawarma**:
+
+Most Relevant Reviews:
+
+**1.** The place is more a storage room than a shawarma outlet. Doesn't upho"
+q011,ambience,Behrouz Biryani,0,1,0,1,0.75,negative,positive,False,"Based on 1 relevant reviews about **Behrouz Biryani**:
+
+Most Relevant Reviews:
+
+**1.** The Behrouz Biryani is the Royal Biryani. The flavour of Rice is super an"
+q012,recommend,Frozen Bottle,0,1,1,1,1.0,negative,positive,False,"Based on 1 relevant reviews about **Frozen Bottle**:
+
+Most Relevant Reviews:
+
+**1.** Yesterday visited this place for the 1st time to try icecream milkshake whi"
+q013,quality,MOJO Pizza - 2X Toppings,1,1,1,1,1.0,positive,positive,False,"Based on 5 relevant reviews about **MOJO Pizza - 2X Toppings**:
+
+Most Relevant Reviews:
+
+**1.** Mojo Pizza offers variety of amazing and delicious pizza's with "
+q014,service,Dunkin' Donuts,0,1,0,1,0.75,negative,positive,False,"Based on 5 relevant reviews about **Dunkin' Donuts**:
+
+Most Relevant Reviews:
+
+**1.** Its was very great service from you Dunkin donuts and the ambience was rea"
+q015,price,Kritunga Restaurant,1,1,0,0,0.5,positive,positive,False,"Based on 5 relevant reviews about **Kritunga Restaurant**:
+
+Most Relevant Reviews:
+
+**1.** Very good ambience good food and very friendly staff comparing to all"
+q016,hygiene,Feast - Sheraton Hyderabad Hotel,1,1,0,1,0.75,positive,positive,False,"Based on 2 relevant reviews about **Feast - Sheraton Hyderabad Hotel**:
+
+Most Relevant Reviews:
+
+**1.** Sheraton is one of the best hotels in Hyderabad but thei"
+q017,ambience,B-Dubs,1,1,0,1,0.75,positive,positive,False,"Based on 3 relevant reviews about **B-Dubs**:
+
+Most Relevant Reviews:
+
+**1.** The ambience of this place is amazing. B dubs is the best place to be during any m"
+q018,recommend,Royal Spicy Restaurant,1,1,1,1,1.0,positive,positive,False,"Based on 3 relevant reviews about **Royal Spicy Restaurant**:
+
+Most Relevant Reviews:
+
+**1.** The food was far more spicy than what was mentioned in the instruc"
+q019,quality,La La Land - Bar & Kitchen,1,1,1,1,1.0,positive,positive,False,"Based on 5 relevant reviews about **La La Land - Bar & Kitchen**:
+
+Most Relevant Reviews:
+
+**1.** La La Land! Ambiance- 3.5/5 It has a black theme with modern c"
+q020,service,10 Downing Street,0,1,0,1,0.75,negative,positive,False,"Based on 1 relevant reviews about **10 Downing Street**:
+
+Most Relevant Reviews:
+
+**1.** A grand entry, decent ambience and average food. That just about sums i"
+q021,price,Asian Meal Box,0,1,0,1,0.5,mixed,positive,False,"Based on 4 relevant reviews about **Asian Meal Box**:
+
+Most Relevant Reviews:
+
+**1.** Meal box are value for money. The tossed noodles are soft and much healthi"
+q022,hygiene,KS Bakers,1,1,0,1,0.75,positive,positive,False,"Based on 1 relevant reviews about **KS Bakers**:
+
+Most Relevant Reviews:
+
+**1.** I often visit this place. It does offer good food and seating. The expense to s"
+q023,ambience,Aromas@11SIX,0,1,0,1,0.5,mixed,positive,False,I couldn't find relevant information in the reviews or online about 'What is the ambience like at Aromas@11SIX?' for Aromas@11SIX.
+q024,recommend,Karachi Bakery,1,1,1,1,1.0,positive,positive,False,"Based on 5 relevant reviews about **Karachi Bakery**:
+
+Most Relevant Reviews:
+
+**1.** It's a good chain of bakery here in the city well they give quite decent q"
+q025,quality,Khaan Saab,1,1,1,1,1.0,positive,positive,False,"Based on 5 relevant reviews about **Khaan Saab**:
+
+Most Relevant Reviews:
+
+**1.** I have been to khaan Saab in Vijayawada earlier and loved the food and ambienc"
+q026,service,The Tilt Bar Republic,1,1,0,1,0.75,positive,positive,False,"Based on 2 relevant reviews about **The Tilt Bar Republic**:
+
+Most Relevant Reviews:
+
+**1.** This is my second visit to tilt bar . Loved the ambience of the pla"
+q027,price,SKYHY,1,1,0,0,0.5,positive,positive,False,"Based on 5 relevant reviews about **SKYHY**:
+
+Most Relevant Reviews:
+
+**1.** DJ floor is the best part of Skyhy 💃 The name of the lounge is justified with a dec"
+q028,hygiene,Triptify,0,1,0,1,0.75,negative,positive,False,I couldn't find relevant information in the reviews or online about 'Are there any hygiene concerns at Triptify?' for Triptify.
+q029,ambience,Frio Bistro,1,1,0,1,0.75,positive,positive,False,"Based on 2 relevant reviews about **Frio Bistro**:
+
+Most Relevant Reviews:
+
+**1.** Had an excellent evening at Frio. Well done coffee with stuffed chicken breas"
+q030,recommend,Karachi Cafe,1,1,1,1,1.0,positive,positive,False,"Based on 5 relevant reviews about **Karachi Cafe**:
+
+Most Relevant Reviews:
+
+**1.** Place is good but they are charging too much cost. Better to go Paradise as "
+q031,quality,NorFest - The Dhaba,1,1,1,1,1.0,positive,positive,False,"Based on 5 relevant reviews about **NorFest - The Dhaba**:
+
+Most Relevant Reviews:
+
+**1.** Located on top floor of SLN TERMINUS , in one of the food court's cor"
+q032,service,Eat India Company,0,1,0,1,0.5,mixed,positive,False,"Based on 4 relevant reviews about **Eat India Company**:
+
+Most Relevant Reviews:
+
+**1.** I have been to Eat India Company twice. To Sum up my experience, I foun"
+q033,price,Chinese Wok,1,1,0,1,0.75,positive,positive,False,"Based on 5 relevant reviews about **Chinese Wok**:
+
+Most Relevant Reviews:
+
+**1.** WOK was tasty. Noodles were soft and the sauces along with all the ingredient"
+q034,hygiene,Zing's Northeast Kitchen,0,0,0,1,0.5,negative,positive,False,I couldn't find relevant information in the reviews or online about 'Are there any hygiene concerns at Zing's Northeast Kitchen?' for Zing's Northeast Kitchen.
+q035,ambience,Driven Cafe,1,1,0,1,0.75,positive,positive,False,"Based on 5 relevant reviews about **Driven Cafe**:
+
+Most Relevant Reviews:
+
+**1.** The ambience is really good. I like the coffee ☕.. The best thing about drive"
+q036,recommend,The Indi Grill,1,1,1,1,1.0,positive,positive,False,"Based on 5 relevant reviews about **The Indi Grill**:
+
+Most Relevant Reviews:
+
+**1.** Had a great time at Indi grill.....Food was very delicious and specially c"
+q037,quality,Delhi-39,1,1,1,1,1.0,positive,positive,False,"Based on 4 relevant reviews about **Delhi-39**:
+
+Most Relevant Reviews:
+
+**1.** Awful food.. no salt no spices.. Shame on a restaurant who has Delhi in it's nam"
+q038,service,The Chocolate Room,1,1,0,1,0.75,positive,positive,False,"Based on 5 relevant reviews about **The Chocolate Room**:
+
+Most Relevant Reviews:
+
+**1.** Have been to The Chocolate Room at other locations so visit to this on"
+q039,price,Hyderabadi Daawat,1,1,0,0,0.5,positive,positive,False,"Based on 5 relevant reviews about **Hyderabadi Daawat**:
+
+Most Relevant Reviews:
+
+**1.** I happen to visit Hyderabadi daawat with family .. 14 members.. after l"
+q040,hygiene,Udipi's Upahar,0,1,0,1,0.5,mixed,positive,False,"Based on 1 relevant reviews about **Udipi's Upahar**:
+
+Most Relevant Reviews:
+
+**1.** Not up to mark as per it’s brand name. Food is just like ordinary tiffin c"
+q041,ambience,The Glass Onion,1,1,0,1,0.75,positive,positive,False,"Based on 5 relevant reviews about **The Glass Onion**:
+
+Most Relevant Reviews:
+
+**1.** Let me start the review by complementing the owners for a catchy name ,'T"
+q042,recommend,Cream Stone,1,1,1,1,1.0,positive,positive,False,"Based on 5 relevant reviews about **Cream Stone**:
+
+Most Relevant Reviews:
+
+**1.** Cream stone is always best but even when the cake that we require is complete"
+q043,quality,Being Hungry,1,1,1,1,1.0,positive,positive,False,"Based on 1 relevant reviews about **Being Hungry**:
+
+Most Relevant Reviews:
+
+**1.** food quality was not good as expected
+AI Summary:
+ Food quality is highly pr"
+q044,service,Tempteys,1,1,0,1,0.75,positive,positive,False,"Based on 1 relevant reviews about **Tempteys**:
+
+Most Relevant Reviews:
+
+**1.** good service and taste is Good
+AI Summary:
+ Service is appreciated by most custo"
+q045,price,Diners Pavilion,1,1,0,0,0.5,positive,positive,False,"Based on 4 relevant reviews about **Diners Pavilion**:
+
+Most Relevant Reviews:
+
+**1.** Our first experience with diners pavilion was pretty. The ambience was go"
+q046,hygiene,The Old Madras Baking Company,1,1,0,1,0.75,positive,positive,False,"Based on 3 relevant reviews about **The Old Madras Baking Company**:
+
+Most Relevant Reviews:
+
+**1.** The Old Madras has been our go to place for some nice coffe"
+q047,ambience,Beyond Flavours,1,1,0,1,0.75,positive,positive,False,"Based on 1 relevant reviews about **Beyond Flavours**:
+
+Most Relevant Reviews:
+
+**1.** This is the place where the flavor of food and service are like beyond go"
+q048,recommend,Hitech Bawarchi Food Zone,0,1,0,1,0.5,mixed,negative,False,I couldn't find relevant information in the reviews or online about 'Would customers recommend Hitech Bawarchi Food Zone?' for Hitech Bawarchi Food Zone.
+q049,quality,Shree Santosh Dhaba Family Restaurant,1,1,1,1,1.0,negative,negative,False,"Based on 2 relevant reviews about **Shree Santosh Dhaba Family Restaurant**:
+
+Most Relevant Reviews:
+
+**1.** Food Quality Is worst. Literally vomitted all the f"
+q050,service,Club Rogue,1,1,0,1,0.75,positive,positive,False,"Based on 5 relevant reviews about **Club Rogue**:
+
+Most Relevant Reviews:
+
+**1.** The ambience of the club is really nice. The staff are friendly and the best t"

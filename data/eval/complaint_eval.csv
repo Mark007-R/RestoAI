@@ -1,0 +1,397 @@
+text,restaurant,source,rating,gold_labels
+Some of the seafood starters are successful. Appetizers are small in portion size for one person. Salads do not meet expectations.,Karakoy Lokantasi,reviews.csv,3.0,portion
+"Great place to dine..... The sushis are awesome and the ambience is the best you can get.... dj plays some nice tracks staff is corteous Deepak helped me in selecting the cocktail. believe me Nirvana is the best zega cocktail
+
+Best tym to visit late nyt",Zega - Sheraton Hyderabad Hotel,Resreviews.csv,5.0,"service,ambience"
+"Absolutely Delightful Experience at NEO WELCOME!
+
+We had an amazing time dining at NEO WELCOME. We tried the Mysore Masala Cheese Dosa, and it was simply wow — crispy, flavorful, and cheesy in the best way possible. The Schezwan Fried Rice was tasty and generous in portion, perfect for sharing.
+
+We also tried their Cold Coffee, which was slightly on the sweeter side but still refreshing and enjoyable. The Paneer Paratha and Sada Butter Cheese Dosa were equally satisfying and lived up to the expectations.
+
+What really stood out, apart from the great food, was the excellent service. The staff were very attentive — one of the waiters was constantly going around refilling cold water glasses the moment they were empty. Such thoughtful service is rare and truly appreciated.
+
+Located just outside the station, it’s super convenient to get to. Overall, a fantastic veg restaurant with great food, top-notch service, and a welcoming vibe. Highly recommended and a must-visit!",Neo Welcome Restaurant,mumbaires.csv,5.0,"service,food_quality,ambience"
+"Let me begin by saying this place is in a nice location and thats all which is nice about it.
+Based on ratings and a few recommendations we visited the place last weekend.
+We didn't have a reservation but still then we got a table.
+The plates that were on the table were really dirty and also the chutney bowls were broken and stained.
+The staff's behavior was unprofessional as well.
+Of the starters only the Paneer Tikka was worth eating rest everything was missing seasoning or flavor or both.
+The barbecue items were half burnt when they got it to us. Looked like they were leftovers from some other tables.
+The main course was ok.
+The desserts were just edible.",Barbecoa,zomato.csv,1.0,"service,food_quality,hygiene"
+I really loved it... must taste,Dine O China,Resreviews.csv,5.0,food_quality
+Paratha was k... Bt that in that special ntng special ... No papad no salad no dessert... In same amount other restaurants are offering better quality and quantity... And also no proper packaging,Paratha Corner,zomato.csv,2.0,"delivery,portion"
+Visited the oshiwara yokos after a decade & I must say that the quality & quantity of the sizzlers is as good as before. We ordered Steak sizzler & Veg exotica sizzler. The Steak sizzler was amongst the best we have ever had & the veg exotica sizzler was loaded with vegetables. Loved the food & the service. Am so glad you ca. still count of yokos for being one of the best places to eat.,Yoko Sizzlers,mumbaires.csv,5.0,"service,food_quality,portion"
+"Can't recommend them enough. Thank you so much for the beautiful creation, the exquisite taste and timely delivery.",The Ocean - Baking Beauties,mumbaires.csv,5.0,"food_quality,delivery"
+I ordered food online but I wish I went there so that I could’ve had more dishes. The food was totally delicious and their packaging is worth the money. I had Lucknow Chicken Dum Pulao Boneless and it made my day. Quantity looks less but taste makes up for it and you’ll end up having a full tummy. Hyderabadi Briyani is famous but I found this on equal par with it!,NorFest - The Dhaba,Resreviews.csv,5.0,"food_quality,delivery,portion"
+Place is awesome so their craft beers. Liked Belgian Wit and Belgian Strong Ale. Both are amazing. Food taste and quality is good. They must improve a bit on quantity. After all they are charging good price for food. Lot to improve in service. They are not vigilant about customer needs. No cutlery was kept on the table until repeatedly asked for it. Overall it is a good experience.,10 Downing Street,Resreviews.csv,4.0,"service,food_quality,price,portion"
+The food's horrible.  The service is slow and impolite.  The potato wedges are stale and almost uncooked.  The chicken burger smelled awful. I expected better service from Dunkin' Donuts.,Dunkin' Donuts,Resreviews.csv,1.0,"service,food_quality,hygiene"
+Very bad experience. Pizza base and momo was uncooked but when we made it notice by staff they simply wave it off and ignorant after visual proof. Not at all upto the mark,"Pizza Hut | R Mall Mulund, Mumbai",mumbaires.csv,1.0,"service,food_quality"
+"Living in Manikonda, this has been our go-to place for good mughlai food. If you want authentic Hyderabadi biryani, then this should be a default option. 
+
+Have tried multiple dishes from this place so this is kind of a general review. 
+
+The chicken biryani is their specialility. Large fragrant rice which are flaky and yet not oily provide a perfect blend with juicy chicken pieces. Only note is that they serve with one giant chicken piece in the biryani. Smaller pieces would make the biryani more manageable. The quantity is definitely something where even 4 people can easily enjoy a meal.
+
+We tried their haleem too in this Ramzan and it was delicious. Creamy texture with generous chunks of mutton and a small spicy kick to the taste, something which I really prefer in my haleem. 
+
+Avoid going for a dine-in given the crowd but for home delivery, this is a place where you can order anything with eyes closed.
+
+Food - 5/5
+Value for money - 4/5
+Packaging - 4/5",Pista House,Resreviews.csv,4.0,"food_quality,price,delivery,portion"
+"Pretty nice place with great food! I initially thought it would be costlier, but they have quite a lot of quantity, which is great! Overall it's quite a cool place",Urban Asia - Kitchen & Bar,Resreviews.csv,4.0,"price,portion"
+"Kirti Mahal at Paachrasta, Mulund, is a delightful pure veg restaurant that offers an exceptional dining experience. The restaurant's ambiance is cozy, with separate sections for both AC and non-AC dining. The AC section boasts comfortable lounge seating that ensures a pleasant meal.
+
+The staff is a real asset, providing valuable insights to help customers select the best dishes from the extensive menu. We started with the iconic Wada Sambar, a Kirti Mahal specialty. The sambar is authentic and bursting with flavor, invoking childhood memories of craving this classic dish.
+
+One of the highlights of our visit was the Cheese Pav Bhaji, a true taste extravaganza. It's generously loaded with cheese, creating a mouthwatering delight. Don't forget to order extra pav if you're not a fan of waiting, as this dish is immensely popular.
+
+We also tried the Alu Mutter with Butter Roti, and it didn't disappoint. The gravy was expertly prepared, catering to our taste buds perfectly. Overall, our experience at Kirti Mahal was nothing short of awesome. I would give hygiene 4 as there was water dripping from the roof or else would have rated hygiene 5⭐️. If you're in Mulund and seeking a fantastic veg dining experience, a visit to Kirti Mahal is a must. It promises to be a magnificent culinary journey you won't forget.
+
+Average Rating :- 4.8⭐️
+—————————————-
+Ambience            -5⭐️
+Hygiene               -4⭐️
+Food                    -5⭐️
+Staff                    -5⭐️
+Interaction          -5⭐️",Kirti Mahal Veg Restaurant Mulund,mumbaires.csv,5.0,"service,food_quality,hygiene,ambience"
+"Whitefield Marriott is located very near to our Bangalore office. Visited M Cafe for lunch during my recent visit to Bangalore.
+
+M Cafe is a good place to have buffet lunch with a wide spread of buffet, nice ambience and good service. We tried a lot of items in buffet and the food was fresh and tasty.
+
+We tried soup - corn and mint soup, starters - paneer tikka, potato tokri, veg tikki, salads, hummus & pita bread, dahi vada, curd rice, pickled onions, curries - french beans dry, paneer curry, veg kofta curry, dal fry, roti, veg biryani, fried rice, live counter - kathi rolls, desserts - gajar ka halwa, cakes/pastries/tarts, barfi/laddoo, mousse etc.
+
+Overall good food, good ambience and good service. Surely worth visiting for buffet lunch/dinner.",M Cafe - Bengaluru Marriott Hotel Whitefield,zomato.csv,4.0,"service,food_quality,ambience"
+Really good service! Quantity of the dishes were also good. Ambience quiet and peaceful! Good music choice. Will visit again for sure.. it's a good place for a group of friends to hangout! Will recommend others!,Red Onion,zomato.csv,5.0,"service,portion,ambience"
+"I placed an order at this outlet yesterday at 9:15 pm for home delivery, opting for cash on delivery. The app showed an estimated delivery time of 10:00 pm(which was already late considering I only ordered popcorn and wings), but even by 10:30 pm, the status remained stuck on ""We are preparing your order."" I tried calling the outlet twice, but no one answered. The delivery person never showed up, and the app still shows ""Order on the way"" even on the next day.
+
+What’s worse, no staff member reached out to inform me of any delays or issues. A simple call would have allowed me to make alternate food arrangements, but there was zero communication.
+
+This is highly disappointing and unprofessional. If KFC can’t manage home deliveries effectively, they should rethink offering the service. Thankfully, I didn’t pay online, or it would have been even more frustrating.
+
+I don’t recommend opting for home delivery from this location – it’s unreliable and poorly managed. If you’re craving KFC, dine-in or takeaway might save you a lot of frustration.",KFC,mumbaires.csv,1.0,"service,delivery"
+The food taste amazing and the quality of food is good! The quantity is good in cheap price! Soo Highly suggest you all to order from MAP!!!,MAP- My Appetite Place,zomato.csv,5.0,"food_quality,price,portion"
+Chinese Very bad given a worst quality of food and service behaviour is bad... don't go for it's quality of food bad...,Om Sai Fast Food Center,mumbaires.csv,1.0,"service,food_quality"
+Captain Narendar was really good. Service was amazing and so was the ambience. Honey chicken was really good. Dum biryani could have had a little more flavour. The staffs were very sweet,The Indi Grill,Resreviews.csv,5.0,"service,food_quality,ambience"
+"This place provide good food and alcohol with reasonable prices. They have variety of biryani in chicken and sea food.
+Place is big but visitors were less in number",Basmati Bar & Restaurant,zomato.csv,3.0,variety
+"I've been visiting this place for a long time. The food never disappoints , the only thing lacking was ambience, which when I recently visited I found the place fully renovated and I'm sure it is worth visiting to see how they have changed from the old run down lock to a latest look. From resin design tables to comfy seating it has it all.
+
+I'm sure u found me talking only abt the ambience....because the food will never disappoint from all kinds veg/non veg dishes.Indian, Chinese starters.","Uncle's Corner, A Family Restaurant",mumbaires.csv,5.0,ambience
+"Reached here around 6.30 pm.. Inquired for happy hours but was informed that it ends at 7pm...so placed orders for beer ...had asked to get the beer first , but the beer was deliberately brought late to the table time and again to cross the happy hours. Even the second time on addressing this to the server was informed that the service personnel on the upper floor was new and beer was being dispatched from the dispenser...what rubbish reasoning , we asked for the pint to be brought to the table just like other restaurants do but they were refusing to do so...there were mosquitoes in the resturant which kept on bitting us at the table...there was a hostess at the entrance who was just making faces when we had queries . The food was just fine , nothing that great , the veggies on the chicken had no seasoning but just served for the sake of it...music was being played and stopped a million times...the restroom had a leak issue in the urinal wherein everything was seeping down to the foot from the urinal pipe which was disgusting.
+The management has either taken their guest for granted or are not bothered..",The Fusion Kitchen,mumbaires.csv,3.0,"service,food_quality,delivery,ambience"
+"Good variety of ice cream,but "" Guava icecream with chilly powder""is a must try",Apsara Ice Creams,mumbaires.csv,5.0,variety
+Great ambience. Very good service. Its a great place to go out with dates or family. As it is situated outside the place is quite peaceful too.,The Glass Onion,Resreviews.csv,4.0,"service,ambience"
+"The terrace is the place to be at any given time. The open to sky, Terrace at the Windmills is a lovely place. The brew is their signature so is their service. Very friendly staff and good mouth watering food. Hence, this is slightly priced place for either lunch or dinner. The ambience is casual but the food and service is worth the money spent. They can get more starters may be. The sunday brunch is worth trying and you will not regret it.
+
+Note: please check the weather before visiting this place.",The Terrace at Windmills Craftworks,zomato.csv,4.0,"service,ambience"
+"Literally the worst experience ordering from dominos. My order number was 303 and i had ordered it on 17 feb. I had ordered 700 worth ruppees order. Something which i don't normally order. I ordered medium size cheese and corn, 2 stuffed garlic bread, 2 cheese dips, and one chocolava cake. Now the pizza was soo small  like so small, and it looked like it was sitting for a day, it was not hot, and literally no cheese, I had ordered a medium size pizza, that pizza was so worst that even a 100 rs pizza would have been better. After that the stuffed garlic bread,  it had literally zero cheese inside, like some were there, but mostly didn't. It was a 700 ruppees meal payed for. When I reached them for a refund, there is no response from them. I felt like I have been cheated, they said they will call within 24 hours, but today's it's 19th. I request don't ever order from here, literally the worse service till date. Dominoz if you are reading this, my order number is 303 and I had ordered from mulund east. But I guess I don't even think there  is any use  writing here.","Domino's Pizza | Mulund East, Mumbai,",mumbaires.csv,1.0,"service,food_quality,portion"
+Order was declined after payment went thru because there were no agents to deliver. They should not have accepted order if they know they cannot deliver. The refund process is a big headache. Worst experience,Royal Restaurant,zomato.csv,1.0,delivery
+I have ordered home delivery from this place and i would definitely recommend their pole star burger. Yummy grilled chicken and oozing cheddar cheese. Absolutely delicious,GD's,Resreviews.csv,5.0,delivery
+We always buy our cakes from this shop & they keep very good fresh variety. One can get lost admist the  cakes into a dreamy world! Our experience has been good.,Monginis Cake Shop,mumbaires.csv,5.0,variety
+"Good food. Recommend the garlic fried rice and fried ice cream. The veg dimsums are also very good. The only problem is the service, it's a bit slow.",Urban Asia - Kitchen & Bar,Resreviews.csv,3.0,service
+Loved their varieties...red velvet cream cheese pastry is really mouth melting...and pizzas as well ...we regularly visit here..great variety and great taste...,KS Bakers,Resreviews.csv,5.0,"food_quality,variety"
+Very good place to visit and I can  promise you wont find a better place with the combination of best  price list with this ambience and the staff.,La La Land - Bar & Kitchen,Resreviews.csv,5.0,"service,price,ambience"
+"Kindly check the Order and Amount with the GST Invoice and they cheat with Order Qty and Amount.
+Charged 650 instead of Invoice 648.48 without our knowledge.
+It's not matter for INR 1.5 but they fooling us, Dominos,
+No clean, no hygiene maintained
+
+Just give a check, the lady preparing Pizza her hand is not clean. She prepares with a bare uncleaned hand...","Domino's Pizza | Kharegaon West, Thane",mumbaires.csv,1.0,hygiene
+"Ordered a double Chicken and double egg Maggi and an egg Maggi. It was delivered to me while it was still hot and steamy that way you can be sure that it isn't sticky or soggy. It also tasted really good and was cooked properly. They had good amount of egg and chicken in both the dishes. The quantity was really good and it is worth the money.
+Taste : 4/5.",Hunger Maggi Point,Resreviews.csv,4.0,"food_quality,delivery,portion"
+We ate 3 Bentos and 3 Mixed Noodles. We liked everything we ate; it was very tasty. The service was fast; but it was a bit expensive for your information.,Red Dragon,reviews.csv,5.0,"service,food_quality,price"
+"Continental fusion place with limited menu options. The food is above average. If you are a vegatrian, you will hate this place. Lovely ambience and hospitality.",Fenny's Lounge And Kitchen,zomato.csv,4.0,"ambience,variety"
+Just now had a buffet lunch and right now in restaurant only and writing this review. Not much option for vegetarians. Service is pathetic as we have to ask for starters and they are not serving and waited for 10 mins and had main course. After that they served remaining starter. Dessert were not at all good in quality.,La La Land - Bar & Kitchen,Resreviews.csv,1.0,service
+A place to rent amazing bikes and cars and a perfect background for your photos.. this place had a lot of photoshoots going on when we went there.. Food was okeish but ambience is great..,Driven Cafe,Resreviews.csv,4.0,ambience
+I ordered a chicken biryani at a cost 120rs which is an affordable price to have food for one person. But in this restaurant immediately when the order came I am really frustrated to see the quantity and quality. First talking about quantity it doesn't satisfy the hunger of atleast one person and then talking about quality it was not served hot . Readily packed food and looks like as it was not cooked fresh may be cooked atleast a day before I guess. I suggest my friends and colleagues never select this restaurant and I'll never order from this restaurant. I am even wondered how come this restaurant get 2.6 rating which is too high. Waste of money and time going to this restaurant and ordering from this restaurant.,Hitech Bawarchi Food Zone,Resreviews.csv,1.0,"food_quality,price,portion"
+"A name which captivated us into dreaming of all the delicious food we have missed during the lockdown..😋 Their menu mainly comprises North Indian & Chinese cuisine. The food was delivered in neat packaging. We ordered the following :
+Chicken Crispy - As the name goes, the chicken coating was crispy and was a great start to this hearty meal. Not too spicy, the quantity was great as well..😁
+Veg Manchurian Rice - Simple veg fried rice combined with scrumptious manchurian gravy. The manchurian was itself well cooked and soft..
+Chicken Chilli Rice with Gravy - Chicken fried rice was delicious and good in itself, but when combined with the flavour packed chicken chilli gravy it was mouth watering to say the least. The gravy was thick and had large chunks of chicken..🤤
+Paneer Butter Masala - Soft chunks of paneer cooked in medium spicy gravy with a few veggies. It was not the best, but it was not bad either..",Mumbai Dreamz,mumbaires.csv,4.0,"food_quality,delivery,portion"
+"I have ordered 2 special chicken biryani's and received two ordinary biryani's with bones! This is a big time disappointment. This place was known for its Biryani and now I feel like I have had a worst biryani.
+
+It costed 400 bucks each and receiving the same 200 bucks biryani has been my worst experience.",Paradise,Resreviews.csv,1.0,"food_quality,price"
+"Cream Centre Veg Bistro- Proudly Veg restaurant in Mumbai. I visited their outlet in Phoenix Marketcity at Kurla. I had a great experience in the Cream Centre at City Mall.
+
+We had Veg Manchow soup and Spring Veggie Soup. Both are good in taste. Then we had Delhi chaat and papdi chaat. Both chaats were okay. Not so great.
+
+In the Main course, we had Veg Nazami and Dal Makhni with Tandoori Roti and Naan. The food was delicious and flavoursome.
+Not spicy not oily. All ingredients were fresh and the spices were perfect. Don't miss their CARROT PICKLE😍 best in taste. They also served vinegar onions.
+I also had lemonade which was refreshing for me.
+The quantity was good enough for the two of us. We loved the quality and taste.
+
+The ambience and seating arrangements were great.
+Must appreciate their hospitality esp Manager Mr. Raees Deshpande, Chef Mubin and Deepak who served us. Other staff were also courteous and attentive.  Thank you for serving us.
+
+I recommend this place for great food experience.",Cream Centre,mumbaires.csv,4.0,"service,food_quality,portion,ambience"
+"Visited on a Tuesday for lunch buffet. Starters were hot and served on the table. Paneer, baby corn, and tandoori veggies were good. Gobi manchurian was okay, fried crispy corn was salty, mirchi bhaji was as usual.
+Main course had paneer, potato, dal fry, plain rice, veg biryani, lemon rice, rasam, sambar, tomato gojju, tindora palya, all tasted average. Butter roti and neeru dosa were served on the table.
+Deserts section had strawberry and vanilla flavored ice cream, dry jamun, pastry, pumpkin halwa, kheer. Except pastries rest tasted okay.
+Food 3*
+Ambience 2*, compared to other restaurants in similar range
+Service 2.5*, slow",24th Main,zomato.csv,3.0,"service,food_quality,ambience"
+Too much cheese and also it smelled stale,Karachi Bakery,Resreviews.csv,1.0,"food_quality,hygiene"
+"I have been to this place couple of times, once for lunch with my office team and trust me we had a great time and enjoyed the buffet spread and food. They had more then 50 dishes and live chats, salads, teppanyaki, Jelebi etc...
+
+One of the Sunday happen to be here with my family and some of my close friends for Brunch chapter, again awesome food and amezinvg offerings of fresh sea food to choose, dosa, pasta, grills, teppanyaki, chats, Jelebi etc.. They have drinks packages from food + beer to IMFL, brunch starts from 12pm and goes until 4pm, to pepup the ambience they have a live band. Must try the brunch chapter to expereice all new Opus food stories...
+
+Service staff are polite and they know what to be done and they will take care very well.
+
+Ambience is really classy and they have indoor and outdoor seating options",Opus Food Stories,zomato.csv,5.0,"service,delivery,ambience"
+"Shawarma tasted so bad and it isn't worth the money.
+It was delivered quickly so I guess haste makes waste..
+So I guess now I reached the word count.",Mohammedia Shawarma,Resreviews.csv,1.0,"food_quality,delivery"
+"The Amazing place just opposite to Vashi Railway Station.
+
+They serves delicious veg food.
+
+The restaurant has a very casual seating, both- AC and non-AC,. Both sections are good in terms of ambiance.
+
+Staff were well trained and our server Mr. Randip Singha was helpful and friendly.
+
+Few dishes that we tried here:
+
+MOCKTAILS
+
+VIRGIN MOJITO
+SNOW BALL
+MOSAMBI TWIST
+
+They really have some amazing variety for mocktails,
+SNOW BALL is the finest mocktail they have , the watermelon blended with vanilla Icecream tastes too good
+
+STARTERS
+
+KOTHIMBIR WADI
+Golden brown fried wadi and crispness drooling in the mouth.
+
+HARA BHARA KABAB
+Best and forever favourite.
+
+MUSHROOM CHILLI DRY
+Another good Chinese starter. Tasty.
+
+VEG MANCHURIAN DRY
+Very nice in taste and perfectly cooked.
+
+MAIN COURSE
+
+VEG CHILLI MILLI & KULCHA
+
+Scrumptious and tempting red gravy with mix veggies goes well with kulcha.
+
+DESSERT
+GULAB JAMUN
+Awesome , perfect ending to our meal.
+
+If you're looking for some pocket friendly restaurant in and around Vashi station, this is the place I would Totally recommend!
+Overall it a must go place for vegetarians. They have lots of variety and quality, quantity is also good of the food.
+Had an amazing experience here!",Vasundhara Restaurant,mumbaires.csv,5.0,"service,food_quality,portion,ambience,variety"
+"Childhood of 80's and 90's Kids are incomplete without cakes, pastries and puffs from Monjinis. Monjinis cakes are Nostalgia.
+
+I am having it after almost more then a decade.....
+
+I used to buy their Swiss Roll cake which used to cost approx 40 to 50 rupees which they have stopped making it ... (please start making it again)
+
+Tried its blueberry, devils delight and Brownie square pastry..
+
+Devils Delight : still a decent pastry then blue berry not but mouthwatering 2/5
+
+*** stars for childhood",Monginis Cake Shop,mumbaires.csv,3.0,price
+"🥟 D I M S U M   W U 🥟
+
+Located in Goregaon East, Near railway station, Dimsum wu is now one of the most emerging food restaurants which serve great quality food and a variety of Chinese, Bao's, Momos and other delicacies. This place is very clean and hygienic and well maintained. Recently ordered few items from here :-
+
+▪️Chicken Lollipop - One of the best seller items of dimsum wu, 6 pieces of fried chicken Lollipop tasted very good and was an amazing starter option.
+
+▪️Burnt Chilli Garlic Rice Chicken - A combination of chicken pieces with a tasty blend of chili garlic sauce was an amazing rice option which was of good taste & quantity.
+
+▪️Nasi Goreng Chicken - One of the best items you can order from dimsum wu. It was mouthwatering & tasty and was value for money. Loved the taste & quality.
+
+All the food items i ordered were absolutely fresh and delivery was done before time & the food was warm. Packaging done was perfect and the food quality was great. The food quantity was decent and filling with alot of chicken pieces. Dimsum wu has all the items priced reasonably and provide value for money. My Ordering experience was wonderful and I would highly suggest everyone to order food from here and have a great time.",Dimsum Wū,mumbaires.csv,5.0,"food_quality,hygiene,price,delivery,portion,variety"
+"A small calm cafe and co-working space in walkable distance from Belapur railway station and metro station. Great Ambience and amazing food. Warm service too. Tried flavoured latte and chicken bonanza pizza. Latte was usual but pizza was worth every penny.
+Being a co-working space, the chairs weren't very comfortable for sitting down for a long time.
+Free wifi and outdoor seating is available. Smoking allowed at outdoor seating.",Chaai Centre Café & Co-working,mumbaires.csv,4.0,"service,food_quality,ambience"
+"We stopped by for a quick drink and some bites, and it was a delightful experience! The grilled pepper chicken was perfectly seasoned and packed with flavor, while the fish fingers were crispy, fresh, and absolutely delicious – both are a must-try. A special shoutout to the captain, who was incredibly courteous and ensured everything was just right. It's these little touches that make such visits memorable. Highly recommend it for anyone looking for great food and excellent service!",JUGHEAD's,mumbaires.csv,5.0,"service,food_quality"
+While visiting my hometown took some chocolates from this place..It was simply mind blowing..The different varieties of ice cream simply add extra to the different variety of chocolates they provide..simply chocolacious :-),Ooty Chocolates,zomato.csv,5.0,variety
+"The traditional chicken sandwich was amazing, but the Earl Grey tasted like salty water :(.
+Will be back to try the pastries. Environment was pleasant but could have been a bit cleaner",The Chocolate Room,Resreviews.csv,3.0,food_quality
+"One of my favorite restaurants in the locality. Great food. Good interiors and good service. I love their set of menu. The quality, portion size and the taste of food never disappoints. Some of my favorites are stuffed chicken breast, curry cream risotto with chicken and broccoli and Hyderabad hot pizza.",Frio Bistro,Resreviews.csv,5.0,"service,food_quality"
+"I recently visited Soma at the Grand Hyatt and had a mixed experience. The highlight of our meal was undoubtedly the assorted veg tandoori platter, which was delicious and paired perfectly with the soft and fresh romali roti. The flavors were spot on, and it was a delight for the taste buds.
+
+However, the service left much to be desired. It seemed the restaurant was understaffed, and we found ourselves repeatedly calling for service. Despite requesting cut lemons, they never arrived at our table. No one checked in to see how our meal was, which is an essential part of good service. Additionally, when we asked one server for the menu, it never came, and we had to request it from another server.
+
+These service issues need significant improvement to match the quality of the food. Attention to customer service is crucial, and Soma needs to address these lapses to provide a complete dining experience.",Soma,mumbaires.csv,2.0,"service,food_quality"
+I can't tell you how awesome the food has been. I ordered Chinese Choupsey and Hot Asian noodles with a Roasted veg shack. Damn. I was shook at the quantity because it was a lot for 2 people. Absolutely Loveddddddd how it tasted! I cannot begin to explain the amazing taste of the sautéed and partially barbecued flavor of the vegetables. I'm a pure vegetarian and Lal exchange is now my fav place to eat now. 💜,The Lal Street - Bar Exchange,Resreviews.csv,5.0,"food_quality,portion"
+"This cake shop is best for pastries , I specifically loved the ras malai pastry & the zebra torte & the Ferrero Rocher cake was tasty as well, but pastries are slightly expensive, quality is better but quantity is slightly less than we expect , but overall good cake shop, staff is helpful",Monginis Cake Shop,mumbaires.csv,3.0,"service,food_quality,price,portion"
+"In my life the worst exp.. i had as a foody lover. Dont know what quality of basmathi rice they r mixing for biryani i think 30rs 40rs rice itseems
+The price of all items is very high..and service is too bad. The food path 50rs biryani is better than pista house.. Chii chii.. I think gachibowli brand is not original. Dear managment plz check with the quality of food and employees",Pista House,Resreviews.csv,1.0,"service,food_quality,price"
+"The Old Madras has been our go to place for some nice coffee with a sandwich whenever the weather is nice and you want to enjoy it sitting outdoor.
+
+The coffee is quite good, with a lot of variations available. The best part is the freshly baked breads. Those beautiful, soft breads make the sandwiches all the more tasty when grilled with butter. Even the puffs and Victoria cake are nice to have.
+
+Coming to the worst part - the service. In all my visits over the past couple of months, this has been the biggest turn off about this place. Almost always, I had to go to the counter to place the order instead of a waiter coming over. Second would be the cleanliness of the outdoor seating. More often than not, you can see flies buzzing over the tables. Though the kitchen looks quite hygienic.",The Old Madras Baking Company,Resreviews.csv,3.0,"service,food_quality,hygiene,ambience"
+Testy Food and Really awesome variety Foods.. Yummy,Variety Fast Food,mumbaires.csv,4.0,variety
+Very bad delivery options.. even when we pay online dey come to d door step and fight for cash saying itÃÃÃÃÃÃÃÃs not paid even when we can see itÃÃÃÃÃÃÃÃs showing payment done.,Spice Up,zomato.csv,1.0,delivery
+Stopped for lunch here. Service is very quick and polite. Ordered two family pack biryani for 7 of us. Quantity is quite good. Moreover the biryani is awesome. One of the best biryani places in and around. Keep it up.,Hyderabadi Daawat,Resreviews.csv,4.0,"service,portion"
+"Tried Aami Kolkata for the first time last week and the food was great. Nicely cooked, very tasty and well presented. Overall a good meal with reasonable pricing.",Aami Kolkata,zomato.csv,5.0,"food_quality,price"
+"Clean and neat place for some Arabian food as we usually get to see some unhygienic places for this cuisine and mainly Mandi.
+
+Went for lunch with a group of ten and got to order many varieties as we opted for ala carte even though the Buffet was reasonable and had many varieties.
+
+Mandi rice was great but chicken faham isn’t soft at all. Mushroom tikka is sweet as it contains some raisins.
+Food :3.50
+Service : little slow. Plan and order in one shot
+Hygiene : 4
+VFM : 3.5
+Worth visiting once more: Yes
+Must try : Mandi",Marsala Food Company,Resreviews.csv,4.0,"service,hygiene"
+"Located on Sarjapur Road, opp. Fire station. It is cafe style ice palour serving wide variety. We have tried burger and pizza. Both were above average and good quality ingredients. Taste is refreshing. Value for money. Well-managed.",Stoner,zomato.csv,4.0,"food_quality,price,variety"
+IÃÃÃÃÃÃÃÃve had almost everything here!! ItÃÃÃÃÃÃÃÃs good. Hygienic. ThereÃÃÃÃÃÃÃÃs no seating arrangement here. The meat is usually well done and it just melts in the mouth.,Allana Kabab,zomato.csv,4.0,"hygiene,ambience"
+Ordered pack of dabeli for rs.49 today. The packing was neat. The size of dabeli was to the mark. Taste was just yum. Over all value for money :),Chaatimes,zomato.csv,4.0,"food_quality,price"
+"Ordered Chicken kolhapuri via swiggy and the experience was top notch . The gravy is to die for.. Spicy, succulent.
+
+This is the best and spiciest chicken kolhapuri I had in last 2 years.
+
+It appears it's slow cooked and boneless chicken is then dipped in the gravy.
+
+The aroma was fantastic and was feeling great having this curry.
+
+I can still feel it in my mouth... Kudos to the chef
+
+Taste 5/5
+Quantity 4/5
+
+Will definitely try other curies from this place.",Aromas@11SIX,Resreviews.csv,5.0,"food_quality,delivery,portion"
+"On a fast day, i visited this place. Ordered plain tea and sabudana khichdi.
+Dhirde - 4 star
+Thalipeeth - 3.5 star
+Misal pav - 2.5 star
+Roti thali and paratha thali - 3 star
+Sol kadi - 4 star
+Masala jeera - 4 star
+Modak - 3 star
+Tea - 4 star
+Khichdi - 3 star - too oily, average taste but very good in quantity and bit pricy but its ok considering you are not in maharashtra.
+Newly opened place on Oct 12, 2018. Clean, spacious and positive feeling.
+Staff is really good. They play marathi songs and are very soothing.
+I am sure they will do better than hsr bcoz north bangalore is new bangalore now. All the best and will visit again for your thalis.",Purnabramha Maharashtrian Restaurant,zomato.csv,4.0,"service,food_quality,price,portion"
+Taste was not Good (Quantity also less then what I ordered),BTM Cakes,zomato.csv,2.0,"food_quality,portion"
+"If you’re looking for the best Gujarati & Rajasthani thali in Mumbai, this place is an absolute must-visit! After trying multiple thali spots, I can confidently say this one is my favourite & it delivers on taste, authenticity, and value.
+✔ Authentic flavors– Every dish, from the dal dhokli to the kachori or basundi , tastes like home-cooked perfection.
+✔ Variety overload
+✔ Budget-friendly
+✔ Great hospitality – Warm, welcoming service that makes you feel like royalty.
+
+From the rich, ghee-loaded rotis to the perfectly spiced sabzis and sweets that melt in your mouth, everything about this thali is pure bliss! If you love Indian cuisine, don’t miss out on this royal feast at an affordable price.",Maharaja Bhog,mumbaires.csv,5.0,"service,food_quality,price,delivery,variety"
+"Only 3 stars for taste of food. So visited here with colleagues for lunch.
+Have expected a good ambeince but too crowded and service was at its lowest,
+Might be only cause of Friday.
+But Food was good.
+And Little conjested place.",The Tilt Bar Republic,Resreviews.csv,3.0,"service,food_quality,ambience"
+"Mani's Lunch Home in Chembur near Saibaba Mandir next to Malhaar restaurant. Every visit is a culinary treat to the tastebuds. Dosa items, Idli, Vada, Onion Adai, Ragi dosa, Chettinad Dosa, Curry Leaves Dosa, South Indian Thali and many other items - always taste the best. The servers and rest of the staff is always quick, courteous and hygienic.
+One needs to also try their sweets - Boondi Laddoo, Jangiri, Balusha, Rava laddoo - they are yummy, delicious and very savory
+Not to forget the Pineapple Sheera, which is another delight for your taste buds.",Mani's Lunch Home,mumbaires.csv,5.0,"service,food_quality,hygiene"
+"This is kerala achayan's hotel. The food are tasty and cheap. I tried aapam and chicken roast & beef roast. Kerala meals and biriyani not that much tasty compared to nearby Joe's mess.
+You should try lemon tea (tea+lemon+pudina leaves), its really tasty, I tasted leamon teas from different places but this one is very tasty...",Thrupthi Restaurant,zomato.csv,4.0,"food_quality,price"
+"Very good place to eat.
+Nice ambience.
+
+The food was very good.
+Many varieties in starters and desserts compared to other places.
+
+Fish starters were tasty.
+
+What was not good:
+The live counter pulav and pizza was a disappointment.",Cascade - Radisson Hyderabad Hitec City,Resreviews.csv,5.0,"food_quality,ambience"
+"I am a regular customer when it comes to ordering from amul. I ordered ""all chocolate ice cream"" from amul. According to the description there was supposed to be perk and kitkat and hot chocolate fudge in it but there was nothing of it. It was a normal choco chips ice-cream which I could have got for 80Rs instead I paid 180Rs for it. My suggestion just order basic ice-creams from amul don't go for anything else which is costly. And when the delivery boy delivered the ice-cream it was melting. Disappointed by the service of the outlet.",Amul,Resreviews.csv,1.0,"service,price,delivery"
+"Ahmed Bhai- Fear God!
+
+The service and the staff are absolute mawali’s. The food is hit or miss, I have dined here multiple times and had issues too but drawing the line today. I got served haleem in a chutney container, trust me the food is more expensive than any 5 star celebrity chef restaurants. Got a squeezed lemon, some fried onions in a container of a same size.. it’s madness. Checkout malpua with double rabdi too.",Ahmed Bhai's Bry & Dry,mumbaires.csv,1.0,"service,price"
+"Recently visited Urban Juice Cafe at Virar west. The ambience of cafe was nice & they have amazing outside seating area  - - The food was delicious
+- They have different varieties of snacks with amazing taste.
+-  Prices are affordable & staff was friendly👍
+
+What I tried :
+1) Tandoori Nachos - Crispy nachos wid lots of cheese & tandoori sauce.
+2) Alfredo Pasta : Pasta wid mushroom &
+loaded cheese and garlic bread.
+3) Strawberry Shake - Fresh strawberries with yummy fresh cream.
+4) Kiwi passion :- Fresh kiwi drink with little tangy taste.
+- I had amazing experience. I really enjoyed the food & drinks, specially Strawberry Milkshake.
+- Must visit this place 💕✌️",urban juice cafe,mumbaires.csv,5.0,"service,food_quality,price,ambience"
+This place is no hygienic. Food wise they have all the varieties in the menu. Pocket friendly also. I suggest you to try this for regular meals.,Vishwaas Take Away,zomato.csv,3.5,hygiene
+BEFORE ENTERING THIS RESTAURANT MAKE SURE YOU ARE CARRYING CASH..THEY DONT ACCEPT GPAY AND CARDS( WHEN EVERYONE DOES ACCEPT IT AND ITS DIGITAL INDIA)... THEY DON'T EVEN INFORM YOU ABOUT IT AND YOU MIGHT END UP VISITING THE NEAREST ATM TO PAY THEM ...THEIR FOOD IS GOOD...BUT THE PLACE IN GENERAL IS UNHYGIENIC..THEIR TOILET STINKS..,Cafe Firdos,mumbaires.csv,3.0,hygiene
+"This place is Gold if you want a good dining experience in financial district. Amid all the star hotels and big names, this place has made its mark. It is not cheap but thats fine, considering the portions they serve and taste. You will be done with one burger or a rice/roti with a curry. Zomato Gold comes to your rescue if you have one. I like simple chicken burger and lemonade. Burger come with some potato wedges, salad.",Deli 9 Bistro,Resreviews.csv,5.0,"food_quality,price"
+Good vibes. Service was pretty fast. Non-profit Veg platter is very tasty and it is more than sufficient for 2-3 people who came for beer & chill.,Shift,zomato.csv,4.0,"service,food_quality"
+"Nice place to have Authentic Kerala Food in a decorated, luxury style ambience. The restaurantÃÃÃÃÃÃÃÃs interiors r designed to resemble that of a naalukett... It is a bit dark, situated in the first floor.
+The foodÃÃÃÃÃÃÃÃs tasty. Had Porotta, Chicken Varattu arachad and Beef Fry. Chicken Varattu arachad was nice. Beef fry quantity was less while Porotta was fine. But not the best though. Lime soda was a let off as the soda had very lil gas.
+The pricing is reasonable, more to the expensive side though.
+Service is ok. Neither tooo bad or tooo goood.
+Parking is a headache as the main road is a no parking zone.",Kumarakom,zomato.csv,4.0,"service,food_quality,price,portion,ambience"
+"Very niceee place. Loved it 😍
+Its big place spread across 3floors. Ambience is too good. Each floor has different ambiance. We choose to sit rooftop. DJ was keeping the atmosphere good.. But can be more good!
+We had chicken n fish starters n drinks. Fish was not so good (had some odd smell), when we informed them, our dish was replaced with chickentikka which was tasty!!
+Overall nice place to hangout.",PourHouse7,Resreviews.csv,3.0,"food_quality,hygiene,ambience"
+"Missing the college canteen vibes ?
+Well , this is the place to go if you want to have some really great food along with those long lost conversations ! The Ambience is very nice surrounded by greenery from all the sides. The staff is polite.
+
+My personal favorites are : Chai , Maggi 038 , Ghar Wala nashta and poha.",Kanteen 038,zomato.csv,5.0,"service,ambience"
+"We went there for buffet, very few options are there, for non veg only 2 types of chicken and one fish dish...for veg only couple of items... Area is also very small... They need to improve a lot...for food taste and their service...
+Food - 2/5
+Ambience - 2/5
+Service - 2/5.
+
+Need to improve a lot...",Bamboo Shades,zomato.csv,1.0,"service,food_quality,portion,ambience,variety"
+"Visited this place last weekend , and oh boy, the quantity served was humongous. I went for the Double Chicken cheese Shawarma and the amount of  Cheese they added was quite impressive. We ordered for the double chicken very peri shawarma, in which the quantity was good but wasn't spicy as we expected. It has a mild flavour of sauces used, would have liked it if it was a bit spicy. Costed us around 340 for two. Overall, a good deal.",Oho Shawarma Nerul,mumbaires.csv,5.0,"food_quality,price,portion"
+"I ordered Thai chicken rice. First of all, it is on the expensive side. Second, the quantity wasn't good, third it was spicy. Seems like they are spending more on fancy packaging than the actual food.",eat.fit,Resreviews.csv,2.0,"price,delivery,portion"
+"Nestled in the heart of Sion, Mumbai, Modern Lunch Home is a Safe-to-pocket and a foodie's paradise that promises an unforgettable seafood experience. Renowned for its authentic Malvani-style seafood, this eatery has garnered praise for its delectable offerings and warm hospitality.
+The menu boasts a variety of coastal delicacies, with standout dishes like the Rawas fry, Surmai Fry, Rawas chilly ,Pomfret Curry and Prawns Biryani. Each dish is meticulously prepared, capturing the rich flavors of Malwani and Keralite cuisines.
+
+A meal at Modern Lunch Home isn't complete without savoring their refreshing Sol Kadhi, a perfect accompaniment to the spicy seafood fare.
+While the restaurant tends to get crowded during peak hours, especially on weekends, the wait is a small price to pay for the culinary delights that await.",Modern Lunch Home,mumbaires.csv,4.0,"service,price,ambience,variety"
+"This is the best hotel in Dombivli. Even though there's mad rush food quality, taste & service remains very consistent. Very consistent taste since last 10 yrs. We  are specially visiting this hotel from Kalyan because of the Lovely Quality, Taste and vibes.",New Modern Cafe,mumbaires.csv,5.0,"service,food_quality"
+"Bhaiya Ji food court situated on Dickenson road. It is more of a snacks counter I can not count in the restaurant category. Comfortable seating is not available. They are serving the only veg. Apart from that if you check out their menu their main USP is snacks. Yes, that is North Indian snacks in very limited places only you will get this taste. They are good with their snacks. Please do not go for Launch or dinner you may disappoint but in the snacks section mainly the chaats, samosa & kachori you will not be disappointed that is I am really sure. Pricings are really pocket-friendly. They have very limited seating space so don't expect you will get a chair to seat down. But do not worry you will enjoy your food stuff in a neat and clean environment.
+
+   Bon Appetite @Chef BB
+
+chefbb.in",Bhaiyaji Food Court,zomato.csv,3.5,"food_quality,ambience,variety"
+"It has been on my list for a long time somehow couldnÃÃÃÃÃÃÃÃt put myself to go to the floor though I am pretty regular with fox trot
+
+1. Ambiance 5/5
+The place has a very simple yet modern feel to the decor. ItÃÃÃÃÃÃÃÃs warm and welcoming and places gives a very relaxing feel to the whole thing. Kudos to the designer
+2. Service 2/5
+We had gone on a weekday afternoon, the place was deserted and we were the only two guest at that point. Despite of it having staff which were gathered around the entry but attending at the table was something which was not in their to do list. When ever we wanted their attention it was a challenge to the least I can say. Hope they improve on it
+3. Food 3.5/5
+To whatever limited dishes we had the opportunity to try there was nothing to complaint about and at the same time nothing that I would have the craving to repeat. ItÃÃÃÃÃÃÃÃs a one time try and if it suits your taste bud I am sure it can make it a part of regular hang out spots.",Mimansa @ Foxtrot,zomato.csv,3.0,"service,food_quality,ambience"
+"Dropped by IT’S LUCKNOWI near CST last weekend on a friend’s recommendation, and honestly, I wasn’t expecting to be this impressed. The place has a quiet, classy charm—nothing too flashy, but you immediately feel the Nawabi vibe the moment you walk in.
+
+We started with their Galouti Kebabs, and wow—soft, flavourful, and just the kind of melt-in-the-mouth experience you hope for. But the real hero of the night was the Mutton Korma with Sheermal. Pro tip: Don’t miss this combo. The korma was rich and perfectly spiced, and that slightly sweet, soft Sheermal was the ideal pairing.
+
+The staff was super helpful and friendly, which made the experience even better. They happily walked us through the menu and even suggested portion sizes based on our appetite—thoughtful touches that go a long way.
+
+Also tried the Lucknowi Biryani and a Paneer Qorma for the veg folks in our group—both got big thumbs up.
+
+Overall, if you love North Indian food and want to explore authentic Awadhi flavours, this place is a gem. It’s got soul, it’s got taste, and it definitely earned a spot on my go-to list.",IT'S LUCKNOWI,mumbaires.csv,5.0,"service,food_quality,ambience"
+My fav past time and this is mine nd my bestie’s favourite place to chill out. I do order any tine required and their delivery packaging is even quite good. Best part is it is opened till 1 am,Cream Stone,Resreviews.csv,5.0,delivery
+The ambience of this place is amazing. B dubs is the best place to be during any major sports seasons. The food is yum and the staff is very very nice. This place will not disappoint.,B-Dubs,Resreviews.csv,5.0,"service,ambience"
+"I love to have chattinad food and believe me guys, you will get here the perfect south Indian food.
+Great food & service. Keep it up guys... ?",Anjappar,zomato.csv,4.0,service
+Excellent food and excellent service by Krishna and shivam Osama every ambience was really very good this is my 1st time I really like it thank you very much,AB's - Absolute Barbecues,Resreviews.csv,5.0,"service,ambience"
+"Sunday Brunch!
+Experience: Very Bad!!!
+Food: Not Great but few dishes are good..!
+Service: Worst..!!!
+Management: Rude..!!!
+Billing: Brunch Prices not mentioned anywhere but only on Zomato, but they say that price is wrong. Asked the Manager (Mr Maneesh Singh and Prakash) to show the original prices on any Menu or Booklet or Hyatt Website..! They replied with bullshit answers..!
+
+Only thing we liked is the place and ambience..!!
+
+I recommend not to prefer this place with family..!!
+
+This management has shown us how a famous brand like Hyatt can also be the worst experience..!!!",Collage - Hyatt Hyderabad Gachibowli,Resreviews.csv,1.0,"service,price,ambience"

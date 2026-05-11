@@ -1,0 +1,21 @@
+{
+  "constructed_on": "2026-05-11",
+  "label_construction": {
+    "sentiment": "rating>=4 Positive | rating==3 Neutral | rating<=2 Negative; ratings without numeric value skipped; zomato2.csv item-mentions excluded.",
+    "complaints": "Multi-label assigned by RICH_PATTERNS regex (broader than baseline substring scan). Stratified to ensure each of 8 categories has >=8 examples.",
+    "rag": "Question = template per intent; ground truth = aggregate facts (avg_rating, sentiment_direction, top categories) computed across all reviews of the restaurant. Answer-only judging in Day 1."
+  },
+  "pool_size": 23802,
+  "by_source_pool": {
+    "mumbaires.csv": 7088,
+    "Resreviews.csv": 8446,
+    "reviews.csv": 999,
+    "zomato.csv": 5769,
+    "zomato2.csv": 1500
+  },
+  "eval_sizes": {
+    "sentiment": 200,
+    "complaint": 100,
+    "rag": 50
+  }
+}
