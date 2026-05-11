@@ -177,3 +177,52 @@ Charts: `results/charts/rag_per_intent_metrics.png`, `results/charts/rag_specifi
 
 ### Polish key takeaway
 The slice-by-source breakdown turns three macro numbers into a **structural map** of where the baseline fails: VADER fails uniformly on Neutral (threshold problem, not data problem), the keyword-scan complaints fail worst on noisy zomato extracted text (data problem, helped by a real model), and the RAG template fails per-intent-branch (4 of 6 branches never cite ratings). All three failure modes are addressable in Days 2–3 by exactly the strategies the SKILL prescribes — the polish makes the prescription specific.
+
+---
+
+## Day-1 polish addendum #2 — bootstrap 95% confidence intervals
+**Added:** 2026-05-11 (same day as the baseline)
+**New files:** `scripts/bootstrap_baseline_ci.py`, `results/baseline_ci.json`, `results/charts/baseline_ci.png`
+
+Every Phase-2 claim from Day 2 onward has the form "model X beat the keyword baseline by ΔF1". A +0.05 ΔF1 only means something if it exceeds the noise floor of the baseline measurement itself. With evaluation sets of 200 / 100 / 50 reviews respectively, that floor is non-trivial and was previously unmeasured. This addendum runs a 1000-sample non-parametric bootstrap (row-level resampling with replacement, seed = 20260511) over each baseline's per-row prediction file and reports the 2.5%/97.5% percentile CI for every headline metric.
+
+### Headline metrics with 95% CI
+
+| Metric | Point | 95% CI | CI width | What this means for Phase 2 |
+|---|---|---|---|---|
+| Sentiment macro-F1 | 0.466 | [0.411, 0.520] | 0.109 | DistilBERT / Claude must clear **0.52** to credibly beat VADER macro. |
+| Sentiment **Neutral F1** | 0.081 | [0.000, 0.177] | 0.177 | Floor is essentially zero. Even modest Neutral recovery is statistically detectable. |
+| Sentiment Positive F1 | 0.650 | [0.573, 0.725] | 0.152 | Already strong (Pos = firehose problem); hard to beat by enough. |
+| Sentiment Negative F1 | 0.667 | [0.581, 0.745] | 0.164 | Similar story; sensible Negative model needs ≥ 0.75 for a defensible claim. |
+| Complaints macro-F1 | 0.820 | [0.770, 0.859] | 0.089 | Tighter than expected — keyword baseline is more stable on this gold set than the report's "methodologically fragile" caveat suggested. Phase-2 needs ≥ 0.86 to clearly beat. |
+| Complaints **subset accuracy** | 0.430 | [0.330, 0.540] | **0.210** | Honest multi-label metric. Phase-2 must clear **0.54** to make a real claim of multi-label fidelity. |
+| Complaints micro-F1 | 0.847 | [0.804, 0.882] | 0.078 | Tightest interval overall. |
+| Complaints **delivery F1** | 0.571 | [0.400, 0.714] | **0.314** | Widest CI in the whole report. The delivery failure mode (precision 0.43) is real but the precise size is very noisy at n=100 — anchoring Phase-2 claims on this single class is risky. |
+| Complaints hygiene F1 | 0.769 | [0.609, 0.900] | 0.291 | Wide because support = 13. Treat as illustrative, not load-bearing. |
+| Complaints variety F1 | 0.737 | [0.560, 0.870] | 0.310 | Wide because support = 14. Same caveat. |
+| RAG composite | 0.686 | [0.601, 0.764] | 0.162 | LLM-synthesis (Day 3) must reach ≥ **0.76** to count as a real win, not just a noise excursion. |
+| RAG rating_mention | 0.340 | [0.220, 0.480] | 0.260 | The "rating not cited" gap is real but the size is noisy. |
+| RAG sentiment_dir_match | 0.740 | [0.600, 0.860] | 0.260 | Wide. |
+| RAG top_category_hit | 0.980 | [0.940, 1.000] | 0.060 | Ceiling effect — already mechanically very high. |
+| RAG intent_addressed | 0.900 | [0.820, 0.980] | 0.160 | High; LLM gain here is bounded. |
+
+Chart: `results/charts/baseline_ci.png` shows the eight headline metrics with error bars.
+
+### What changes in interpretation
+
+1. **The "complaint baseline is statistically fragile" caveat needs to be softened on macro-F1.** Bootstrap shows macro-F1 has a CI half-width of just ±0.04 — narrow. The methodological concern (RICH_PATTERNS shares substring core with CATEGORY_KEYWORDS) still holds for the *level* of the score, but the *measurement* itself is stable. The honest framing is: "the keyword baseline scores 0.82 ± 0.04 macro-F1 on this auto-generated gold set; if it scored 0.40 on human-labelled gold, that would still be the apples-to-apples improvement target for Phase 2."
+2. **The honest Day-2/3 win thresholds are now explicit, not aspirational.** Day 2 sentiment must hit ≥ 0.52 macro-F1. Day 2 complaint must hit ≥ 0.86 macro-F1 (or ≥ 0.54 subset accuracy — these will likely move together). Day 3 RAG must hit ≥ 0.76 composite. Below those, the result is a noise excursion, not a model improvement.
+3. **Delivery F1's CI is the widest in the report (±0.16).** The Day-1 narrative that "delivery precision 0.43 is the headline failure mode" survives — but the precise size is uncertain at n=100. If a Phase-2 strategy claims to fix this specifically, the supporting numbers should come from a held-out larger sample, not the same 100-row eval re-scored.
+4. **The CI on `top_category_hit` (0.94, 1.00) is essentially the ceiling.** Even a perfect Day-3 LLM cannot meaningfully improve this metric — the templates already do it mechanically. The composite gain Day 3 can credibly target lives in `rating_mention` and `sentiment_dir_match` (their CIs straddle 0.5–0.8, leaving real headroom).
+
+### Phase-2 win thresholds (locked in)
+
+| Component | Metric | Day-1 point | Day-1 CI hi | **Phase-2 must exceed** |
+|---|---|---|---|---|
+| Sentiment | macro-F1 | 0.466 | 0.520 | **> 0.52** |
+| Sentiment | Neutral F1 | 0.081 | 0.177 | **> 0.18** |
+| Complaints | macro-F1 | 0.820 | 0.859 | **> 0.86** |
+| Complaints | subset accuracy | 0.430 | 0.540 | **> 0.54** |
+| RAG | composite | 0.686 | 0.764 | **> 0.76** |
+
+Any Phase-2 win claim in the Day 2+ reports MUST cite these thresholds and confirm the new score exceeds the upper CI of the Day-1 baseline. This is the discipline that turns "we beat the baseline by ΔF1" from a hopeful narrative into a defensible result.
