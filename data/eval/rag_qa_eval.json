@@ -1,0 +1,952 @@
+[
+  {
+    "id": "q001",
+    "restaurant": "Desi Bytes",
+    "intent": "quality",
+    "question": "How is the food quality at Desi Bytes?",
+    "gold_facts": {
+      "n_reviews": 63,
+      "avg_rating": 2.78,
+      "sentiment_dir": "positive",
+      "pos_term_count": 66,
+      "neg_term_count": 27,
+      "top_categories": [
+        "food_quality",
+        "portion",
+        "service"
+      ]
+    },
+    "n_source_reviews": 63
+  },
+  {
+    "id": "q002",
+    "restaurant": "eat.fit",
+    "intent": "service",
+    "question": "What do customers say about the service at eat.fit?",
+    "gold_facts": {
+      "n_reviews": 106,
+      "avg_rating": 3.15,
+      "sentiment_dir": "positive",
+      "pos_term_count": 163,
+      "neg_term_count": 39,
+      "top_categories": [
+        "food_quality",
+        "delivery",
+        "portion"
+      ]
+    },
+    "n_source_reviews": 106
+  },
+  {
+    "id": "q003",
+    "restaurant": "Mustang Terrace Lounge",
+    "intent": "price",
+    "question": "Is Mustang Terrace Lounge good value for money?",
+    "gold_facts": {
+      "n_reviews": 99,
+      "avg_rating": 3.3,
+      "sentiment_dir": "positive",
+      "pos_term_count": 172,
+      "neg_term_count": 66,
+      "top_categories": [
+        "service",
+        "ambience",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 99
+  },
+  {
+    "id": "q004",
+    "restaurant": "Olive Garden",
+    "intent": "hygiene",
+    "question": "Are there any hygiene concerns at Olive Garden?",
+    "gold_facts": {
+      "n_reviews": 73,
+      "avg_rating": 3.68,
+      "sentiment_dir": "positive",
+      "pos_term_count": 144,
+      "neg_term_count": 20,
+      "top_categories": [
+        "service",
+        "food_quality",
+        "ambience"
+      ]
+    },
+    "n_source_reviews": 73
+  },
+  {
+    "id": "q005",
+    "restaurant": "Barista",
+    "intent": "ambience",
+    "question": "What is the ambience like at Barista?",
+    "gold_facts": {
+      "n_reviews": 22,
+      "avg_rating": 3.73,
+      "sentiment_dir": "positive",
+      "pos_term_count": 28,
+      "neg_term_count": 15,
+      "top_categories": [
+        "service",
+        "ambience",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 22
+  },
+  {
+    "id": "q006",
+    "restaurant": "McDonald's",
+    "intent": "recommend",
+    "question": "Would customers recommend McDonald's?",
+    "gold_facts": {
+      "n_reviews": 121,
+      "avg_rating": 3.4,
+      "sentiment_dir": "positive",
+      "pos_term_count": 149,
+      "neg_term_count": 63,
+      "top_categories": [
+        "service",
+        "ambience",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 121
+  },
+  {
+    "id": "q007",
+    "restaurant": "Hyderabad Chefs",
+    "intent": "quality",
+    "question": "How is the food quality at Hyderabad Chefs?",
+    "gold_facts": {
+      "n_reviews": 30,
+      "avg_rating": 2.67,
+      "sentiment_dir": "positive",
+      "pos_term_count": 29,
+      "neg_term_count": 15,
+      "top_categories": [
+        "food_quality",
+        "ambience",
+        "portion"
+      ]
+    },
+    "n_source_reviews": 30
+  },
+  {
+    "id": "q008",
+    "restaurant": "BOX8 - India's Largest Desi Meals Brand",
+    "intent": "service",
+    "question": "What do customers say about the service at BOX8 - India's Largest Desi Meals Brand?",
+    "gold_facts": {
+      "n_reviews": 42,
+      "avg_rating": 3.79,
+      "sentiment_dir": "positive",
+      "pos_term_count": 125,
+      "neg_term_count": 13,
+      "top_categories": [
+        "food_quality",
+        "delivery",
+        "service"
+      ]
+    },
+    "n_source_reviews": 42
+  },
+  {
+    "id": "q009",
+    "restaurant": "Zega - Sheraton Hyderabad Hotel",
+    "intent": "price",
+    "question": "Is Zega - Sheraton Hyderabad Hotel good value for money?",
+    "gold_facts": {
+      "n_reviews": 99,
+      "avg_rating": 4.45,
+      "sentiment_dir": "positive",
+      "pos_term_count": 271,
+      "neg_term_count": 20,
+      "top_categories": [
+        "service",
+        "ambience",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 99
+  },
+  {
+    "id": "q010",
+    "restaurant": "Mohammedia Shawarma",
+    "intent": "hygiene",
+    "question": "Are there any hygiene concerns at Mohammedia Shawarma?",
+    "gold_facts": {
+      "n_reviews": 47,
+      "avg_rating": 1.83,
+      "sentiment_dir": "negative",
+      "pos_term_count": 26,
+      "neg_term_count": 56,
+      "top_categories": [
+        "food_quality",
+        "hygiene",
+        "delivery"
+      ]
+    },
+    "n_source_reviews": 47
+  },
+  {
+    "id": "q011",
+    "restaurant": "Behrouz Biryani",
+    "intent": "ambience",
+    "question": "What is the ambience like at Behrouz Biryani?",
+    "gold_facts": {
+      "n_reviews": 92,
+      "avg_rating": 2.79,
+      "sentiment_dir": "positive",
+      "pos_term_count": 104,
+      "neg_term_count": 63,
+      "top_categories": [
+        "food_quality",
+        "delivery",
+        "portion"
+      ]
+    },
+    "n_source_reviews": 92
+  },
+  {
+    "id": "q012",
+    "restaurant": "Frozen Bottle",
+    "intent": "recommend",
+    "question": "Would customers recommend Frozen Bottle?",
+    "gold_facts": {
+      "n_reviews": 21,
+      "avg_rating": 3.76,
+      "sentiment_dir": "positive",
+      "pos_term_count": 32,
+      "neg_term_count": 9,
+      "top_categories": [
+        "food_quality",
+        "price",
+        "portion"
+      ]
+    },
+    "n_source_reviews": 21
+  },
+  {
+    "id": "q013",
+    "restaurant": "MOJO Pizza - 2X Toppings",
+    "intent": "quality",
+    "question": "How is the food quality at MOJO Pizza - 2X Toppings?",
+    "gold_facts": {
+      "n_reviews": 20,
+      "avg_rating": 3.1,
+      "sentiment_dir": "positive",
+      "pos_term_count": 41,
+      "neg_term_count": 12,
+      "top_categories": [
+        "food_quality",
+        "delivery",
+        "service"
+      ]
+    },
+    "n_source_reviews": 20
+  },
+  {
+    "id": "q014",
+    "restaurant": "Dunkin' Donuts",
+    "intent": "service",
+    "question": "What do customers say about the service at Dunkin' Donuts?",
+    "gold_facts": {
+      "n_reviews": 91,
+      "avg_rating": 3.04,
+      "sentiment_dir": "positive",
+      "pos_term_count": 125,
+      "neg_term_count": 47,
+      "top_categories": [
+        "food_quality",
+        "service",
+        "ambience"
+      ]
+    },
+    "n_source_reviews": 91
+  },
+  {
+    "id": "q015",
+    "restaurant": "Kritunga Restaurant",
+    "intent": "price",
+    "question": "Is Kritunga Restaurant good value for money?",
+    "gold_facts": {
+      "n_reviews": 58,
+      "avg_rating": 2.72,
+      "sentiment_dir": "positive",
+      "pos_term_count": 60,
+      "neg_term_count": 28,
+      "top_categories": [
+        "food_quality",
+        "service",
+        "delivery"
+      ]
+    },
+    "n_source_reviews": 58
+  },
+  {
+    "id": "q016",
+    "restaurant": "Feast - Sheraton Hyderabad Hotel",
+    "intent": "hygiene",
+    "question": "Are there any hygiene concerns at Feast - Sheraton Hyderabad Hotel?",
+    "gold_facts": {
+      "n_reviews": 100,
+      "avg_rating": 4.22,
+      "sentiment_dir": "positive",
+      "pos_term_count": 227,
+      "neg_term_count": 37,
+      "top_categories": [
+        "service",
+        "food_quality",
+        "ambience"
+      ]
+    },
+    "n_source_reviews": 100
+  },
+  {
+    "id": "q017",
+    "restaurant": "B-Dubs",
+    "intent": "ambience",
+    "question": "What is the ambience like at B-Dubs?",
+    "gold_facts": {
+      "n_reviews": 100,
+      "avg_rating": 4.81,
+      "sentiment_dir": "positive",
+      "pos_term_count": 243,
+      "neg_term_count": 4,
+      "top_categories": [
+        "service",
+        "ambience",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 100
+  },
+  {
+    "id": "q018",
+    "restaurant": "Royal Spicy Restaurant",
+    "intent": "recommend",
+    "question": "Would customers recommend Royal Spicy Restaurant?",
+    "gold_facts": {
+      "n_reviews": 46,
+      "avg_rating": 3.13,
+      "sentiment_dir": "positive",
+      "pos_term_count": 63,
+      "neg_term_count": 15,
+      "top_categories": [
+        "food_quality",
+        "delivery",
+        "portion"
+      ]
+    },
+    "n_source_reviews": 46
+  },
+  {
+    "id": "q019",
+    "restaurant": "La La Land - Bar & Kitchen",
+    "intent": "quality",
+    "question": "How is the food quality at La La Land - Bar & Kitchen?",
+    "gold_facts": {
+      "n_reviews": 97,
+      "avg_rating": 3.24,
+      "sentiment_dir": "positive",
+      "pos_term_count": 202,
+      "neg_term_count": 53,
+      "top_categories": [
+        "service",
+        "ambience",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 97
+  },
+  {
+    "id": "q020",
+    "restaurant": "10 Downing Street",
+    "intent": "service",
+    "question": "What do customers say about the service at 10 Downing Street?",
+    "gold_facts": {
+      "n_reviews": 99,
+      "avg_rating": 3.8,
+      "sentiment_dir": "positive",
+      "pos_term_count": 249,
+      "neg_term_count": 47,
+      "top_categories": [
+        "ambience",
+        "service",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 99
+  },
+  {
+    "id": "q021",
+    "restaurant": "Asian Meal Box",
+    "intent": "price",
+    "question": "Is Asian Meal Box good value for money?",
+    "gold_facts": {
+      "n_reviews": 83,
+      "avg_rating": 2.39,
+      "sentiment_dir": "positive",
+      "pos_term_count": 70,
+      "neg_term_count": 57,
+      "top_categories": [
+        "food_quality",
+        "portion",
+        "delivery"
+      ]
+    },
+    "n_source_reviews": 83
+  },
+  {
+    "id": "q022",
+    "restaurant": "KS Bakers",
+    "intent": "hygiene",
+    "question": "Are there any hygiene concerns at KS Bakers?",
+    "gold_facts": {
+      "n_reviews": 100,
+      "avg_rating": 3.96,
+      "sentiment_dir": "positive",
+      "pos_term_count": 163,
+      "neg_term_count": 28,
+      "top_categories": [
+        "food_quality",
+        "price",
+        "delivery"
+      ]
+    },
+    "n_source_reviews": 100
+  },
+  {
+    "id": "q023",
+    "restaurant": "Aromas@11SIX",
+    "intent": "ambience",
+    "question": "What is the ambience like at Aromas@11SIX?",
+    "gold_facts": {
+      "n_reviews": 70,
+      "avg_rating": 3.0,
+      "sentiment_dir": "positive",
+      "pos_term_count": 102,
+      "neg_term_count": 44,
+      "top_categories": [
+        "food_quality",
+        "service",
+        "ambience"
+      ]
+    },
+    "n_source_reviews": 70
+  },
+  {
+    "id": "q024",
+    "restaurant": "Karachi Bakery",
+    "intent": "recommend",
+    "question": "Would customers recommend Karachi Bakery?",
+    "gold_facts": {
+      "n_reviews": 67,
+      "avg_rating": 3.66,
+      "sentiment_dir": "positive",
+      "pos_term_count": 80,
+      "neg_term_count": 30,
+      "top_categories": [
+        "food_quality",
+        "price",
+        "ambience"
+      ]
+    },
+    "n_source_reviews": 67
+  },
+  {
+    "id": "q025",
+    "restaurant": "Khaan Saab",
+    "intent": "quality",
+    "question": "How is the food quality at Khaan Saab?",
+    "gold_facts": {
+      "n_reviews": 99,
+      "avg_rating": 3.8,
+      "sentiment_dir": "positive",
+      "pos_term_count": 202,
+      "neg_term_count": 45,
+      "top_categories": [
+        "service",
+        "ambience",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 99
+  },
+  {
+    "id": "q026",
+    "restaurant": "The Tilt Bar Republic",
+    "intent": "service",
+    "question": "What do customers say about the service at The Tilt Bar Republic?",
+    "gold_facts": {
+      "n_reviews": 95,
+      "avg_rating": 3.81,
+      "sentiment_dir": "positive",
+      "pos_term_count": 211,
+      "neg_term_count": 34,
+      "top_categories": [
+        "ambience",
+        "service",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 95
+  },
+  {
+    "id": "q027",
+    "restaurant": "SKYHY",
+    "intent": "price",
+    "question": "Is SKYHY good value for money?",
+    "gold_facts": {
+      "n_reviews": 100,
+      "avg_rating": 3.37,
+      "sentiment_dir": "positive",
+      "pos_term_count": 205,
+      "neg_term_count": 47,
+      "top_categories": [
+        "service",
+        "ambience",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 100
+  },
+  {
+    "id": "q028",
+    "restaurant": "Triptify",
+    "intent": "hygiene",
+    "question": "Are there any hygiene concerns at Triptify?",
+    "gold_facts": {
+      "n_reviews": 74,
+      "avg_rating": 3.22,
+      "sentiment_dir": "positive",
+      "pos_term_count": 91,
+      "neg_term_count": 12,
+      "top_categories": [
+        "food_quality",
+        "delivery",
+        "hygiene"
+      ]
+    },
+    "n_source_reviews": 74
+  },
+  {
+    "id": "q029",
+    "restaurant": "Frio Bistro",
+    "intent": "ambience",
+    "question": "What is the ambience like at Frio Bistro?",
+    "gold_facts": {
+      "n_reviews": 98,
+      "avg_rating": 3.6,
+      "sentiment_dir": "positive",
+      "pos_term_count": 208,
+      "neg_term_count": 33,
+      "top_categories": [
+        "service",
+        "food_quality",
+        "ambience"
+      ]
+    },
+    "n_source_reviews": 98
+  },
+  {
+    "id": "q030",
+    "restaurant": "Karachi Cafe",
+    "intent": "recommend",
+    "question": "Would customers recommend Karachi Cafe?",
+    "gold_facts": {
+      "n_reviews": 92,
+      "avg_rating": 3.68,
+      "sentiment_dir": "positive",
+      "pos_term_count": 145,
+      "neg_term_count": 36,
+      "top_categories": [
+        "ambience",
+        "food_quality",
+        "service"
+      ]
+    },
+    "n_source_reviews": 92
+  },
+  {
+    "id": "q031",
+    "restaurant": "NorFest - The Dhaba",
+    "intent": "quality",
+    "question": "How is the food quality at NorFest - The Dhaba?",
+    "gold_facts": {
+      "n_reviews": 97,
+      "avg_rating": 4.02,
+      "sentiment_dir": "positive",
+      "pos_term_count": 214,
+      "neg_term_count": 37,
+      "top_categories": [
+        "food_quality",
+        "price",
+        "delivery"
+      ]
+    },
+    "n_source_reviews": 97
+  },
+  {
+    "id": "q032",
+    "restaurant": "Eat India Company",
+    "intent": "service",
+    "question": "What do customers say about the service at Eat India Company?",
+    "gold_facts": {
+      "n_reviews": 99,
+      "avg_rating": 3.26,
+      "sentiment_dir": "positive",
+      "pos_term_count": 200,
+      "neg_term_count": 63,
+      "top_categories": [
+        "service",
+        "food_quality",
+        "ambience"
+      ]
+    },
+    "n_source_reviews": 99
+  },
+  {
+    "id": "q033",
+    "restaurant": "Chinese Wok",
+    "intent": "price",
+    "question": "Is Chinese Wok good value for money?",
+    "gold_facts": {
+      "n_reviews": 23,
+      "avg_rating": 2.83,
+      "sentiment_dir": "positive",
+      "pos_term_count": 43,
+      "neg_term_count": 11,
+      "top_categories": [
+        "food_quality",
+        "service",
+        "delivery"
+      ]
+    },
+    "n_source_reviews": 23
+  },
+  {
+    "id": "q034",
+    "restaurant": "Zing's Northeast Kitchen",
+    "intent": "hygiene",
+    "question": "Are there any hygiene concerns at Zing's Northeast Kitchen?",
+    "gold_facts": {
+      "n_reviews": 97,
+      "avg_rating": 3.63,
+      "sentiment_dir": "positive",
+      "pos_term_count": 206,
+      "neg_term_count": 57,
+      "top_categories": [
+        "service",
+        "food_quality",
+        "ambience"
+      ]
+    },
+    "n_source_reviews": 97
+  },
+  {
+    "id": "q035",
+    "restaurant": "Driven Cafe",
+    "intent": "ambience",
+    "question": "What is the ambience like at Driven Cafe?",
+    "gold_facts": {
+      "n_reviews": 96,
+      "avg_rating": 3.8,
+      "sentiment_dir": "positive",
+      "pos_term_count": 208,
+      "neg_term_count": 33,
+      "top_categories": [
+        "ambience",
+        "service",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 96
+  },
+  {
+    "id": "q036",
+    "restaurant": "The Indi Grill",
+    "intent": "recommend",
+    "question": "Would customers recommend The Indi Grill?",
+    "gold_facts": {
+      "n_reviews": 99,
+      "avg_rating": 4.61,
+      "sentiment_dir": "positive",
+      "pos_term_count": 277,
+      "neg_term_count": 5,
+      "top_categories": [
+        "service",
+        "ambience",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 99
+  },
+  {
+    "id": "q037",
+    "restaurant": "Delhi-39",
+    "intent": "quality",
+    "question": "How is the food quality at Delhi-39?",
+    "gold_facts": {
+      "n_reviews": 61,
+      "avg_rating": 2.43,
+      "sentiment_dir": "positive",
+      "pos_term_count": 43,
+      "neg_term_count": 31,
+      "top_categories": [
+        "food_quality",
+        "delivery",
+        "service"
+      ]
+    },
+    "n_source_reviews": 61
+  },
+  {
+    "id": "q038",
+    "restaurant": "The Chocolate Room",
+    "intent": "service",
+    "question": "What do customers say about the service at The Chocolate Room?",
+    "gold_facts": {
+      "n_reviews": 89,
+      "avg_rating": 2.92,
+      "sentiment_dir": "positive",
+      "pos_term_count": 101,
+      "neg_term_count": 49,
+      "top_categories": [
+        "food_quality",
+        "service",
+        "ambience"
+      ]
+    },
+    "n_source_reviews": 89
+  },
+  {
+    "id": "q039",
+    "restaurant": "Hyderabadi Daawat",
+    "intent": "price",
+    "question": "Is Hyderabadi Daawat good value for money?",
+    "gold_facts": {
+      "n_reviews": 86,
+      "avg_rating": 3.74,
+      "sentiment_dir": "positive",
+      "pos_term_count": 172,
+      "neg_term_count": 68,
+      "top_categories": [
+        "food_quality",
+        "service",
+        "ambience"
+      ]
+    },
+    "n_source_reviews": 86
+  },
+  {
+    "id": "q040",
+    "restaurant": "Udipi's Upahar",
+    "intent": "hygiene",
+    "question": "Are there any hygiene concerns at Udipi's Upahar?",
+    "gold_facts": {
+      "n_reviews": 46,
+      "avg_rating": 3.57,
+      "sentiment_dir": "positive",
+      "pos_term_count": 68,
+      "neg_term_count": 16,
+      "top_categories": [
+        "food_quality",
+        "service",
+        "price"
+      ]
+    },
+    "n_source_reviews": 46
+  },
+  {
+    "id": "q041",
+    "restaurant": "The Glass Onion",
+    "intent": "ambience",
+    "question": "What is the ambience like at The Glass Onion?",
+    "gold_facts": {
+      "n_reviews": 96,
+      "avg_rating": 3.82,
+      "sentiment_dir": "positive",
+      "pos_term_count": 229,
+      "neg_term_count": 30,
+      "top_categories": [
+        "ambience",
+        "service",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 96
+  },
+  {
+    "id": "q042",
+    "restaurant": "Cream Stone",
+    "intent": "recommend",
+    "question": "Would customers recommend Cream Stone?",
+    "gold_facts": {
+      "n_reviews": 92,
+      "avg_rating": 3.83,
+      "sentiment_dir": "positive",
+      "pos_term_count": 128,
+      "neg_term_count": 25,
+      "top_categories": [
+        "food_quality",
+        "delivery",
+        "service"
+      ]
+    },
+    "n_source_reviews": 92
+  },
+  {
+    "id": "q043",
+    "restaurant": "Being Hungry",
+    "intent": "quality",
+    "question": "How is the food quality at Being Hungry?",
+    "gold_facts": {
+      "n_reviews": 49,
+      "avg_rating": 3.04,
+      "sentiment_dir": "positive",
+      "pos_term_count": 47,
+      "neg_term_count": 22,
+      "top_categories": [
+        "food_quality",
+        "delivery",
+        "service"
+      ]
+    },
+    "n_source_reviews": 49
+  },
+  {
+    "id": "q044",
+    "restaurant": "Tempteys",
+    "intent": "service",
+    "question": "What do customers say about the service at Tempteys?",
+    "gold_facts": {
+      "n_reviews": 69,
+      "avg_rating": 3.71,
+      "sentiment_dir": "positive",
+      "pos_term_count": 98,
+      "neg_term_count": 17,
+      "top_categories": [
+        "food_quality",
+        "service",
+        "ambience"
+      ]
+    },
+    "n_source_reviews": 69
+  },
+  {
+    "id": "q045",
+    "restaurant": "Diners Pavilion",
+    "intent": "price",
+    "question": "Is Diners Pavilion good value for money?",
+    "gold_facts": {
+      "n_reviews": 94,
+      "avg_rating": 3.33,
+      "sentiment_dir": "positive",
+      "pos_term_count": 165,
+      "neg_term_count": 43,
+      "top_categories": [
+        "service",
+        "ambience",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 94
+  },
+  {
+    "id": "q046",
+    "restaurant": "The Old Madras Baking Company",
+    "intent": "hygiene",
+    "question": "Are there any hygiene concerns at The Old Madras Baking Company?",
+    "gold_facts": {
+      "n_reviews": 97,
+      "avg_rating": 3.69,
+      "sentiment_dir": "positive",
+      "pos_term_count": 189,
+      "neg_term_count": 32,
+      "top_categories": [
+        "food_quality",
+        "service",
+        "ambience"
+      ]
+    },
+    "n_source_reviews": 97
+  },
+  {
+    "id": "q047",
+    "restaurant": "Beyond Flavours",
+    "intent": "ambience",
+    "question": "What is the ambience like at Beyond Flavours?",
+    "gold_facts": {
+      "n_reviews": 99,
+      "avg_rating": 4.28,
+      "sentiment_dir": "positive",
+      "pos_term_count": 241,
+      "neg_term_count": 39,
+      "top_categories": [
+        "service",
+        "ambience",
+        "food_quality"
+      ]
+    },
+    "n_source_reviews": 99
+  },
+  {
+    "id": "q048",
+    "restaurant": "Hitech Bawarchi Food Zone",
+    "intent": "recommend",
+    "question": "Would customers recommend Hitech Bawarchi Food Zone?",
+    "gold_facts": {
+      "n_reviews": 47,
+      "avg_rating": 1.87,
+      "sentiment_dir": "negative",
+      "pos_term_count": 24,
+      "neg_term_count": 38,
+      "top_categories": [
+        "food_quality",
+        "delivery",
+        "portion"
+      ]
+    },
+    "n_source_reviews": 47
+  },
+  {
+    "id": "q049",
+    "restaurant": "Shree Santosh Dhaba Family Restaurant",
+    "intent": "quality",
+    "question": "How is the food quality at Shree Santosh Dhaba Family Restaurant?",
+    "gold_facts": {
+      "n_reviews": 52,
+      "avg_rating": 2.08,
+      "sentiment_dir": "negative",
+      "pos_term_count": 22,
+      "neg_term_count": 35,
+      "top_categories": [
+        "food_quality",
+        "delivery",
+        "service"
+      ]
+    },
+    "n_source_reviews": 52
+  },
+  {
+    "id": "q050",
+    "restaurant": "Club Rogue",
+    "intent": "service",
+    "question": "What do customers say about the service at Club Rogue?",
+    "gold_facts": {
+      "n_reviews": 97,
+      "avg_rating": 2.94,
+      "sentiment_dir": "positive",
+      "pos_term_count": 164,
+      "neg_term_count": 63,
+      "top_categories": [
+        "ambience",
+        "service",
+        "price"
+      ]
+    },
+    "n_source_reviews": 97
+  }
+]
