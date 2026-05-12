@@ -1,0 +1,6 @@
+text_preview,gold,pred,correct,rating,source
+"Bad ambience, ok food.  Soups were great. Had some non veg starters which were not very tasty and felt a bit raw.  Naans and curry was nice. Horrible biryani. R",Negative,Negative,True,2.0,Resreviews.csv
+"Very disappointing. How can we call this as a fruit bowl. The box became full wet and grapes, chickoo are not added at all but it was mentioned in the menu. We ",Negative,Negative,True,1.0,zomato.csv
+I seriously didn't understand the buzz around this place. Decided to have Sunday lunch here owing to the good rating of this place. The staff didn't really give,Negative,Negative,True,2.0,Resreviews.csv
+All are good. Nice staff and good food,Positive,Positive,True,5.0,mumbaires.csv
+It has been a wonderful experience .Been here with my best friend to throw a party . He loved it alot . couldn't have asked for a better day. Food items where y,Positive,Positive,True,5.0,Resreviews.csv

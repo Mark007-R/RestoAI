@@ -1,0 +1,6 @@
+text_preview,gold,pred,exact_match,source
+"Absolutely Delightful Experience at NEO WELCOME!  We had an amazing time dining at NEO WELCOME. We tried the Mysore Masala Cheese Dosa, and it was simply wow — ","ambience,food_quality,service","ambience,food_quality,service",True,mumbaires.csv
+I really loved it... must taste,food_quality,food_quality,True,Resreviews.csv
+Whitefield Marriott is located very near to our Bangalore office. Visited M Cafe for lunch during my recent visit to Bangalore.  M Cafe is a good place to have ,"ambience,food_quality,service","ambience,food_quality,service",True,zomato.csv
+The food taste amazing and the quality of food is good! The quantity is good in cheap price! Soo Highly suggest you all to order from MAP!!!,"food_quality,portion,price","food_quality,portion,price",True,zomato.csv
+Great ambience. Very good service. Its a great place to go out with dates or family. As it is situated outside the place is quite peaceful too.,"ambience,service","ambience,service",True,Resreviews.csv

@@ -1,0 +1,6 @@
+text_preview,gold,pred,correct,rating,source
+The place was pretty crowded for a weekday. We ordered a couple of chicken items. I only remember the food to be extra spicy. The brews of this place are good t,Neutral,Negative,False,3.0,Resreviews.csv
+"No AC and cooling...we finally had to take away our order...kids were not even able to sit comfortably. Despite of lot of space, no congestion, still not comfor",Neutral,Negative,False,3.0,mumbaires.csv
+We recently dined at this fine dine restaurant and ordered two Bombil thalis along with one extra Bombil fry plate. We were informed that each thali includes on,Positive,Negative,False,4.0,mumbaires.csv
+"After a lot of reco-s and solid rating everywhere, I finally tried out Driven Cafe - mainly to sample their coffee. Unfortunately, I was disappointing with the ",Neutral,Negative,False,3.0,Resreviews.csv
+Only eggless cakes available here. Staff is good 1/2 kg will cost around 370. Black forest recommended.,Neutral,Positive,False,3.0,mumbaires.csv
