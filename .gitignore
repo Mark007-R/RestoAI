@@ -174,3 +174,5 @@ sessions/
 results/.judge_cache.json
 results/*.faiss
 results/*.pkl
+results/*.joblib
+logs_day*.txt
