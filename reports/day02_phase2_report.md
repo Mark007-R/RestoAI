@@ -3,16 +3,17 @@
 **Day:** 02 of 7
 
 ## Resume gap progress
-**Gap:** Multi-component NLP eval — the keyword "complaint classifier" and the VADER-based sentiment path were Day-1's two real, *replaceable* models. Day 2 measures whether modern alternatives actually win on the exact same eval sets — and at what cost.
-**Today's contribution:** Ran four sentiment strategies and four complaint strategies head-to-head on the locked Day-1 eval. Found a clean sentiment win (NLI zero-shot, +0.23 macro-F1, Neutral F1 6×) and an **honest negative result on complaints** that explains *why* trained ML cannot beat the keyword baseline on this gold set and points exactly at the Day-5 fix.
+**Gap:** Multi-component NLP eval — the keyword "complaint classifier" and the VADER-based sentiment path were Day-1's two real, *replaceable* models. Day 2 measures whether modern alternatives win on the exact same eval sets.
+**Today's contribution:** Ran 3 sentiment strategies (VADER reused + DistilBERT + NLI zero-shot) and 4 complaint strategies (keyword reused + TF-IDF+LGBM + SBERT+LGBM + NLI zero-shot) head-to-head on the locked Day-1 eval. Result: NLI zero-shot is the highest-scoring sentiment strategy measured (macro-F1 0.701 vs VADER 0.466). On complaints the keyword baseline holds the highest measured macro-F1 (0.820 vs trained best 0.682); TF-IDF+LGBM beats keyword F1 on 2 of 8 classes and on delivery precision. The Claude Opus 4.6 zero-shot legs prescribed by the SKILL were not run (no API key in autonomous-run env).
 
 ## Files touched
-- `scripts/day02_phase2a.py` (created, 432 lines) — orchestrator for all 8 strategy runs + 5-fold CV + sample dumps
+- `scripts/day02_phase2a.py` (created, 574 lines) — orchestrator: runs all strategies, 5-fold stratified CV for trained complaint heads, writes metrics and sample CSVs
 - `results/phase2a_metrics.json` (created) — full per-class metrics for every strategy
 - `results/phase2a_results.csv` (created) — flat leaderboard
-- `results/phase2a_sentiment_preds.csv` (created, 200 × 4 columns) — per-row preds across strategies
-- `results/phase2a_complaints_preds.csv` (created, 100 × 4 columns)
-- `results/samples/day02_*_wins.csv` / `_losses.csv` (14 files) — 5 wins + 5 losses per strategy per component
+- `results/phase2a_sentiment_preds.csv` (created, 200 rows × {idx,text_preview,rating,source,gold,3 pred cols})
+- `results/phase2a_complaints_preds.csv` (created, 100 rows × {idx,text_preview,source,gold,4 pred cols})
+- `results/phase2a_lexical_overlap.json` (created) — per-category gold-positive literal-stem hit rates
+- `results/samples/day02_*_wins.csv` / `_losses.csv` (14 files) — up to 5 wins + up to 5 losses per strategy per component; `day02_complaints_nli_zeroshot_wins.csv` contains only 1 row because that strategy's subset_accuracy on the 100-review eval was 0.010
 - `.gitignore` — adds `results/*.joblib`, `logs_day*.txt`
 
 ## Setup
@@ -20,8 +21,8 @@
 - **Sentiment eval:** Day-1 locked set of 200 reviews stratified across 4 source CSVs (zomato 58 / Resreviews 79 / mumbaires 54 / reviews.csv 9; zomato2 item-mentions excluded), 3 gold classes (68/66/66).
 - **Complaint eval:** Day-1 locked set of 100 reviews, 8 multi-label categories, gold from `RICH_PATTERNS` regex. Class supports: service 53, food_quality 60, hygiene 13, price 27, delivery 19, portion 26, ambience 34, variety 14.
 - **Models used:** `distilbert-base-uncased-finetuned-sst-2-english` (binary → 3-class with P_pos thresholds 0.70 / 0.30), `valhalla/distilbart-mnli-12-3` (NLI zero-shot), `sentence-transformers/all-MiniLM-L6-v2` (SBERT), `lightgbm 4.6` (one-vs-rest binary heads, 120 boost rounds, scale_pos_weight set per-class). All CPU.
-- **CV protocol for trained complaint classifiers:** 5-fold stratified-by-primary-label CV on the 100-review gold set. Out-of-fold predictions only — no test-set contamination. Threshold = 0.5 for every class (Day-5 will tune).
-- **Claude Opus 4.6 zero-shot:** **deferred.** `ANTHROPIC_API_KEY` is not exposed inside the scheduled-task subprocess (same constraint that pushed the Day-1 RAG judge to structural metrics). Strategy slot is reserved; an `interactive`-mode re-run on Day 6 (frontier comparison) will populate it.
+- **CV protocol for trained complaint classifiers:** 5-fold stratified-by-primary-label CV on the 100-review gold set, seed=0. Out-of-fold predictions only. Threshold = 0.5 for every class. Raw probabilities were not persisted — only the binarized OvR output (see "What's not in this session's output").
+- **Claude Opus 4.6 zero-shot:** **not run.** `ANTHROPIC_API_KEY` is not exposed inside the scheduled-task subprocess (same constraint as Day-1's RAG judge). No measurement available.
 
 ## Experiments
 
@@ -37,7 +38,7 @@
 | VADER (Day-1 baseline) | 0.466 | 0.550 | 0.650 | **0.081** | 0.667 | 0.4 |
 | DistilBERT SST-2 (binary → 3-class) | 0.536 | 0.635 | 0.731 | 0.113 | 0.765 | 49.8 |
 | **NLI zero-shot (distilbart-mnli-12-3)** | **0.701** | **0.735** | **0.805** | **0.478** | **0.819** | 589.3 |
-| Claude Opus 4.6 zero-shot | — | — | — | — | — | (deferred to Day 6) |
+| Claude Opus 4.6 zero-shot | — | — | — | — | — | not run |
 
 **Per-class for the Day-1 headline failure mode (Neutral):**
 
@@ -47,12 +48,12 @@
 | DistilBERT SST-2 | 0.800 | 0.061 | 0.113 |
 | **NLI zero-shot** | **0.846** | **0.333** | **0.478** |
 
-**Interpretation:**
+**Measured outcomes:**
 
-1. **Day-1 win threshold (> 0.52 macro-F1) cleared decisively.** NLI zero-shot lands at 0.701 — outside the upper 95% CI of the VADER baseline (0.520). This is a real, not noise-floor, win.
-2. **Neutral F1 lifted 6× (0.081 → 0.478).** The way it lifts is the interesting part: Neutral precision went from 0.375 → 0.846, and recall from 0.045 → 0.333. NLI doesn't suddenly find every Neutral review — it just *stops over-firing Positive on borderline language*. The hypothesis-template framing forces the model to weigh "is this neutral?" as a first-class option, which the VADER compound-score corridor and the DistilBERT binary thresholding both deny it.
-3. **DistilBERT SST-2 + threshold is a half-step.** It lifts Neutral precision dramatically (0.38 → 0.80) but not recall (0.045 → 0.061). The threshold is too strict — almost nothing falls into (0.30, 0.70). Lowering the thresholds would help recall but trade off on Pos/Neg. It is *not* the right shape of model for 3-class sentiment. Recommend dropping it for production and keeping it only as an intermediate baseline.
-4. **Latency cost is non-trivial.** VADER 0.4 ms → NLI 589 ms = ~1500× slower. For RestoAI's "manager dashboard" pattern (batch process new reviews on dataset upload), 0.6 s/review is fine. For real-time form submission, batching or DistilBERT-thresholded would be the fallback. Day 4's `src/sentiment/classifier.py` will expose both modes.
+1. NLI zero-shot macro-F1 = 0.701. Day-1 reported a bootstrap upper 95% CI of 0.520 for VADER, so 0.701 falls outside that CI.
+2. Neutral F1 across the three strategies: 0.081 → 0.113 → 0.478. Decomposed: Neutral precision 0.375 → 0.800 → 0.846; Neutral recall 0.045 → 0.061 → 0.333. The recall lift from DistilBERT-threshold to NLI is the largest single contributor to the F1 lift.
+3. DistilBERT SST-2 with thresholds 0.70 / 0.30: Neutral precision = 0.800, Neutral recall = 0.061. The threshold band (0.30, 0.70) is narrow; how many of the 200 reviews fell into it is not directly captured in the saved metrics — only the binarized output is in `results/phase2a_sentiment_preds.csv` (saving raw P_pos would let us verify the "narrow band" hypothesis; that's a Day-5 sweep candidate).
+4. Latency ratio NLI / VADER = 589.3 / 0.4 ≈ 1473×. Whether 0.6 s/review is "acceptable" depends on RestoAI's ingestion pattern; the Day-4 module design is a plan, not a Day-2 measurement.
 
 ### Experiment 2.2 — Complaint classifier 4-way (keyword vs TF-IDF+LGBM vs SBERT+LGBM vs NLI zero-shot)
 **Hypothesis:** TF-IDF + LightGBM and SBERT + LightGBM should beat the keyword baseline on rare classes by generalizing past the literal substring matches in `CATEGORY_KEYWORDS` (the Day-1 prediction). NLI zero-shot will be in the middle — better than keyword on paraphrase, worse on terse phrasing where keyword is mechanical.
@@ -67,74 +68,75 @@
 | TF-IDF + LightGBM (5-fold CV) | 0.682 | 0.806 | 0.380 | 0.110 | 245.7 |
 | SBERT + LightGBM (5-fold CV) | 0.344 | 0.554 | 0.130 | 0.249 | 43.7 |
 | NLI zero-shot multi-label | 0.407 | 0.434 | 0.010 | 0.328 | 1757.1 |
-| Claude Opus 4.6 zero-shot | — | — | — | — | (deferred to Day 6) |
+| Claude Opus 4.6 zero-shot | — | — | — | — | not run |
 
-**Per-class F1 — where the trained classifiers MATCH or BEAT the baseline:**
+**Per-class F1 — common-support categories (n_pos ≥ 26), TF-IDF+LGBM vs keyword:**
 
-| Category | n_pos | keyword | TF-IDF+LGBM | Δ |
+| Category | n_pos | keyword F1 | TF-IDF+LGBM F1 | Δ (TF-IDF − keyword) |
 |---|---|---|---|---|
-| service | 53 | 0.991 | 0.990 | **−0.001** (tie) |
-| food_quality | 60 | 0.830 | **0.870** | **+0.040** |
-| portion | 26 | 0.852 | **0.921** | **+0.069** |
-| ambience | 34 | 0.970 | 0.833 | −0.137 |
+| service | 53 | 0.991 | 0.990 | −0.000 |
+| food_quality | 60 | 0.830 | 0.874 | **+0.044** |
+| portion | 26 | 0.852 | 0.920 | **+0.068** |
+| ambience | 34 | 0.970 | 0.833 | **−0.137** |
 
-**Per-class F1 — where trained classifiers FAIL (rare classes):**
+(Values rounded from `results/phase2a_metrics.json`. Service exact delta = 0.990476 − 0.990654 = −0.000178.)
 
-| Category | n_pos | keyword P/R/F1 | TF-IDF+LGBM P/R/F1 | NLI P/R/F1 |
+**Per-class precision / recall / F1 — low-support categories (n_pos ≤ 27):**
+
+| Category | n_pos | keyword P/R/F1 | TF-IDF+LGBM P/R/F1 | NLI multi-label P/R/F1 |
 |---|---|---|---|---|
-| hygiene | 13 | 0.77 / 0.77 / 0.77 | **1.00 / 0.23 / 0.38** | 0.27 / 0.62 / 0.37 |
-| variety | 14 | 0.58 / 1.00 / 0.74 | **1.00 / 0.57 / 0.73** | 0.13 / 0.29 / 0.17 |
-| delivery | 19 | **0.43** / 0.84 / 0.57 | **0.71** / 0.26 / 0.38 | 0.22 / 0.32 / 0.26 |
-| price | 27 | 0.82 / 0.85 / 0.84 | **0.86** / 0.22 / 0.35 | 0.48 / 0.56 / 0.52 |
+| hygiene | 13 | 0.769 / 0.769 / 0.769 | 1.000 / 0.231 / 0.375 | 0.267 / 0.615 / 0.372 |
+| variety | 14 | 0.583 / 1.000 / 0.737 | 1.000 / 0.571 / 0.727 | 0.125 / 0.286 / 0.174 |
+| delivery | 19 | 0.432 / 0.842 / 0.571 | 0.714 / 0.263 / 0.385 | 0.222 / 0.316 / 0.261 |
+| price | 27 | 0.821 / 0.852 / 0.836 | 0.857 / 0.222 / 0.353 | 0.484 / 0.556 / 0.517 |
 
-**Interpretation — three findings layered:**
+(Values from `results/phase2a_metrics.json`. On this gold set at threshold 0.5, the keyword baseline produces the highest F1 in each of the four rows; the trained TF-IDF head reaches 1.000 precision on hygiene and variety but at recall costs that drop F1 below keyword. Whether a lower per-class threshold or larger training set would change the F1 ordering is untested.)
 
-1. **Headline (honest negative on macro):** the keyword baseline wins macro-F1 (0.820) and the **Day-1 win threshold of > 0.86 macro-F1 was NOT cleared** by any strategy. This is not a model-class problem — it is a *gold-set construction* problem. Day 1 itself flagged it: "the gold labeller (RICH_PATTERNS) shares a substring core with the baseline's `CATEGORY_KEYWORDS`, so the comparison is partly self-referential." Day 2 confirms the magnitude. No trained model can beat a rule on the rule's own gold without seeing more data than 80 train examples can provide.
+**Measured outcomes:**
 
-2. **The Day-1 headline failure mode (delivery precision = 0.43) was halved.** TF-IDF+LightGBM lifted delivery precision from **0.43 → 0.71** — exactly the failure mode flagged on Day 1 as "the keyword list eats every 'ordered' / 'arrived' mention regardless of context". The model learned context. The trade-off is recall (0.84 → 0.26) because 5-fold CV gives the binary delivery head only ~3 positives per fold. With the 0.5 default threshold this conservatism is built-in. The **lowering-threshold + weak-supervision recipe is now precisely scoped for Day 5.**
+1. **Macro-F1 leaderboard:** keyword 0.820, TF-IDF+LGBM 0.682, NLI multi-label 0.407, SBERT+LGBM 0.344. **The Day-1 bootstrap upper 95% CI for the keyword baseline was 0.859 (`results/baseline_ci.json`); no Day-2 strategy crossed it.** Day 1 noted that the gold labeller (`RICH_PATTERNS` regex) and the baseline (`CATEGORY_KEYWORDS`) share a substring vocabulary by construction. Whether trained ML would beat the baseline on a non-circular gold set (e.g., human-relabeled, or RICH_PATTERNS-labeled but with a deliberately disjoint lexicon for training labels) is untested.
 
-3. **Where the trained classifier actually beats the baseline:** `food_quality` (+0.04) and `portion` (+0.07). These are the two best-represented categories *whose vocabulary is paraphrastic* (reviews describe portion via "small", "tiny", "huge", "generous", and the keyword list misses most of these). On `service` (n=53), the keyword fires near-perfectly because the literal word "service" appears in nearly every service-complaint review, so a model has no headroom. On `ambience` (n=34), keyword wins (0.97 vs 0.83) because the gold set's `ambience` reviews almost always contain the literal stems "ambience" / "atmosphere" / "decor". **The trained-vs-rule gap is a function of class vocabulary diversity, not class frequency.** This is the cleanest insight of the day.
+2. **Delivery precision: keyword 0.432, TF-IDF+LGBM 0.714.** Absolute delta +0.282; ratio 1.65×. Delivery recall: keyword 0.842, TF-IDF+LGBM 0.263 (delta −0.579). The Day-1 audit identified delivery as the precision failure mode of the keyword baseline; the Day-2 trained classifier moves the precision–recall trade-off but the F1 score for delivery still favors keyword (0.571 vs 0.385). The threshold = 0.5 OvR setting and the small number of delivery positives per CV fold (≈3) are two factors that could be changed in Day 5; whether changing them flips the F1 outcome is untested.
 
-**SBERT + LightGBM failed almost everywhere.** Why? With 80 training rows per fold, 384-d embeddings, and 8 binary heads, the model is overparameterized — it cannot find a useful boundary in 384-d space from 80 points (most of which are negatives for any given class). Variety, food, portion all degenerate to majority-negative predictors. With 1000+ training rows it would likely beat TF-IDF on rare classes. This is the **Day 5 weak-supervision hook**: regex-label 3000+ reviews, train SBERT+LightGBM properly, re-evaluate.
+3. **Where the trained classifier actually beats the baseline:** `food_quality` (+0.044) and `portion` (+0.068). These are also the two categories with the **lowest literal-name match rate in the gold positives** (food_quality: 3.3%, portion: 3.8% — measured, `results/phase2a_lexical_overlap.json`). For comparison, the categories where keyword ties or wins big — `service` (71.7% literal hit), `ambience` (70.6%), `variety` (78.6%) — all show the literal stem in the majority of gold-positive reviews. So the win/loss pattern for the two ML-winners is consistent with "paraphrastic categories favor ML"; for the ML-losers (`hygiene` −0.39, `price` −0.48, `delivery` −0.19) the picture is mixed: those have moderate literal-hit rates (23–42%) but **also small support** (n=13, 27, 19 respectively), so the gap is plausibly a mix of vocabulary structure and CV data starvation rather than vocabulary alone. The measured per-category overlap is in `results/phase2a_lexical_overlap.json`.
 
-**NLI zero-shot on complaints underperformed.** Macro-F1 = 0.407 versus 0.820 keyword. The hypothesis template "This review mentions {friendly category description}" fires on too many adjacent topics — subset_accuracy = 0.010 means **only 1 of 100 reviews has its complete category set right**. NLI is not calibrated for multi-label restaurant prose without further engineering. Worth retiring for complaints; keep for sentiment.
+**SBERT + LightGBM scored macro-F1 = 0.344.** Setup: 80 training rows per CV fold, 384-d embeddings, 8 binary OvR heads at threshold 0.5. Per-class recall (`results/phase2a_metrics.json`): variety 0.000, delivery 0.053, hygiene 0.077, price 0.111, portion 0.154. Per-class F1 for the same: 0.000 / 0.091 / 0.143 / 0.167 / 0.229. Service (F1 = 0.741), food_quality (0.740), ambience (0.644) scored higher. Whether more training data (e.g., regex-weak-labeled bulk) or a lower per-class threshold would change this is the **Day-5 weak-supervision hypothesis**, untested in this session.
+
+**NLI zero-shot on complaints:** macro-F1 = 0.407, subset_accuracy = 0.010 (1 of 100 reviews matched the full gold category set exactly). Per-class F1 ranged 0.174 (variety) to 0.517 (price); see `results/phase2a_metrics.json`. Whether different friendly-label phrasing or a different threshold would change this is untested.
 
 ## Head-to-Head Comparison (canonical Day-2 leaderboard)
 
 ### Sentiment
 | Rank | Strategy | macro-F1 | acc | Neu F1 | Latency | Cost | Notes |
 |------|---|---|---|---|---|---|---|
-| 1 | **NLI zero-shot (distilbart-mnli-12-3)** | **0.701** | **0.735** | **0.478** | 589 ms | free (local) | **Champion.** Clears Day-1 win threshold (>0.52). Neutral F1 6× lift. |
-| 2 | DistilBERT SST-2 + thresholds | 0.536 | 0.635 | 0.113 | 50 ms | free (local) | Marginal. Pos firehose tamed; Neutral barely budged. |
+| 1 | **NLI zero-shot (distilbart-mnli-12-3)** | **0.701** | **0.735** | **0.478** | 589.3 ms | free (local) | Highest macro-F1 measured. Outside Day-1 VADER upper 95% CI (0.520). |
+| 2 | DistilBERT SST-2 + thresholds 0.70/0.30 | 0.536 | 0.635 | 0.113 | 49.8 ms | free (local) | Neutral precision 0.800 / recall 0.061 measured. |
 | 3 | VADER (Day-1 baseline) | 0.466 | 0.550 | 0.081 | 0.4 ms | free | Baseline. |
-| n/a | Claude Opus 4.6 zero-shot | — | — | — | — | — | Deferred to Day 6 (no API key in autonomous run). |
+| n/a | Claude Opus 4.6 zero-shot | — | — | — | — | — | Not run: ANTHROPIC_API_KEY not present in scheduled-task subprocess env. |
 
 ### Complaints (8-way multi-label)
 | Rank | Strategy | macro-F1 | micro-F1 | subset_acc | Latency | Notes |
 |------|---|---|---|---|---|---|
-| 1 | **Keyword baseline (Day-1)** | **0.820** | **0.847** | **0.430** | 0.1 ms | Wins on this gold set; methodologically circular. |
-| 2 | TF-IDF + LightGBM (CV) | 0.682 | 0.806 | 0.380 | 246 ms | **Wins on food_quality, portion, delivery precision.** Lower threshold + weak supervision → likely champion by Day 5. |
-| 3 | NLI zero-shot multi-label | 0.407 | 0.434 | 0.010 | 1757 ms | Retiring for complaints. Subset_acc = 1% is a non-starter. |
-| 4 | SBERT + LightGBM (CV) | 0.344 | 0.554 | 0.130 | 44 ms | Starved for data (80 train rows, 384-d features). Day-5 weak supervision should rehabilitate it. |
-| n/a | Claude Opus 4.6 zero-shot | — | — | — | — | Deferred to Day 6. |
+| 1 | **Keyword baseline (Day-1)** | **0.820** | **0.847** | **0.430** | 0.1 ms | Highest macro-F1 measured. Gold labeller shares substring vocab with this baseline (Day-1 audit). |
+| 2 | TF-IDF + LightGBM (5-fold CV) | 0.682 | 0.806 | 0.380 | 245.7 ms | Beats keyword on food_quality F1 (+0.044) and portion F1 (+0.068); delivery precision 0.43 → 0.71. |
+| 3 | NLI zero-shot multi-label | 0.407 | 0.434 | 0.010 | 1757.1 ms | Per-class F1 0.174–0.517. |
+| 4 | SBERT + LightGBM (5-fold CV) | 0.344 | 0.554 | 0.130 | 43.7 ms | Variety F1 = 0.000; hygiene F1 = 0.143. 80 training rows × 384-d features at threshold 0.5. |
+| n/a | Claude Opus 4.6 zero-shot | — | — | — | — | Not run: ANTHROPIC_API_KEY not present in scheduled-task subprocess env. |
 
 ## Key Findings
 
-1. **Sentiment champion locked in: NLI zero-shot, macro-F1 = 0.701, +0.235 over VADER.** Neutral F1 went from 0.081 → 0.478 (6× lift) — the exact Day-1 failure mode. Day-1 win threshold (>0.52 macro-F1) cleared by 0.18. This is integration-ready for Day 4. The 589 ms/review cost is acceptable for batch ingestion; the Day 4 module will expose DistilBERT-thresholded (50 ms) as a fast-path fallback for interactive submission.
-2. **The keyword complaint baseline is not beaten on macro-F1, and that is itself the finding.** The gold set's labeller (`RICH_PATTERNS` regex) and the baseline (`CATEGORY_KEYWORDS` substring scan) share vocabulary by construction — any rule-based system tuned on the same lexical universe beats a model trained on 80 examples. The honest claims this enables for Day 4 / 5 are not "we beat 0.82" but "**we doubled delivery precision (0.43 → 0.71)**" and "**we matched or beat keyword on the two paraphrase-heavy categories (food_quality, portion)**" — both real, defensible, and located exactly where the Day-1 audit predicted.
-3. **Rare-class TF-IDF predictions show 100% precision but 23–57% recall.** This is the unambiguous signature of an over-conservative OvR threshold on small folds (≈3 positives per fold for hygiene, variety). Day 5's tuning is now precisely targeted: (a) per-class threshold sweep using the OOF probabilities already saved; (b) weak supervision — label 3000+ reviews with `RICH_PATTERNS` to give the SBERT+LightGBM head enough data to converge.
-4. **What didn't work and why:** SBERT + LightGBM at 80 train rows × 384 features failed everywhere except a few common classes (macro-F1 = 0.34). NLI zero-shot multi-label fired on too many adjacent topics (subset_acc = 0.01). Both failures are *data-driven*, not algorithm-driven — Day 5's weak-supervision pass and per-class threshold tuning have clear paths to fix both.
-5. **The latency / accuracy frontier is well-defined now.** Sentiment: VADER (0.4 ms, F1=0.47) → DistilBERT (50 ms, F1=0.54) → NLI (589 ms, F1=0.70). Three operating points, three deploy modes. Day 4's API will expose all three.
+1. **Sentiment: NLI zero-shot macro-F1 = 0.701, VADER macro-F1 = 0.466, absolute delta +0.235.** Neutral F1: VADER 0.081 → NLI 0.478 (ratio 5.9×). 0.701 is above the Day-1 bootstrap upper 95% CI for VADER (0.520) by 0.181. Day-4 integration is a *plan*, not done in this session.
+2. **Complaints macro-F1 leaderboard:** keyword 0.820, TF-IDF+LGBM 0.682, NLI multi-label 0.407, SBERT+LGBM 0.344. None crossed the Day-1 keyword baseline upper 95% CI of 0.859. Measured per-class deltas where TF-IDF+LGBM beat keyword: food_quality F1 +0.044, portion F1 +0.068. Measured precision changes on delivery: 0.432 → 0.714 (delta +0.282); paired with a recall change of 0.842 → 0.263, so delivery **F1** went 0.571 → 0.385 (still favoring keyword on F1 at the default threshold).
+3. **TF-IDF rare-class per-class P/R measured at threshold 0.5:** hygiene P=1.000 R=0.231 F1=0.375; variety P=1.000 R=0.571 F1=0.727; price P=0.857 R=0.222 F1=0.353; delivery P=0.714 R=0.263 F1=0.385. Reaching the Day-1 win threshold of macro-F1 > 0.86 on this gold set, and whether per-class threshold sweep + weak supervision would do so, is untested.
+4. **Worst per-class measurements:** SBERT+LGBM macro-F1 = 0.344, variety F1 = 0.000, hygiene F1 = 0.143 at threshold 0.5. NLI multi-label subset_accuracy = 0.010 — 1 of 100 reviews matched the gold category set exactly.
+5. **Measured latency per review:** VADER 0.4 ms, DistilBERT-SST2 49.8 ms, NLI 589.3 ms, TF-IDF+LGBM 245.7 ms, SBERT+LGBM 43.7 ms, NLI multi-label 1757.1 ms. (TF-IDF+LGBM latency includes feature-vectorization fit + transform inside each fold; a fit-once production deployment would be lower, untested.)
 
 ## Sample Outputs Saved
-- `results/samples/day02_sentiment_nli_zeroshot_wins.csv` — 5 examples where NLI got Neutral right and VADER did not
-- `results/samples/day02_sentiment_nli_zeroshot_losses.csv` — 5 NLI errors (most are Pos/Neutral confusions on praise-heavy 3-star reviews)
-- `results/samples/day02_sentiment_distilbert_sst2_*` — Day-1 → Day-2 progression
-- `results/samples/day02_complaints_tfidf_lgbm_wins.csv` — 5 exact-match multi-label cases including delivery (precision win)
-- `results/samples/day02_complaints_tfidf_lgbm_losses.csv` — 5 misses showing the rare-class recall failure
-- `results/samples/day02_complaints_keyword_wins.csv` / `_losses.csv` — for re-comparison (same files re-derived)
-- `results/phase2a_sentiment_preds.csv` — full per-row preds across all 3 sentiment strategies (200 × 4 cols)
-- `results/phase2a_complaints_preds.csv` — full per-row preds across all 4 complaint strategies (100 × 4 cols)
+- `results/samples/day02_sentiment_{vader,distilbert_sst2,nli_zeroshot}_{wins,losses}.csv` — first 5 correct + first 5 incorrect per strategy on the 200-review eval (6 files)
+- `results/samples/day02_complaints_{keyword,tfidf_lgbm,sbert_lgbm,nli_zeroshot}_{wins,losses}.csv` — first 5 exact-match + first 5 non-exact-match per strategy on the 100-review eval (8 files)
+- `results/phase2a_sentiment_preds.csv` — per-row gold + pred for VADER / DistilBERT / NLI (200 rows × {idx,text_preview,rating,source,gold,3 pred columns})
+- `results/phase2a_complaints_preds.csv` — per-row gold + pred for keyword / TF-IDF / SBERT / NLI (100 rows × {idx,text_preview,source,gold,4 pred columns})
+- `results/phase2a_lexical_overlap.json` — per-category measurement of literal-name-hit rate and any-stem-hit rate across gold-positive reviews (basis for Interpretation point 3 in the complaints block).
 
 ## Day-1 win thresholds check
 
@@ -142,24 +144,36 @@
 |---|---|---|---|---|
 | Sentiment macro-F1 | 0.466 | > 0.52 | **0.701** (NLI) | ✅ |
 | Sentiment Neutral F1 | 0.081 | > 0.18 | **0.478** (NLI) | ✅ |
-| Complaints macro-F1 | 0.820 | > 0.86 | 0.682 (TF-IDF) | ❌ (see Finding #2) |
-| Complaints subset_acc | 0.430 | > 0.54 | 0.380 (TF-IDF) | ❌ (Day-5 hook) |
+| Complaints macro-F1 | 0.820 | > 0.86 | 0.682 (TF-IDF) | ❌ |
+| Complaints subset_acc | 0.430 | > 0.54 | 0.380 (TF-IDF) | ❌ |
 
-Sentiment cleared both win thresholds decisively. Complaints did not clear either, and the report above explains *why* (gold/baseline shared lexicon) and *what* fixes it (Day-5 per-class threshold tuning + weak supervision).
+Sentiment cleared both thresholds (NLI macro-F1 0.701 > 0.52; Neutral F1 0.478 > 0.18). Complaints cleared neither.
 
 ## Next Day
-Day 3 — Phase 2b RAG comparison:
-- Replace `_synthesize_intelligent_answer` template logic with real LLM-backed synthesis.
-- Compare 4 configs: (1) current template (Day-1 baseline, composite = 0.686), (2) LLM synthesis on existing per-review chunks, (3) LLM synthesis with recursive character chunking variant, (4) LLM synthesis + cross-encoder rerank (ms-marco-MiniLM-L-6-v2).
-- Run full RAGAS on the 50-QA eval. Day-1 win threshold: composite > 0.76.
-- Requires `ANTHROPIC_API_KEY` for both the synthesis call and the RAGAS judge; if still unavailable in autonomous mode, fall back to OpenAI-compatible local model or structured rubric scoring (the Day-1 pattern).
+Day 3 — Phase 2b RAG comparison, per SKILL:
+- Replace `_synthesize_intelligent_answer` template logic with LLM-backed synthesis.
+- Compare 4 configs: (1) current template baseline (Day-1 composite = 0.686), (2) LLM on existing per-review chunks, (3) LLM with recursive-character chunking, (4) LLM + cross-encoder rerank (ms-marco-MiniLM-L-6-v2).
+- Run RAGAS on the 50-QA eval. Day-1 win threshold: composite > 0.76.
+- Requires `ANTHROPIC_API_KEY` (or compatible) for synthesis + judge. If the key is not surfaced in autonomous mode, Day 3 will need an interactive run or a structural-metric fallback (Day-1 pattern).
 
 ## Code Changes
-- `scripts/day02_phase2a.py` (NEW, 432 lines) — full orchestrator
+- `scripts/day02_phase2a.py` — full orchestrator
 - `.gitignore` — `results/*.joblib`, `logs_day*.txt` added to exclude rules
 
-## What's *not* in this report (intentionally)
+## What's not in this session's output (and why)
 
-- **No Claude Opus 4.6 zero-shot row.** The SKILL prescribes it but autonomous-run env doesn't surface `ANTHROPIC_API_KEY`. Documented identically to Day-1's RAG-judge limitation; will populate in Day 6 (frontier comparison) when run interactively.
-- **No per-class threshold tuning.** That is Day 5 by design. The OOF probabilities are saved (`results/phase2a_metrics.json` retains the per-fold predictions inside the per-row CSVs) so Day 5 can sweep without re-training.
-- **No production wiring of NLI sentiment champion into `analyzer.py`.** That is Day 4 (Phase 3 integration). Day 2 stays in comparison-evaluation territory per the SKILL's day-by-day discipline.
+- **Claude Opus 4.6 zero-shot row (both legs).** Not run because `ANTHROPIC_API_KEY` is not exposed inside the scheduled-task subprocess (same constraint that hit Day-1's RAG judge). No measurement available.
+- **Raw OOF probabilities from the trained complaint heads.** The CV runner binarized predictions at threshold 0.5 inside `_kfold_cv_train_predict` (`y_oof = (p >= 0.5).astype(int)`) and only the binarized output was persisted. Day-5 per-class threshold sweep will therefore need to re-run the CV with probability-saving turned on. This is a correction to an earlier draft that incorrectly stated the probabilities were saved.
+- **Bootstrap 95% CIs on Day-2 strategies.** Day 1 produced bootstrap CIs for the baselines; Day 2 only compares point estimates against Day-1's CI upper bounds. A symmetric CI on Day-2 strategies has not been computed.
+- **Per-source slice analysis on Day-2 strategies.** Day-1 polish addendum #1 produced per-source breakdowns for the baselines (zomato / Resreviews / mumbaires / reviews.csv). The same cuts on the Day-2 strategies have not been computed.
+- **Day-2 visualization PNGs.** Day 1 produced 6 chart files; Day 2 produced metric tables only. No PNGs were generated this session.
+- **Production wiring of the NLI sentiment classifier into `manager_system/analyzer.py`.** Day 4 by design.
+- **Per-class threshold tuning, weak-supervision pass for SBERT, alternative NLI prompts.** Day 5 by design.
+
+## Claims that *are* backed by saved measurements
+
+- Every macro-F1, micro-F1, per-class P/R/F1, subset_accuracy, hamming_loss, and ms/review value in this report comes from `results/phase2a_metrics.json`.
+- The per-category literal-stem hit rates in the complaints Interpretation block come from `results/phase2a_lexical_overlap.json` (method documented in the JSON's `method` field).
+- The Day-1 baseline CI numbers come from `results/baseline_ci.json`.
+- Per-row predictions and the wins/losses sample files live under `results/`.
+- Mechanism sentences (e.g., "the NLI hypothesis template forces 'neutral' as a first-class option") are explicitly framed as hypotheses, not measurements. Verifying them would require additional experiments listed under "What's not in this session's output".
