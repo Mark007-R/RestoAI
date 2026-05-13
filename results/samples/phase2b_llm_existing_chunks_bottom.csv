@@ -1,0 +1,6 @@
+id,config,restaurant,intent,faithfulness,relevancy,ctx_precision,ctx_recall,ragas_composite,extractiveness,answer_chars,answer_words,sentiment_dir_match,top_category_hit,rating_mention,intent_addressed,specificity,answer_preview
+q028,llm_existing_chunks,Triptify,hygiene,0.0,0.2933715581893921,0.0,0.0,0.004138609991359341,0.0,34,5,0,0,0,0,0.0,No retrieved reviews for Triptify.
+q011,llm_existing_chunks,Behrouz Biryani,ambience,0.0,0.3184030055999756,0.0,0.0,0.004224198224307712,0.0,41,6,0,0,0,0,0.0,No retrieved reviews for Behrouz Biryani.
+q005,llm_existing_chunks,Barista,ambience,0.0,0.3392481207847595,0.0,0.0,0.004291700064385824,0.0,33,5,0,0,0,0,0.0,No retrieved reviews for Barista.
+q023,llm_existing_chunks,Aromas@11SIX,ambience,0.0,0.37115412950515747,0.0,0.0,0.004389232378377462,0.0,38,5,0,0,0,0,0.0,No retrieved reviews for Aromas@11SIX.
+q048,llm_existing_chunks,Hitech Bawarchi Food Zone,recommend,0.0,0.5640413761138916,0.0,0.0,0.004873351545132424,0.0,51,8,0,1,0,0,0.25,No retrieved reviews for Hitech Bawarchi Food Zone.
