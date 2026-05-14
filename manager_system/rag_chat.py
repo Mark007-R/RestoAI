@@ -513,12 +513,58 @@ class RAGChat:
 
         return answer
 
+    _SYNTH = None
+
+    @classmethod
+    def _get_synth(cls):
+        """Lazy load the Phase-3 LLM-backed synthesizer (flan-t5-base + cross-encoder rerank).
+
+        Returned object is reused across all RAGChat instances. On any failure
+        the sentinel `False` is cached and `_synthesize_intelligent_answer` falls
+        through to the template logic below, so an offline node never breaks
+        the Flask app.
+        """
+        if cls._SYNTH is not None:
+            return cls._SYNTH or None
+        try:
+            import sys as _sys
+            _root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            if _root not in _sys.path:
+                _sys.path.insert(0, _root)
+            from src.rag.pipeline import get_default as _get
+            cls._SYNTH = _get()
+            return cls._SYNTH
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("Phase-3 RAG synthesizer unavailable (%s); using template", exc)
+            cls._SYNTH = False
+            return None
+
     def _synthesize_intelligent_answer(self, query, retrieved_docs, intent):
+        # Day-4 Phase-3 champion path: call flan-t5-base + (optional) ms-marco
+        # cross-encoder rerank from src/rag/pipeline.py. The signature is
+        # preserved so the existing answer_query / _generate_answer call sites
+        # keep working. Top-k is determined by the caller (default 5 in
+        # answer_query); pass top_k=15 for the rerank step to have meaningful
+        # candidates to choose from (the FastAPI /rag endpoint does this).
+        synth = self._get_synth()
+        if synth is not None:
+            try:
+                rest = self.current_restaurant or (retrieved_docs[0].get("metadata", {}).get("restaurant")
+                                                   if retrieved_docs else None)
+                out = synth.synthesize(query=query, retrieved_docs=retrieved_docs,
+                                       intent=intent, restaurant=rest)
+                if out and out.answer and not out.fallback_used:
+                    return out.answer
+                # synth said "fallback" — fall through to template below
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("LLM synthesis failed (%s); falling back to template", exc)
+
+        # ---- Template fallback (the Day-1 logic, unchanged) ----
         all_text = " ".join([doc['text'].lower() for doc in retrieved_docs])
 
-        positive_words = ['good', 'great', 'excellent', 'amazing', 'delicious', 'perfect', 
+        positive_words = ['good', 'great', 'excellent', 'amazing', 'delicious', 'perfect',
                          'wonderful', 'fantastic', 'love', 'best', 'awesome', 'outstanding']
-        negative_words = ['bad', 'poor', 'terrible', 'horrible', 'awful', 'worst', 
+        negative_words = ['bad', 'poor', 'terrible', 'horrible', 'awful', 'worst',
                          'disappointing', 'waste', 'avoid', 'never', 'disgusting', 'pathetic']
 
         pos_count = sum(all_text.count(word) for word in positive_words)
