@@ -1,0 +1,192 @@
+{
+  "reviews_tested": 3,
+  "checks": {
+    "complaints_direct": [
+      {
+        "text": "The waiter was rude and the food arrived cold. Overpriced for such a small portion.",
+        "ok": true,
+        "result": {
+          "categories": [
+            "food_quality",
+            "portion",
+            "service",
+            "price",
+            "delivery"
+          ],
+          "scores": {
+            "service": 0.0003,
+            "food_quality": 0.5625,
+            "hygiene": 0.0001,
+            "price": 0.421,
+            "delivery": 0.0001,
+            "portion": 0.9997,
+            "ambience": 0.0002,
+            "variety": 0.0006
+          },
+          "model": "tfidf+lightgbm OvR (blended with keyword)",
+          "fallback_used": false
+        },
+        "latency_ms": 1468.08
+      },
+      {
+        "text": "Loved the ambience and the music! Great place for a date night.",
+        "ok": true,
+        "result": {
+          "categories": [
+            "ambience"
+          ],
+          "scores": {
+            "service": 0.0001,
+            "food_quality": 0.0003,
+            "hygiene": 0.0001,
+            "price": 0.0526,
+            "delivery": 0.0001,
+            "portion": 0.0001,
+            "ambience": 0.9998,
+            "variety": 0.0001
+          },
+          "model": "tfidf+lightgbm OvR (blended with keyword)",
+          "fallback_used": false
+        },
+        "latency_ms": 3.19
+      },
+      {
+        "text": "Service was slow but the biryani was delicious. Worth the wait, would come back.",
+        "ok": true,
+        "result": {
+          "categories": [
+            "service"
+          ],
+          "scores": {
+            "service": 0.9999,
+            "food_quality": 0.0772,
+            "hygiene": 0.0001,
+            "price": 0.0007,
+            "delivery": 0.0095,
+            "portion": 0.0001,
+            "ambience": 0.0001,
+            "variety": 0.0
+          },
+          "model": "tfidf+lightgbm OvR (blended with keyword)",
+          "fallback_used": false
+        },
+        "latency_ms": 2.2
+      }
+    ],
+    "complaints_via_analyzer_shim": [
+      {
+        "text": "The waiter was rude and the food arrived cold. Overpriced for such a small portion.",
+        "ok": true,
+        "result": [
+          "food_quality",
+          "portion",
+          "service",
+          "price",
+          "delivery"
+        ],
+        "latency_ms": 28.82
+      },
+      {
+        "text": "Loved the ambience and the music! Great place for a date night.",
+        "ok": true,
+        "result": [
+          "ambience"
+        ],
+        "latency_ms": 25.98
+      },
+      {
+        "text": "Service was slow but the biryani was delicious. Worth the wait, would come back.",
+        "ok": true,
+        "result": [
+          "service"
+        ],
+        "latency_ms": 13.11
+      }
+    ],
+    "sentiment_direct": [
+      {
+        "text": "The waiter was rude and the food arrived cold. Overpriced for such a small portion.",
+        "ok": true,
+        "result": {
+          "label": "Negative",
+          "compound": -0.833681583404541,
+          "keywords": [
+            "waiter",
+            "rude",
+            "food",
+            "arrived",
+            "cold",
+            "overpriced",
+            "such",
+            "small"
+          ],
+          "model": "valhalla/distilbart-mnli-12-3",
+          "fallback_used": false
+        },
+        "latency_ms": 29209.59
+      },
+      {
+        "text": "Loved the ambience and the music! Great place for a date night.",
+        "ok": true,
+        "result": {
+          "label": "Positive",
+          "compound": 0.9891711473464966,
+          "keywords": [
+            "loved",
+            "ambience",
+            "music",
+            "great",
+            "place",
+            "date",
+            "night"
+          ],
+          "model": "valhalla/distilbart-mnli-12-3",
+          "fallback_used": false
+        },
+        "latency_ms": 194.34
+      },
+      {
+        "text": "Service was slow but the biryani was delicious. Worth the wait, would come back.",
+        "ok": true,
+        "result": {
+          "label": "Positive",
+          "compound": 0.8447511792182922,
+          "keywords": [
+            "service",
+            "slow",
+            "biryani",
+            "delicious",
+            "worth",
+            "wait",
+            "come",
+            "back"
+          ],
+          "model": "valhalla/distilbart-mnli-12-3",
+          "fallback_used": false
+        },
+        "latency_ms": 218.16
+      }
+    ],
+    "rag_synthetic_docs": {
+      "ok": true,
+      "result": {
+        "answer": "The waiter was rude and the food arrived cold. Overpriced for such a small portion. Customer reviews: - the food was good, but the service was not good.",
+        "intent": "quality",
+        "model": "flan-t5-base + ms-marco rerank",
+        "reranked": true,
+        "fallback_used": false,
+        "retrieved_count": 15
+      },
+      "latency_ms": 6727.33
+    },
+    "rag_real_index": {
+      "ok": true,
+      "latency_ms": 1468.85,
+      "result": {
+        "answer_preview": "I couldn't find relevant information in the reviews or online about 'How is the food quality?' for Lazeez Garden Restaurant.",
+        "n_sources": 0,
+        "restaurant_filter": "Lazeez Garden Restaurant"
+      }
+    }
+  }
+}

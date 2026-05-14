@@ -1,0 +1,71 @@
+{
+  "model_path": "C:\\Users\\antho\\OneDrive\\Desktop\\Mark\\ALL\\DATA_SCIENTIST\\RestoAI\\models\\complaints_classifier.joblib",
+  "bundle_size_mb": 1.605,
+  "macro_f1_resubstitution": 1.0,
+  "macro_f1_5fold_cv_day2": 0.682,
+  "n_train": 100,
+  "categories": [
+    "service",
+    "food_quality",
+    "hygiene",
+    "price",
+    "delivery",
+    "portion",
+    "ambience",
+    "variety"
+  ],
+  "feature_dim": 23362,
+  "wall_seconds": 4.174,
+  "lightgbm": "4.6.0",
+  "gold_sha16": "57462569f11fce56",
+  "head_meta": [
+    {
+      "cat": "service",
+      "n_pos": 53,
+      "kind": "lightgbm",
+      "num_trees": 120
+    },
+    {
+      "cat": "food_quality",
+      "n_pos": 60,
+      "kind": "lightgbm",
+      "num_trees": 120
+    },
+    {
+      "cat": "hygiene",
+      "n_pos": 13,
+      "kind": "lightgbm",
+      "num_trees": 120
+    },
+    {
+      "cat": "price",
+      "n_pos": 27,
+      "kind": "lightgbm",
+      "num_trees": 120
+    },
+    {
+      "cat": "delivery",
+      "n_pos": 19,
+      "kind": "lightgbm",
+      "num_trees": 120
+    },
+    {
+      "cat": "portion",
+      "n_pos": 26,
+      "kind": "lightgbm",
+      "num_trees": 120
+    },
+    {
+      "cat": "ambience",
+      "n_pos": 34,
+      "kind": "lightgbm",
+      "num_trees": 120
+    },
+    {
+      "cat": "variety",
+      "n_pos": 14,
+      "kind": "lightgbm",
+      "num_trees": 120
+    }
+  ]
+}

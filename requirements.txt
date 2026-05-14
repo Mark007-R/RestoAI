@@ -25,3 +25,10 @@ aiohttp==3.9.1
 flask-limiter==3.5.0
 colorlog==6.8.0
 python-decouple==3.8
+
+# Sprint Day-4 (Phase 3) additions: trained complaint classifier + FastAPI service
+lightgbm>=4.0
+fastapi>=0.110
+uvicorn>=0.29
+pydantic>=2.0
+joblib>=1.3

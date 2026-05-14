@@ -62,7 +62,35 @@ def analyze_text_and_keywords(text):
     keywords = extract_keywords(text, top_k=8)
     return label, compound, keywords
 
-def categorize_complaints(text):
+_COMPLAINT_CLF = None
+
+
+def _get_complaint_classifier():
+    """Lazy import of the Phase-3 trained classifier.
+
+    Wrapped in a function so import-time failures (missing joblib, missing
+    bundle, etc.) don't break the existing Flask boot path. On any failure
+    the keyword logic below runs unchanged.
+    """
+    global _COMPLAINT_CLF
+    if _COMPLAINT_CLF is not None:
+        return _COMPLAINT_CLF
+    try:
+        # Path: <repo>/src/complaints/classifier.py
+        _project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        import sys
+        if _project_root not in sys.path:
+            sys.path.insert(0, _project_root)
+        from src.complaints.classifier import get_default
+        _COMPLAINT_CLF = get_default()
+        return _COMPLAINT_CLF
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Trained complaint classifier unavailable (%s); using keyword baseline", exc)
+        _COMPLAINT_CLF = False  # sentinel: "tried and failed, don't retry"
+        return None
+
+
+def _keyword_categorize(text):
     text_l = text.lower()
     cats = []
     for cat, kws in CATEGORY_KEYWORDS.items():
@@ -71,6 +99,27 @@ def categorize_complaints(text):
                 cats.append(cat)
                 break
     return list(dict.fromkeys(cats))
+
+
+def categorize_complaints(text):
+    """Day-4 Phase-3: delegate to the trained TF-IDF + LightGBM classifier
+    (blended with keyword recall by default — see src/complaints/classifier.py
+    for the rationale). Falls back to the original keyword logic if the bundle
+    is unavailable or any error occurs in the trained path, so callers don't
+    see a behavior regression.
+
+    Signature unchanged: input string, output ordered list of unique category
+    names. Existing app.py call sites (Resreviews route, manager dashboard)
+    work without modification.
+    """
+    clf = _get_complaint_classifier()
+    if clf is None:
+        return _keyword_categorize(text)
+    try:
+        return clf.categorize(text)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Complaint classifier failed (%s); falling back to keyword", exc)
+        return _keyword_categorize(text)
 
 def plot_to_base64(fig):
     buf = io.BytesIO()
