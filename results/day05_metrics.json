@@ -1,0 +1,77 @@
+{
+  "day2_baseline_macro_f1_5fold_cv": 0.682,
+  "optuna_trials": 30,
+  "best_params": {
+    "num_leaves": 5,
+    "learning_rate": 0.11576049857008822,
+    "min_data_in_leaf": 7,
+    "feature_fraction": 0.5873043034257636,
+    "bagging_fraction": 0.9930007502218929,
+    "bagging_freq": 6,
+    "lambda_l2": 4.570221031498644,
+    "num_boost_round": 214,
+    "scale_pos_weight_mult": 1.581862754096038,
+    "macro_f1_t05": 0.8013537984248159,
+    "wall_seconds": 1079.6893773078918
+  },
+  "champion_macro_f1_t05": 0.8013537984248159,
+  "champion_macro_f1_per_class_thr": 0.8175205442335901,
+  "per_class_f1_t05": {
+    "service": 0.9904761904761905,
+    "food_quality": 0.8739495798319329,
+    "hygiene": 0.631578947368421,
+    "price": 0.5714285714285714,
+    "delivery": 0.6875,
+    "portion": 0.9387755102040816,
+    "ambience": 0.8709677419354839,
+    "variety": 0.8461538461538461
+  },
+  "per_class_f1_thr": {
+    "service": 0.9904761904761905,
+    "food_quality": 0.8739495798319329,
+    "hygiene": 0.6666666666666667,
+    "price": 0.5777777777777777,
+    "delivery": 0.7272727272727273,
+    "portion": 0.9387755102040816,
+    "ambience": 0.8852459016393442,
+    "variety": 0.88
+  },
+  "per_class_thresholds": {
+    "service": 0.30000000000000004,
+    "food_quality": 0.5000000000000001,
+    "hygiene": 0.15000000000000002,
+    "price": 0.40000000000000013,
+    "delivery": 0.40000000000000013,
+    "portion": 0.5000000000000001,
+    "ambience": 0.7500000000000002,
+    "variety": 0.6000000000000002
+  },
+  "failure_breakdown_top30": {
+    "model_failure": 15,
+    "multi_category_overlap": 12,
+    "label_noise": 3
+  },
+  "bce_triggered": true,
+  "bce_macro_f1_t05": 0.49287151427735276,
+  "bce_macro_f1_per_class_thr": 0.6320966647716377,
+  "bce_thresholds": {
+    "service": 0.5000000000000001,
+    "food_quality": 0.5000000000000001,
+    "hygiene": 0.40000000000000013,
+    "price": 0.45000000000000007,
+    "delivery": 0.45000000000000007,
+    "portion": 0.5000000000000001,
+    "ambience": 0.5000000000000001,
+    "variety": 0.40000000000000013
+  },
+  "bce_per_class_f1_thr": {
+    "service": 0.7899159663865547,
+    "food_quality": 0.8208955223880596,
+    "hygiene": 0.41860465116279066,
+    "price": 0.5063291139240507,
+    "delivery": 0.4864864864864865,
+    "portion": 0.6,
+    "ambience": 0.8059701492537314,
+    "variety": 0.6285714285714286
+  }
+}

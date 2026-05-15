@@ -1,0 +1,8 @@
+{
+  "total_failures_top30": 30,
+  "breakdown": {
+    "model_failure": 15,
+    "multi_category_overlap": 12,
+    "label_noise": 3
+  }
+}
