@@ -176,3 +176,6 @@ results/*.faiss
 results/*.pkl
 results/*.joblib
 logs_day*.txt
+# Re-ignore __pycache__ everywhere — the !scripts/** / !tests/** un-ignores
+# above accidentally pulled compiled cache back in.
+**/__pycache__/
