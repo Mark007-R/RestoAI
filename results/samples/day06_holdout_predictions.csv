@@ -1,0 +1,184 @@
+text,gold,keyword,tuned_lgbm,kw_missed,kw_extra,lgbm_missed,lgbm_extra,kw_exact,lgbm_exact
+"Overpriced and quality of food average
+Not recommended","food_quality,price",price,,food_quality,,"food_quality,price",,0,0
+"Tiny place that serves amazing Chai!!! Our search for Kulhad Chai in Bangalore lead us here. It's a small tea cafe. Serves a variety of Chai and veg snacks. Best part,it's served in a kulhad. There r ","ambience,service,variety","ambience,portion,service,variety","ambience,service,variety",,portion,,,0,1
+"Very cute place, looks like a house modified into a cafe. Two floor seating. Bright open interiors. Good food and quick service. Desserts are very good.","ambience,service","ambience,service",service,,,ambience,,1,0
+"Food was decent, unfortunately it was a weekend and had a long waiting (approximately 30 mins).
+Had ordered a fish thali along with mutton thali.
+The fish thali was good with good and fresh piece and ","price,service","delivery,price,service",food_quality,,delivery,"price,service",food_quality,0,0
+2 appetizers 1 salad the smell of blood and the taste of meat were disgusting chicken and lamb were fine.,"food_quality,hygiene","food_quality,hygiene","food_quality,hygiene",,,,,1,1
+Biryani is always tasty. The best part is restaurant remains open till late night. Whenever we have party plan we use to order from shah ghouse,"delivery,food_quality",delivery,food_quality,food_quality,,delivery,,0,0
+"I ordered ulavacharu chicken biryani spicy fried chicken, chicken fried piece Biryani excellent taste and good quality and quick delivery 😀😀😀","delivery,food_quality","delivery,food_quality","delivery,food_quality",,,,,1,1
+"Cozy place where you can get some great wine and Whiskey collection. I recommend this place if you want to sit, relax and have some great conversations. Finger food and starters are light and does see","ambience,price","ambience,price","ambience,price",,,,,1,1
+"Lovely ambience and equally lovely tasty food . Best part is the valet parking. Good variety of options of authentic food. We had starters, main course and appetisers . There is a complimentary jalebi","ambience,food_quality,variety","ambience,variety","ambience,food_quality,variety",food_quality,,,,0,1
+The food is amazing and the quality and quantity is also good.“Quick service & very trustworthy. ...,"portion,service","portion,service","portion,service",,,,,1,1
+I liked the kebab and salad; but I can't say the same for their appetizers. It was less in variety; unfortunately; it was unpleasant for those who came. The ambiance was great.,variety,"portion,variety","ambience,food_quality,variety",,portion,,"ambience,food_quality",0,0
+"I ordered
+1. Chicken Kurkure momos - 130/- (6pieces)
+2. Chicken cheese momos - 65/- (3pieces)
+
+Both the momos quality was good and taste was also good. Kurkure momos size was quite big and that was so","ambience,food_quality,portion,service","ambience,delivery,food_quality,portion,service","ambience,food_quality,portion,service",,delivery,,,0,1
+"Ice cream was good , but it's totally got melt as delivery boy took a lot of time to reach. He mentioned it as delivered as soon as he picked order. He took nearly 45 minutes to come.",delivery,delivery,delivery,,,,,1,1
+The food was really tasty. I personally liked the stuffed tandoori mushrooms and chef special boneless butter chicken. Value for money. Not very expensive. The quantity it served was also good. The am,"ambience,food_quality,hygiene,portion,price","ambience,delivery,hygiene,portion,price","ambience,food_quality,portion,price",food_quality,delivery,hygiene,,0,0
+"I had ordered chicken dum biriyani...There is no chicken dum inside it also the chicken pieces are very small in size . I would also suggest to work on your food packaging ..
+Very much disappointed wi","delivery,food_quality,portion","delivery,portion","delivery,portion",food_quality,,food_quality,,0,0
+"A Good Place To Have Snacks..
+Uh Will Get VadaPav,SamosaPav,Dosa Nd Idlii,etc
+It's Located Just Outside Of The Vasai Station...
+Great Taste Of Snacks..",food_quality,food_quality,food_quality,,,,,1,1
+paratha had some sort of foul smell.,hygiene,hygiene,hygiene,,,,,1,1
+The owner of the shop is really rude and arrogant. Once you interact you'll feel like cancelling the order and walk away. Staff is good though but very unhygienic. They don't wear gloves while cooking,"hygiene,service","delivery,hygiene,service","hygiene,price,service",,delivery,,price,0,0
+Food is not up to mark. We went for a project lunch and it's not worth for money. Biryani rice is hard and it has no salt at all. In chicken biryani they gave chicken Tikka pieces not sure who asked t,"hygiene,price","food_quality,hygiene,price","food_quality,hygiene",,food_quality,price,food_quality,0,0
+Being first time in Bangalore never knew what to eat and where to order. This is where faasos comes to the rescue. Faasos is available all over India in various cities. I ordered chicken pizza wrap an,delivery,delivery,"delivery,food_quality",,,,food_quality,1,0
+"I ordered a Platinum combo today. I requested the chef to prepare it Jain. It included Chole Bhature, Sandwich, starter(Manchurian corn), a dessert ( malai sandwich),salad and a juice (Frooti). I must","food_quality,service","delivery,food_quality,service","food_quality,price,service",,delivery,,price,0,0
+A nice place to hang out with friends after college. Light on the budget. Decent quantity. Staff is cheery and very attentive to customer needs. Interactive management. Hygienic. Pleasant atmosphere o,"ambience,hygiene,portion,service","ambience,portion,service","hygiene,portion,price,service",hygiene,,ambience,price,0,0
+"A place to go with friends and family. Hospitality is just at the next level. Staffs are very polite and know how to delight the customers. Well, starters and deserts are simply awesome. I don't munch","portion,service","ambience,delivery,portion,service",service,,"ambience,delivery",portion,,0,0
+"One of the few side walk cafes in Orion. They claim to serve everything pure and natural, but the catch is the process will take some time ( like 45 mins for a soup for eg). Ordered one winter veg sou","food_quality,service,variety","delivery,food_quality,service,variety","food_quality,service,variety",,delivery,,,0,1
+We went there on wed night.It was crowded but we got a seat. The staff members were prompt and friendly.we enjoyed the food especially kadhi and vada ( looks like puri) they went well with all the cur,"ambience,price,service","ambience,price,service,variety","hygiene,price,service",,variety,ambience,hygiene,0,0
+"Another place that was on my bookmarks list for a long time and I finally got to visit it. Best pizzas in town,no doubt. We reached 30 minutes before opening time so that we could get a seat. The tabl","delivery,food_quality,service","delivery,food_quality,service","delivery,food_quality,hygiene,service",,,,hygiene,1,0
+"We found a cosy cafe for you in Seawoods - Olde Baileys
+
+It’s the perfect place for a coffee break or a hearty meal
+
+You’ll get a variety of food options here like salads, starters, sandwiches, pastas","ambience,variety","ambience,delivery,food_quality,variety","ambience,variety",,"delivery,food_quality",,,0,1
+"Writing this review after visiting multiple times in past 4 months (3rice in a week) - good hotel for Tamilnadu style food. will get all food very hot and fresh, the price also nominal for that locati","ambience,price","ambience,food_quality,price,service","ambience,food_quality,price,service",,"food_quality,service",,"food_quality,service",0,0
+t deliver guy was so much polite and delivered on time,delivery,,delivery,delivery,,,,0,1
+"Very good but a little pricy…
+
+Someone in India needs to know how to serve chicken without a bunch of bones",price,,price,price,,,,0,1
+Taste; hygiene; speed;service were all very good. I went for a late dinner; everything was very good.,"food_quality,hygiene,service","delivery,food_quality,hygiene,service","food_quality,hygiene,price,service",,delivery,,price,0,0
+"Ambience 3/5
+food taste 4/5
+Quantity 4/5
+Price 3/5
+Had 2 veg biryani n a Gobi fry which costs 290 . Tastes so good . Gobi just a shallow fry costed 110 which is personally felt bit expensive.
+Last tim","ambience,food_quality,portion,price","ambience,delivery,food_quality,portion,price","ambience,food_quality,portion,price",,delivery,,,0,1
+"Shera 2.0 well known since 2003.The ""2.0"" in the name likely indicates a modernized or updated version of a previous establishment, signifying an upgrade in ambiance, menu, or services.
+
+Location - Bh","ambience,service","ambience,food_quality,portion,service,variety","ambience,service",,"food_quality,portion,variety",,,0,1
+"We ordered corn cheese balls, manchow soup and paneer shashlik sizzler. The sizzler was stale. Paneer was smelling and the waiter was so impolite to even accept the mistake. Never going again","food_quality,hygiene,service","delivery,food_quality,hygiene,service","food_quality,hygiene",,delivery,service,,0,0
+"An ice cream at Apsara is never a bad idea. Absolutely love the kulfis from here. They have ice creams in many unique flavors, I have tried some and can't wait to explore more.
+
+The store is managed b","food_quality,portion,service","food_quality,portion,service","food_quality,portion,price",,,service,price,1,0
+"Good quality, tasty food. Good variety in reasonably priced buffet. Manager is very polite.
+Staff is prompt in service. Comfortable seating. Clean restaurant. Choice of four ice creams.","ambience,food_quality,service,variety","ambience,hygiene,price,service,variety","food_quality,service,variety",food_quality,"hygiene,price",ambience,,0,0
+"We ordered samosa and dhokla for one of our function. Since it was a bulk order all the ingredients were prepared freshly. communication from the store stuff was top notch ,They called and confirmed t","delivery,service","delivery,service","delivery,service",,,,,1,1
+Tasty food with reasonable price. Good ambience and nice staff.parking also available.. it is newely opens and looks nice now.will take minimum time to delivery. Co operative staff,"ambience,delivery,food_quality,price,service","ambience,delivery,price,service","ambience,delivery,food_quality,price,service",food_quality,,,,0,1
+"It's a cool place, little less crowded Sheesha currently closed! Only drinks available with nice Ambience, Service is okay!","ambience,service","ambience,portion,service","ambience,service",,portion,,,0,1
+This biryani tastes like an electrocuted crow. Pieces in biryani can be served as leftover to dogs only . Im sure pigs have a better taste and will order from swiggy. I didnt get my kababs when i orde,"delivery,food_quality","delivery,food_quality,price","food_quality,hygiene,price",,price,delivery,"hygiene,price",0,0
+I ordered boneless chicken biryani and food was not at all hot and it smelled like it was cooked long back. Worst experience. Not going to order again from this restaurant.,hygiene,"delivery,hygiene,portion","food_quality,hygiene",,"delivery,portion",,food_quality,0,0
+"worst shawarma ever.. ordered three times from here and every single time i got yukkiest shawarma ever.. no mayonnaise, chicken smelling like hell and uncooked rumali roti.. never going to eat at this",hygiene,"delivery,hygiene",hygiene,,delivery,,,0,1
+Ordered from Zomato.. Pickup partner was waiting at restaurant for 1/2 hour.. Restaurants phone not working so could not call them. Ordered delayed. Pickup person said they have taken too much of orde,"delivery,food_quality,service","delivery,food_quality,portion,service","delivery,food_quality",,portion,service,,0,0
+"Follow me for more on Instagram @alimentary_empire
+I was actually waiting to visit this place for so long!
+Such an awesome range of natural fruit flavored ice creams. You will be amazed by the taste. ","ambience,food_quality,service","ambience,food_quality,service","ambience,food_quality,service",,,,,1,1
+"Want to full you hungry tummy and not burn your pocket I feel this is one of the places near New Bel Road, the quality and quantity are simply great and customer service is brilliant, suoer friendly o","portion,service","portion,service","portion,service",,,,,1,1
+My friend ordered fried chicken biryani and the taste was good. chicken was fine . packaging was also good .Quantity was enough for one person.,"delivery,food_quality,portion","delivery,food_quality,portion","delivery,food_quality,portion",,,,,1,1
+"Ordered rajma chawal from here.
+
+The rajma was well cooked and medium spicy, loved it (4/5)
+
+The rice was also fine, the quantity can be a little more. (3/5)
+
+Had soya chaap here. It was medium spicy ","ambience,food_quality,portion,service","ambience,delivery,food_quality,portion,service","ambience,food_quality,portion,service",,delivery,,,0,1
+"Tried first time from this restraunat.
+
+Double egg double chicken Maggie Rs 80/- you can customize with cheese/butter charges extra 10/-
+
+Taste wise it's good can try once. Very quick delivery
+
+I have","delivery,food_quality","delivery,food_quality","delivery,food_quality,price",,,,price,1,0
+"One of the best Chinese restaurants in Hyderabad !
+Love their ambience, service and obviously the food :)
+Especially their Chicken dry red chilli starter with Egg fried rice.. truly amazing. Keep up t","ambience,food_quality,service","ambience,food_quality,service","ambience,food_quality,service",,,,,1,1
+"Visited this place yesterday only. What to say.. the pizza was so delicious, I am a #pizzalover and I had never tasted such an amazing pizza ÃÃÃÃÃÃÃÃÂ°ÃÃÃÃÃÃÃÃÃÃÃÃ","ambience,food_quality","ambience,food_quality","ambience,food_quality",,,,,1,1
+Not at all up to the mark disappointed ordered food to the room I am staying in and literally left it after having the first taste the presentation was good but food was bad,food_quality,"delivery,food_quality","food_quality,price",,delivery,,price,0,0
+I am a regular guest to this restaurant I generally have my morning breakfast and lunch in this place we get authentic Andhra style food here and quality wise and quantity wise it's very satisfying an,"food_quality,portion,price",portion,"portion,price","food_quality,price",,food_quality,,0,0
+Ordered sesame chilly chicken for home delivery and it was one of the worst chicken dishes I have had. Chicken was like rubber and they had added so much spices that it was almost bitter. They didn't ,delivery,delivery,"delivery,food_quality",,,,food_quality,1,0
+"One of the best places I have visited, there is lot of varieties available and the only drawback is it's a take away place you can't have it there, it is situated in the main road easy to locate and p","food_quality,price,service","food_quality,price,service","food_quality,service",,,price,,1,0
+"I love variety option in menu available with I SIRI, express combo is value for money. and recomendable place.
+
+100% chinese food I feel.
+I love variety option in menu available with I SIRI, express c","price,variety","price,variety",variety,,,price,,1,0
+"Easy to locate, near Liberty Garden. One of the best Vegetarian family restaurant for all kinds of cuisines. We tried paneer tikka sizzler and paneer mughlai here which was one of the best starters. P","food_quality,hygiene,price","price,variety","food_quality,hygiene,price","food_quality,hygiene",variety,,,0,1
+"Curry N Pasta offers a fantastic dining experience with a diverse menu that caters to both vegetarians and non-vegetarians. The dishes are flavorful, well-prepared, and beautifully presented. Whether ","delivery,variety","ambience,delivery,food_quality,variety",delivery,,"ambience,food_quality",variety,,0,0
+"Today date 20/08/2024 Very bad atmosphere, and seating area is  very uncomfortable, there is no place to seat properly and the food is not as good as the review given by the people.
+Today is my first ","ambience,food_quality",ambience,,food_quality,,"ambience,food_quality",,0,0
+This is just opposite to Christ University. Food is great especially Chinese chicken fried rice. The place is very cramped and the same needs too be organized properly for the people to sit comfortabl,hygiene,"ambience,hygiene",hygiene,,ambience,,,0,1
+many types of special dishes...whith reasonable price....😋😋😋,price,price,,,,price,,1,0
+Delicious Food. Quality and Quantity is also amazing. Affordable price of each item. Must try dish is all the menu.🤤😋😀,"portion,price","portion,price,variety","portion,price",,variety,,,0,1
+"First of all I would like to say that this place is my second home for Saturday nights because its perfect to chill with your friends and the music is just too groovy, you cannot resist but to shake a","ambience,service","ambience,service","ambience,price,service",,,,price,1,0
+it reached 40min late . the food was not tasty,"delivery,food_quality",delivery,food_quality,food_quality,,delivery,,0,0
+"Fair Ambience
+Polite Staff
+Tasty food
+Cost Effective
+Total value for money that you pay.
+We ordered 2 Special Thali for lunch between 3 of us.It was quite filing and delicious!
+Loved the Paneer Sabji!","ambience,food_quality,price,service","ambience,delivery,food_quality,portion,price,service","ambience,food_quality,price,service",,"delivery,portion",,,0,1
+"This was on my list since few months and finally we went for a Sunday buffet.
+Ambience is good with cool music and performance.
+Service ok.
+Food not satisfied.
+My review is only on vegetarian food.
+St","ambience,food_quality,price,service","ambience,food_quality,price,service","ambience,food_quality,service",,,price,,1,0
+"We've been to this place roughly six months ago and got everything that tasted fresh and delicious. We ordered Achari Idli, Ragi Dosa and Filter Coffee and everything was perfect. The place is clean. ","ambience,food_quality,variety","ambience,delivery,food_quality,hygiene,variety","food_quality,variety",,"delivery,hygiene",ambience,,0,0
+"Location - It is located just near the Vikhroli station
+.
+We tried
+Paneer puff (3.5/5) - The taste was pretty okayish
+.
+Chicken wrap (3/5) - I don't know but I didn't like this one
+.
+Brownie square (3","food_quality,price,service","delivery,food_quality,price,service","food_quality,price,service",,delivery,,,0,1
+A decent place to get away from the crowded restaurants. This restaurant is an open type one on a sprawling area . I would suggest going for dinner and not for lunch as these are hot summers. we were ,"ambience,food_quality,price","ambience,delivery,food_quality,portion,price","ambience,food_quality,price",,"delivery,portion",,,0,1
+"Best buffet in Bangalore, hands down. Always a great time at ITC, the biggest spread is incredible, covering many cuisines and variety. I have noticed that many star hotels donÃÂ¢ÃÃt get Indian f",variety,variety,variety,,,,,1,1
+Very delicious cakes and brownies. Great quality. But a little expensive when compared to the size of the cake. Range is limited when you reach randomly. Variety only on order basis.,"price,variety","delivery,portion,price,variety",variety,,"delivery,portion",price,,0,0
+lovely place decent Ambience the food is really good one of the best service in the city in hyper local Nitish was really amazing overall order super spicy wings chicken tikka pizza really very good t,"ambience,service","ambience,delivery,service","ambience,service",,delivery,,,0,1
+"I have heard lot about the place but finally tonight I managed to visit it. They have an interesting and a wide range of a la carte menu and thats what we all were hoping to try out.
+The ambiance is s","portion,price,service","portion,price,service,variety","ambience,portion,price,service",,variety,,ambience,0,0
+Nice ambience. Courteous staff. Best place to have good Chinese menu. Starters was very good and the main course has good quantity and quality. Order will take some time to come.,"ambience,portion,service","ambience,delivery,portion,service,variety","ambience,food_quality,portion,service",,"delivery,variety",,food_quality,0,0
+"Its a small outlet. Best suited for take away. Tried their biryani, its very good. Menu is very limited. Pocket friendly n they give in good quantity too. Will visit again to try more.","portion,variety","portion,variety","portion,price",,,variety,price,1,0
+"This place is located right outside Vasai railway station. Their pure veg section is fully AC. They serve a variety of Indian, Tandoor & Fast Food dishes along with mocktails.
+
+The taste is too good. ","food_quality,service,variety","food_quality,service,variety","food_quality,service,variety",,,,,1,1
+"It was lovely place, accomodated in a small space. With AC service, soft music in background, staff also fine.
+
+Tried Veg. Paneer spring roll, it was lovely had a wonderful tasty schezwan sauce.","ambience,food_quality,service","ambience,portion,service","food_quality,portion,service",food_quality,portion,ambience,portion,0,0
+"I just got a rice meal box which included ginger paneer on the side. And the following were my observations:-
+1) the rice was semi cooked, it was not even boiled properly.
+2) the paneer portion was ab","delivery,food_quality,portion","food_quality,portion","delivery,food_quality,portion,price",delivery,,,price,0,0
+"Have to give it to the Driven Cafe for the ambience and the branding and the presentation, but the quality of food was disappointing.
+The Pesto pasta we ordered was not pesto, the mint mocha was not h","ambience,food_quality","ambience,delivery","ambience,food_quality",food_quality,delivery,,,0,1
+"Bangali pulao was not good. Rice was undone. Too much yellow in color. Kosha mangsho/chicken was good but for the amount paid, the quantity they provide is not justified considering the quality of the",portion,"delivery,portion","portion,price",,delivery,,price,0,0
+"This outlet is in the sterling theater so the sitting is not of Sbarro but the sitting is shared with other outlets there.
+I tried the calzone, cheezy and regular garlic bread and BBQ veg stromboli. P","food_quality,price,service","food_quality,price,service","food_quality,price,service",,,,,1,1
+"After seeing the few number of reviews those were given, I was reluctant to order from here. However, Punjabites didn't fail to deliver in taste of quality and taste. The food is quite pocket friendly","delivery,food_quality,price","delivery,food_quality,price","delivery,food_quality,price",,,,,1,1
+"Awesome place to have traditional food! Good taste and the best part is the Ragi Muddhe! Good hospitality, fast service, great ambience. Overall a good place, better than the most MANE hotels!.","ambience,food_quality,service","ambience,food_quality,service","ambience,food_quality,price,service",,,,price,1,0
+"it's a very nice restaurant in that locality, very neat and clean interior, and the staff are well behaved. The food quality and taste is top notch. u can see your food being cooked in front of u. Pri","ambience,food_quality,price,service","food_quality,hygiene,service","food_quality,price,service","ambience,price",hygiene,ambience,,0,0
+"The classic example of what happens when all aspects of a restaurant are not taken care of. When your service doesnt compliment the food one serves, it sometimes leads to disaster. Walked in on early ","ambience,food_quality,price,service,variety","ambience,delivery,food_quality,price,service,variety","ambience,food_quality,service,variety",,delivery,price,,0,0
+This charming restaurant offers a delightful dining experience.  The menu boasts a variety of flavorful vegetarian dishes.  Fresh ingredients and aromatic spices enhance each bite. The attentive staff,"ambience,service,variety","ambience,food_quality,service,variety","service,variety",,food_quality,ambience,,0,0
+Economical and happening place in the heart of koramangala. You get what you need at a price you can afford. Do try the five layered tequila shots. Songs selection is good here and sometimes there is ,"price,variety","price,variety",price,,,variety,,1,0
+"Nice food, good. Value for money. The food is much spicy as u like it most. It's quality and food smells very nice. The package also very neat and strong","delivery,food_quality,hygiene,price","hygiene,price","delivery,hygiene","delivery,food_quality",,"food_quality,price",,0,0
+"Visited this place for a weekday lunch buffet.
+Ambiance is really good and even the variety of food offered is good for the price range. 
+Both veg and non veg starters were nice and in main course wou","price,variety","price,variety","ambience,food_quality,price,variety",,,,"ambience,food_quality",1,0
+"Masala Kitchen is a delivery kitchen located in Worli besides Casa De Cafe on Dainik Shivner Road...
+
+This outlet is famous for its North Indian dishes and we ordered a few of their signature dishes..","delivery,food_quality,portion,service","delivery,food_quality,portion,service","delivery,food_quality,hygiene,service",,,portion,hygiene,1,0
+I have been to this place on a sunday with my friends thinking I can have a good meal and spend time with friends but the moment I arrived there it was around 2:15pm and the manager there started nagg,food_quality,"delivery,food_quality",food_quality,,delivery,,,0,1
+"We ordered a burger, coffee and pizza puff. Seats weren’t clean, burger was dry the sauce was barely there, pizza puff was not hot and half cooked. Hand dryer was extremely dirty. Staff was friendly.","food_quality,hygiene,service","delivery,food_quality,hygiene,service","food_quality,service",,delivery,hygiene,,0,0
+The food was amazingly delicious. I ordered the food online and the packing and delivery service was quite impressive. they even sent a complimentary cake which was delicious. the best part about this,"delivery,service","delivery,service","delivery,price,service",,,,price,1,0
+The ingredients used in the salad were rotten; I didn't like it at all.,food_quality,,,food_quality,,food_quality,,0,0
+Jumboking is a huge and international brand but still they give franchisee to a bad vendor who don't actually grow their brand but thay just trying to get money from customer and although space here i,"food_quality,service","ambience,food_quality,price,service","food_quality,price,service",,"ambience,price",,price,0,0
+"Visited this place to try out their unique mocha ice-cream.
+It's good for a one-time ice-cream craving, but I wouldn't travel 20 kms just for this mochi, if you know what I mean XP
+? Expensive.
+? The ","price,service","price,service","price,service",,,,,1,1
+"I visited Gustoso with my friends this weekend, expecting a great dining experience, but unfortunately, it turned out to be quite the opposite. We ordered a mushroom pizza, only to find a living worm ",hygiene,"delivery,hygiene","hygiene,price",,delivery,,price,0,0
+"1.Food quantity & taste is amazing... But it has very low hygiene standards around the shop....
+2.The staff there doesn't ever have sanitizer and have not wore any mask...","food_quality,hygiene,portion,service","food_quality,hygiene,portion,service","food_quality,hygiene,portion,service",,,,,1,1
+"I am a big fan of MOD
+The only concern here is the seating area. Customers from McDonald's were occupying the space and refused to leave even when informed that it was designated for MOD.",ambience,ambience,,,,ambience,,1,0
+The best hangouts place with friends and girlfriend and it had good dance floor. I got good variety of liquor brands also but the food is main concern in terms of both taste and quantity.for quires co,"food_quality,portion,variety","food_quality,portion,variety","food_quality,portion,variety",,,,,1,1
+Great place! It's right next to my colony so it's super convenient in case I'm craving a croissant in the morning or want a lemonade after school. Great place to meet people and chill. The pasteries a,"ambience,hygiene,service","ambience,hygiene,service","ambience,hygiene,service",,,,,1,1
