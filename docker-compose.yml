@@ -1,0 +1,69 @@
+# Phase-6 production stack: FastAPI service + Redis + Streamlit dashboard.
+#
+#   docker compose up -d
+#
+# Then:
+#   curl http://localhost:8000/health        -> {"status":"ok",...,"cache_backend":"redis"}
+#   open http://localhost:8501               -> live manager dashboard
+#
+# The Flask app (app.py) is intentionally NOT containerized — it stays a
+# local dev surface. Production is the FastAPI + Streamlit pair.
+
+version: "3.9"
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: restoai-redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: restoai-api
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      REDIS_URL: "redis://redis:6379/0"
+      RAG_CACHE_TTL_SEC: "3600"
+      RAG_CACHE_MAX_ENTRIES: "1024"
+      RAGAS_LOG_PATH: "/app/logs/ragas_proxy.jsonl"
+      UVICORN_WORKERS: "2"
+    ports:
+      - "8000:8000"
+    volumes:
+      - api_logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    container_name: restoai-dashboard
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      RESTOAI_API_URL: "http://api:8000"
+      RAGAS_LOG_PATH: "/app/logs/ragas_proxy.jsonl"
+    ports:
+      - "8501:8501"
+    volumes:
+      - api_logs:/app/logs:ro
+
+volumes:
+  api_logs:

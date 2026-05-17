@@ -1,0 +1,53 @@
+# Keep the image lean. The Flask app, scripts, datasets, notebooks,
+# eval CSVs, reports — none of those are on the inference hot path.
+.git
+.gitignore
+.gitattributes
+.github
+.vscode
+.idea
+.venv
+venv
+env
+__pycache__
+**/__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.coverage
+coverage.xml
+htmlcov
+*.log
+
+# Repo content that isn't part of the API image
+app.py
+templates
+images
+datasets
+data
+docs
+reports
+results
+scripts
+tests
+notebooks
+shared
+user_system
+instance
+logs_day*.txt
+PROGRESS_LOG.md
+SETUP_INSTRUCTIONS*.md
+TASK1_*.md
+Readme.md
+LICENSE
+.env
+.env.*
+*.ipynb
+*.csv
+*.faiss
+*.pkl
+*.pickle
+
+# Compose layout
+docker-compose.override.yml

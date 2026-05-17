@@ -179,3 +179,21 @@ logs_day*.txt
 # Re-ignore __pycache__ everywhere — the !scripts/** / !tests/** un-ignores
 # above accidentally pulled compiled cache back in.
 **/__pycache__/
+
+# Day-7: un-ignore the new production-wrapper modules. The generic
+# `cache/` rule above was meant for runtime cache dirs, not source code.
+!src/cache/
+!src/cache/**
+!src/observability/
+!src/observability/**
+# Re-ignore compiled cache under the just-un-ignored src/cache + src/observability.
+src/cache/**/__pycache__/
+src/observability/**/__pycache__/
+
+# Day-7 docker stack files (excluded from the catch-all archive rules above)
+!Dockerfile
+!Dockerfile.dashboard
+!docker-compose.yml
+!.dockerignore
+!requirements-api.txt
+!app_dashboard.py
