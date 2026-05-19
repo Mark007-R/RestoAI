@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .ops-hero {
+    background: linear-gradient(135deg, rgba(20,184,166,0.15) 0%, rgba(118,75,162,0.10) 100%);
+    padding: 2rem 2.5rem;
+    border-radius: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .ops-hero h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 0.5rem 0;
+  }
+  .ops-hero p { color: var(--text-muted); margin: 0; }
+  .ops-section {
+    background: var(--panel-elevated);
+    border-radius: 1.25rem;
+    padding: 1.75rem 2rem;
+    margin-bottom: 1.75rem;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .ops-section h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    color: var(--dark-color);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .ops-section h2 i { color: var(--primary-color); }
+  .metric-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .metric-tile {
+    background: rgba(15,23,42,0.6);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 1rem;
+    padding: 1.1rem 1.25rem;
+  }
+  .metric-tile .label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.45rem;
+  }
+  .metric-tile .value {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--dark-color);
+  }
+  .metric-tile .value.muted { color: var(--text-muted); font-weight: 500; font-size: 1.2rem; }
+  table.ops-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  table.ops-table th, table.ops-table td {
+    padding: 0.75rem 0.9rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    vertical-align: top;
+  }
+  table.ops-table th {
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+  }
+  table.ops-table td.mono { font-family: 'Courier New', monospace; font-size: 0.85rem; }
+  .pill {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .pill-ok { background: rgba(34,197,94,0.18); color: #4ade80; }
+  .pill-warn { background: rgba(245,158,11,0.18); color: #fbbf24; }
+  .pill-info { background: rgba(14,165,233,0.18); color: #38bdf8; }
+  .empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+  .ops-path {
+    font-family: 'Courier New', monospace;
+    background: rgba(0,0,0,0.25);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.4rem;
+    font-size: 0.85rem;
+  }
+</style>
+
+<div class="ops-hero" data-aos="fade-down">
+  <h1><i class="fas fa-cogs"></i> Model Operations</h1>
+  <p>Champion model card, live RAGAS-proxy quality, and RAG cache state — the manager-side surface of the Phase-6 production stack.</p>
+</div>
+
+
+<section class="ops-section" data-aos="fade-up">
+  <h2><i class="fas fa-trophy"></i> Champion model card (locked Day-6)</h2>
+  <div style="overflow-x:auto;">
+    <table class="ops-table">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Champion</th>
+          <th>Fallback</th>
+          <th>Eval set</th>
+          <th>Macro-F1 / proxy</th>
+          <th>Latency</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in champion_card %}
+        <tr>
+          <td><strong>{{ row.component }}</strong></td>
+          <td class="mono">{{ row.champion }}</td>
+          <td class="mono">{{ row.fallback }}</td>
+          <td>{{ row.eval_set }}</td>
+          <td><span class="pill pill-info">{{ row.macro_f1 }}</span></td>
+          <td>{{ row.latency_ms }}{% if row.latency_ms not in ['-', '< 10'] %} ms{% endif %}</td>
+          <td>{{ row.notes }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted);">
+    Full intent / failure-mode notes in
+    <a href="https://github.com/Mark007-R/RestoAI/blob/main/docs/MODEL_CARD.md" target="_blank" style="color:var(--primary-color);">docs/MODEL_CARD.md</a>.
+  </p>
+</section>
+
+
+<section class="ops-section" data-aos="fade-up">
+  <h2><i class="fas fa-chart-line"></i> Live RAGAS-proxy quality</h2>
+  {% if ragas.has_data %}
+    <div class="metric-row">
+      <div class="metric-tile">
+        <div class="label">Requests logged</div>
+        <div class="value">{{ ragas.request_count }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Faithfulness (mean)</div>
+        <div class="value">{{ "%.3f"|format(ragas.faithfulness) if ragas.faithfulness is not none else "&mdash;" }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Relevancy (mean)</div>
+        <div class="value">{{ "%.3f"|format(ragas.relevancy) if ragas.relevancy is not none else "&mdash;" }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Context precision</div>
+        <div class="value">{{ "%.3f"|format(ragas.context_precision) if ragas.context_precision is not none else "&mdash;" }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Context recall</div>
+        <div class="value">{{ "%.3f"|format(ragas.context_recall) if ragas.context_recall is not none else "&mdash;" }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Composite (geom mean)</div>
+        <div class="value">{{ "%.3f"|format(ragas.composite) if ragas.composite is not none else "&mdash;" }}</div>
+      </div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-tile">
+        <div class="label">Cache hit rate</div>
+        <div class="value">{{ "%.0f%%"|format(ragas.cache_hit_rate * 100) if ragas.cache_hit_rate is not none else "&mdash;" }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">LLM fallback rate</div>
+        <div class="value">{{ "%.0f%%"|format(ragas.fallback_rate * 100) if ragas.fallback_rate is not none else "&mdash;" }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Latency p50</div>
+        <div class="value">{{ "%.0f"|format(ragas.latency_p50_ms) ~ " ms" if ragas.latency_p50_ms is not none else "&mdash;" }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Latency p90</div>
+        <div class="value">{{ "%.0f"|format(ragas.latency_p90_ms) ~ " ms" if ragas.latency_p90_ms is not none else "&mdash;" }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Latency p99</div>
+        <div class="value">{{ "%.0f"|format(ragas.latency_p99_ms) ~ " ms" if ragas.latency_p99_ms is not none else "&mdash;" }}</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:1.05rem;font-weight:600;margin-top:1.25rem;margin-bottom:0.75rem;color:var(--text-muted);">Last 25 requests</h3>
+    <div style="overflow-x:auto;">
+      <table class="ops-table">
+        <thead>
+          <tr>
+            <th>When</th>
+            <th>Query</th>
+            <th>Restaurant</th>
+            <th>Model</th>
+            <th>Cache</th>
+            <th>Composite</th>
+            <th>Latency</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for r in ragas.recent %}
+          <tr>
+            <td class="mono" style="white-space:nowrap;">{{ r.ts_iso or '&mdash;' }}</td>
+            <td>{{ (r.query or '')|truncate(60) }}</td>
+            <td>{{ r.restaurant or '&mdash;' }}</td>
+            <td class="mono" style="font-size:0.78rem;">{{ r.model or '&mdash;' }}</td>
+            <td>
+              {% if r.cache_hit %}<span class="pill pill-ok">hit</span>
+              {% else %}<span class="pill pill-warn">miss</span>{% endif %}
+            </td>
+            <td>{{ "%.3f"|format(r.composite) if r.composite is defined and r.composite is not none else "&mdash;" }}</td>
+            <td>{{ "%.0f ms"|format(r.latency_ms) if r.latency_ms is defined and r.latency_ms is not none else "&mdash;" }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <i class="fas fa-info-circle"></i>
+      No RAGAS-proxy records yet at <span class="ops-path">{{ log_path }}</span>.
+      Run a query from <a href="/chat" style="color:var(--primary-color);">AI Chat</a> or POST to the FastAPI <code>/rag</code> endpoint to generate one.
+    </div>
+  {% endif %}
+</section>
+
+
+<section class="ops-section" data-aos="fade-up">
+  <h2><i class="fas fa-database"></i> RAG cache state</h2>
+  {% if cache.available %}
+    <div class="metric-row">
+      <div class="metric-tile">
+        <div class="label">Backend</div>
+        <div class="value">
+          {% if cache.backend == 'redis' %}<span class="pill pill-ok">redis</span>
+          {% elif cache.backend == 'memory' %}<span class="pill pill-info">memory (lru)</span>
+          {% else %}<span class="pill pill-warn">{{ cache.backend or 'unknown' }}</span>{% endif %}
+        </div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Entries</div>
+        <div class="value">{{ cache.size if cache.size is not none else "&mdash;" }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Max entries</div>
+        <div class="value">{{ cache.max_entries if cache.max_entries is not none else "&mdash;" }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Hits</div>
+        <div class="value">{{ cache.hits if cache.hits is not none else 0 }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Misses</div>
+        <div class="value">{{ cache.misses if cache.misses is not none else 0 }}</div>
+      </div>
+      <div class="metric-tile">
+        <div class="label">Hit rate</div>
+        <div class="value">{{ "%.0f%%"|format(cache.hit_rate * 100) if cache.hit_rate is not none else "&mdash;" }}</div>
+      </div>
+    </div>
+  {% else %}
+    <div class="empty-state">
+      Cache module unavailable: {{ cache.reason or "unknown" }}.
+    </div>
+  {% endif %}
+</section>
+
+
+<section class="ops-section" data-aos="fade-up">
+  <h2><i class="fas fa-route"></i> Where to act</h2>
+  <ul style="line-height:2;margin:0;padding-left:1.25rem;">
+    <li>Test a complaint / sentiment prediction live: <a href="/analyze" style="color:var(--primary-color);">/analyze</a> (powered by TF-IDF+LightGBM + NLI champions, signatures preserved).</li>
+    <li>Test an LLM-backed RAG answer: <a href="/chat" style="color:var(--primary-color);">/chat</a> (flan-t5 + ms-marco rerank with templated fallback; warm hits served from this cache).</li>
+    <li>Champion model card &amp; failure-mode docs: <a href="https://github.com/Mark007-R/RestoAI/blob/main/docs/MODEL_CARD.md" target="_blank" style="color:var(--primary-color);">docs/MODEL_CARD.md</a>.</li>
+    <li>RAGAS proxy log file: <span class="ops-path">{{ log_path }}</span> {% if log_exists %}<span class="pill pill-ok">exists</span>{% else %}<span class="pill pill-warn">not yet created</span>{% endif %}.</li>
+  </ul>
+</section>
+
+{% endblock %}

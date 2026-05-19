@@ -37,10 +37,11 @@ in this repo — every cell points at the file that holds it.
   work unchanged.
 - **Surfaces:**
   - Flask manager dashboard (`app.py`, port 5000) — via the shim in
-    `analyzer.py`.
-  - FastAPI service (`api.py`, port 8000) — `POST /complaints`.
-  - Streamlit manager dashboard (`app_dashboard.py`, port 8501) — calls
-    the FastAPI endpoint.
+    `analyzer.py` (default UI surface).
+  - Flask `/manager/model-ops` page — surfaces the same champion-card
+    metadata + live RAGAS-proxy / cache state. Read-only.
+  - FastAPI service (`api.py`, port 8000) — `POST /complaints` (also
+    powers the Day-7 cache + observability path).
 - **Out of scope:** Non-English reviews (untested), reviews longer than
   ~5k chars (the TF-IDF vocabularies were fit on review-length text),
   cuisine-type detection, automated moderation decisions.

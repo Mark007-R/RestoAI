@@ -14,10 +14,10 @@ Day-7 (Phase 6) additions:
     - Per-request RAGAS-proxy logging: every /rag response computes
       faithfulness / relevancy / context_precision / context_recall (Day-3
       deterministic proxy) and appends to logs/ragas_proxy.jsonl. The
-      Streamlit dashboard (`app_dashboard.py`) tails the file for live
-      quality plots.
-    - /metrics/ragas returns a rolling summary (last N requests) for the
-      dashboard. /metrics/cache returns cache stats.
+      Flask `/manager/model-ops` page summarises the same JSONL file
+      server-side for the manager UI.
+    - /metrics/ragas returns a rolling summary (last N requests).
+      /metrics/cache returns cache stats.
 
 Run locally:
     uvicorn api:app --host 0.0.0.0 --port 8000 --reload
