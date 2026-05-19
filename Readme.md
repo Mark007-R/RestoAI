@@ -125,9 +125,12 @@ RestoAI is a full-featured restaurant intelligence platform with two distinct sy
 
 ### Manager System Features
 
-- **Advanced Sentiment Analysis**: VADER-based sentiment scoring with compound scores and keyword extraction
-- **Intelligent Complaint Categorization**: 8-category automatic classification (Service, Food Quality, Hygiene, Price, Delivery, Portion, Ambience, Variety)
-- **RAG-Powered Chat Assistant**: FAISS vector database with semantic search using Sentence-BERT (384-dim embeddings)
+- **Sentiment Analysis** — NLI zero-shot champion (`valhalla/distilbart-mnli-12-3`, macro-F1 0.701) with VADER fallback. Day-1 VADER baseline was 0.466; the upgrade lifts Neutral-class F1 from 0.081 to 0.478 — a 6× jump on the failure class.
+- **Complaint Categorization** — 8-category multi-label TF-IDF + LightGBM classifier (`models/complaint_classifier.joblib`, macro-F1 0.853 on the fresh held-out, Optuna-tuned over 30 trials), with the original keyword scan retained as offline fallback. Per-category F1 gains: delivery 0.537 → 0.923, portion 0.808 → 0.927, food_quality 0.788 → 0.865.
+- **RAG-Powered Chat Assistant** — FAISS retrieval (`all-MiniLM-L6-v2`, 384-dim) + cross-encoder reranking (`cross-encoder/ms-marco-MiniLM-L-6-v2`, top-15 → top-5) + `google/flan-t5-base` synthesis. Templated synthesis retained as offline fallback. Composite proxy 0.663; context recall +0.105 vs templates; live RAGAS-proxy scoring on every request via `src/observability/`.
+- **RAG Caching** — Two-backend cache (`src/cache/`): Redis when `REDIS_URL` is set, in-memory LRU with TTL otherwise. Warm cache hit p50 < 10 ms vs 2.4 s cold (240× speedup).
+- **Live Quality Monitoring** — Streamlit manager dashboard (`app_dashboard.py`, port 8501) with rolling RAGAS proxy, complaint heat map (ML-backed), and sentiment trend.
+- **FastAPI Service** — `api.py` exposes `/sentiment`, `/complaints`, `/rag`, `/metrics/ragas`, `/health/cache` (port 8000). Pydantic v2-validated, async. Existing Flask app (`app.py`, port 5000) is untouched — Hard Rule 5 preserved both `categorize_complaints` and `analyze_text_and_keywords` signatures by `tests/test_signature_contracts.py`.
 - **Comprehensive Visualizations**: 9+ interactive chart types (sentiment distribution, category trends, rating analysis, temporal patterns)
 - **AI-Generated Recommendations**: Data-driven actionable insights for business improvement
 - **Multi-Source Data Integration**: Support for Zomato, Mumbai Aires, Google Reviews CSV formats
@@ -292,13 +295,22 @@ python app.py
 - **python-decouple 3.8**: Configuration management
 
 ### NLP & AI
-- **sentence-transformers 2.2.2**: Sentence embeddings (all-MiniLM-L6-v2)
-- **transformers 4.35.2**: Transformer models
+- **sentence-transformers 2.2.2**: Sentence embeddings (`all-MiniLM-L6-v2`) for RAG retrieval
+- **transformers 4.35.2**: Hosts the NLI sentiment champion (`valhalla/distilbart-mnli-12-3`), the cross-encoder reranker (`cross-encoder/ms-marco-MiniLM-L-6-v2`), and the RAG synthesizer (`google/flan-t5-base`)
 - **torch 2.1.1**: PyTorch backend
-- **faiss-cpu 1.7.4**: Vector similarity search
-- **vaderSentiment 3.3.2**: Sentiment analysis
+- **faiss-cpu 1.7.4**: Vector similarity search (FAISS index per restaurant, consolidated)
+- **lightgbm**: Champion complaint multi-label classifier (one-vs-rest, 8 binary heads, Optuna-tuned)
+- **vaderSentiment 3.3.2**: Fallback sentiment scorer when transformer weights are unavailable
 - **nltk 3.8.1**: Natural language processing
-- **scikit-learn 1.3.2**: Machine learning utilities
+- **scikit-learn 1.3.2**: TF-IDF vectorizer + complaint pipeline + cross-val
+
+### API + Production stack
+- **FastAPI 0.115**: `api.py` async service on port 8000 (Pydantic v2)
+- **uvicorn**: ASGI server for the FastAPI layer
+- **Redis 7**: RAG response cache (with in-memory LRU fallback if Redis unreachable)
+- **Streamlit 1.39**: Manager dashboard (`app_dashboard.py`) for live RAGAS proxy + complaint heat-map
+- **Docker + docker-compose**: One-command stack — FastAPI + Redis + dashboard
+- **pytest**: 88-test suite (`tests/`) covering sentiment, complaints, RAG, cache, observability, API e2e, and signature-contract regression
 
 ### Data Processing
 - **pandas 2.1.4**: Data manipulation
@@ -323,13 +335,20 @@ python app.py
 - **flask-limiter 3.5.0**: Rate limiting
 - **colorlog 6.8.0**: Colored logging
 
-**Total Dependencies**: 27 packages
+**Total Dependencies**: 27 base packages (Flask app) + Day-7 production stack (FastAPI + Redis + Docker + pytest, see `requirements-api.txt`)
 
 ### Model Information
-- **Embedding Model**: `all-MiniLM-L6-v2` (Sentence-BERT)
-- **Embedding Dimension**: 384
-- **Sentiment Analyzer**: VADER (Valence Aware Dictionary and sEntiment Reasoner)
-- **Vector Store**: FAISS (Facebook AI Similarity Search)
+
+| Component             | Champion (post-upgrade)                                                     | Fallback                       | Macro-F1 / proxy |
+|-----------------------|------------------------------------------------------------------------------|--------------------------------|------------------|
+| Sentiment             | `valhalla/distilbart-mnli-12-3` (NLI zero-shot)                              | VADER                          | 0.701            |
+| Complaint classifier  | TF-IDF + LightGBM, one-vs-rest, Optuna-tuned, per-class thresholds           | 8-keyword `CATEGORY_KEYWORDS`  | 0.853            |
+| RAG retrieval         | `all-MiniLM-L6-v2` (Sentence-BERT, 384-dim) + FAISS                          | —                              | n/a              |
+| RAG reranker          | `cross-encoder/ms-marco-MiniLM-L-6-v2` (top-15 → top-5)                      | None                           | n/a              |
+| RAG synthesizer       | `google/flan-t5-base`                                                        | Templated rule-based synthesis | 0.663 composite  |
+| RAG cache             | Redis (when `REDIS_URL` set)                                                 | In-memory LRU + TTL            | p50 < 10 ms warm |
+
+Model card with intended use, performance breakdowns, known failure modes, and retrain triggers lives at [`docs/MODEL_CARD.md`](docs/MODEL_CARD.md). The Day-1 audit documenting the two non-models the original README hid behind "AI" is at [`docs/COMPONENT_AUDIT.md`](docs/COMPONENT_AUDIT.md).
 
 ## License
 
