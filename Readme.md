@@ -2,7 +2,7 @@
 
 Comprehensive dual-system AI platform for restaurant management and customer experience with sentiment analysis, RAG chat, advanced analytics, and AI-powered booking.
 
-**Status**: Production-Ready | **Python**: 3.11 | **Frameworks**: Flask 3.0 + FastAPI 0.115 + Streamlit 1.39 | **License**: MIT
+**Status**: Production-Ready | **Python**: 3.11 | **Frameworks**: Flask 3.0 + FastAPI 0.115 + Redis | **License**: MIT
 
 ---
 
@@ -11,7 +11,8 @@ Comprehensive dual-system AI platform for restaurant management and customer exp
 Three "AI" components shipped originally — only one of them was actually a model.
 The 7-day upgrade replaced the two non-models with trained / LLM-backed
 champions, measured everything on a fresh held-out set, and wrapped the
-production layer in Docker + caching + tests + a live quality dashboard.
+production layer in Docker + caching + tests, with live quality monitoring
+exposed directly in the existing Flask UI at `/manager/model-ops`.
 
 ### Headline numbers (fresh held-out, n=100, [`results/ablation.csv`](results/ablation.csv))
 
@@ -51,52 +52,44 @@ template-friendly. The qualitative win is in `results/samples/day03_rag_*.json`.
 | 4 | Phase-3 integration. `analyzer.categorize_complaints` and `rag_chat._synthesize_intelligent_answer` now delegate to champions (signatures preserved). FastAPI service on :8000. | [`src/sentiment/classifier.py`](src/sentiment/classifier.py), [`src/complaints/classifier.py`](src/complaints/classifier.py), [`src/rag/pipeline.py`](src/rag/pipeline.py), [`api.py`](api.py) |
 | 5 | Optuna sweep (30 trials) + per-class thresholds + BCE multi-label refutation + error analysis | [`scripts/day05_phase4_tuning.py`](scripts/day05_phase4_tuning.py), [`results/day05_metrics.json`](results/day05_metrics.json), [`results/day05_error_analysis.csv`](results/day05_error_analysis.csv) |
 | 6 | 6-layer ablation + frontier comparison on a **fresh** disjoint held-out (the cross-eval result) | [`scripts/day06_phase5_frontier_ablation.py`](scripts/day06_phase5_frontier_ablation.py), [`results/ablation.csv`](results/ablation.csv), [`results/frontier_comparison.csv`](results/frontier_comparison.csv) |
-| **7** | Redis cache + RAGAS-proxy live logging + Docker compose stack + Streamlit dashboard + 88-test pytest suite + model card | [`Dockerfile`](Dockerfile), [`docker-compose.yml`](docker-compose.yml), [`src/cache/`](src/cache/), [`src/observability/`](src/observability/), [`app_dashboard.py`](app_dashboard.py), [`tests/`](tests/), [`docs/MODEL_CARD.md`](docs/MODEL_CARD.md) |
+| **7** | Redis cache + RAGAS-proxy live logging + Docker compose stack + Flask `/manager/model-ops` dashboard + 88-test pytest suite + model card | [`Dockerfile`](Dockerfile), [`docker-compose.yml`](docker-compose.yml), [`src/cache/`](src/cache/), [`src/observability/`](src/observability/), [`manager_system/model_ops.py`](manager_system/model_ops.py), [`manager_system/templates/model_ops.html`](manager_system/templates/model_ops.html), [`tests/`](tests/), [`docs/MODEL_CARD.md`](docs/MODEL_CARD.md) |
 
 ### Production stack (Phase 6)
 
 ```
-                         ┌────────────────────────┐
-                         │  Streamlit dashboard   │  port 8501
-                         │  (live RAGAS, complaint│
-                         │   heat, sentiment trend│
-                         └─────────────┬──────────┘
-                                       │
-                                       ▼
-┌───────────────┐         ┌────────────────────────┐         ┌─────────────┐
-│  Flask app    │         │  FastAPI service       │         │  Redis      │
-│  (port 5000)  │ ◄──shim─┤  /sentiment            │ ◄───────┤  cache      │
-│  app.py       │         │  /complaints           │         │  (fallback: │
-│  unchanged    │         │  /rag  (cached + RAGAS)│         │   in-mem    │
-│  routes       │         │  /metrics/ragas        │         │   LRU)      │
-└───────────────┘         │  /health, /health/cache│         └─────────────┘
-                          └────────────┬───────────┘
-                                       │
-                                       ▼
-                       ┌───────────────────────────┐
-                       │  Champion model layer     │
-                       │  • NLI sentiment          │
-                       │  • TF-IDF+LGBM complaint  │
-                       │  • flan-t5+rerank RAG     │
-                       │  All have graceful        │
-                       │  fallbacks (VADER /       │
-                       │  keyword / template)      │
-                       └───────────────────────────┘
+┌────────────────────────────────┐         ┌────────────────────────┐         ┌─────────────┐
+│  Flask UI (port 5000)          │         │  FastAPI service       │         │  Redis      │
+│  app.py + manager_system/      │ ◄──────►│  /sentiment            │ ◄───────┤  cache      │
+│                                │         │  /complaints           │         │  (fallback: │
+│  • /chat       (RAG, cached)   │         │  /rag  (cached + RAGAS)│         │   in-mem    │
+│  • /analyze    (ML classifier) │         │  /metrics/ragas        │         │   LRU)      │
+│  • /manager/model-ops          │         │  /health, /health/cache│         └─────────────┘
+│      (champion card +          │         └────────────┬───────────┘
+│       live RAGAS + cache       │                      │
+│       state — replaces the     │                      ▼
+│       earlier Streamlit dash)  │       ┌───────────────────────────┐
+└────────────────────────────────┘       │  Champion model layer     │
+                                         │  • NLI sentiment          │
+                                         │  • TF-IDF+LGBM complaint  │
+                                         │  • flan-t5+rerank RAG     │
+                                         │  All have graceful        │
+                                         │  fallbacks (VADER /       │
+                                         │  keyword / template)      │
+                                         └───────────────────────────┘
 ```
 
 ### Quick start
 
 ```bash
-# Full production stack: FastAPI + Redis + Streamlit dashboard
+# Full production stack: FastAPI + Redis
 docker compose up -d
 
 # verify
 curl http://localhost:8000/health        # {"status":"ok",...,"cache_backend":"redis"}
-open  http://localhost:8501              # live manager dashboard
 
-# Local dev (Flask app, unchanged)
+# Flask UI (includes the model-ops dashboard at /manager/model-ops)
 pip install -r requirements.txt
-python app.py                            # port 5000
+python app.py                            # http://localhost:5000
 
 # Local dev (FastAPI service, no Docker)
 pip install -r requirements-api.txt
@@ -129,7 +122,7 @@ RestoAI is a full-featured restaurant intelligence platform with two distinct sy
 - **Complaint Categorization** — 8-category multi-label TF-IDF + LightGBM classifier (`models/complaint_classifier.joblib`, macro-F1 0.853 on the fresh held-out, Optuna-tuned over 30 trials), with the original keyword scan retained as offline fallback. Per-category F1 gains: delivery 0.537 → 0.923, portion 0.808 → 0.927, food_quality 0.788 → 0.865.
 - **RAG-Powered Chat Assistant** — FAISS retrieval (`all-MiniLM-L6-v2`, 384-dim) + cross-encoder reranking (`cross-encoder/ms-marco-MiniLM-L-6-v2`, top-15 → top-5) + `google/flan-t5-base` synthesis. Templated synthesis retained as offline fallback. Composite proxy 0.663; context recall +0.105 vs templates; live RAGAS-proxy scoring on every request via `src/observability/`.
 - **RAG Caching** — Two-backend cache (`src/cache/`): Redis when `REDIS_URL` is set, in-memory LRU with TTL otherwise. Warm cache hit p50 < 10 ms vs 2.4 s cold (240× speedup).
-- **Live Quality Monitoring** — Streamlit manager dashboard (`app_dashboard.py`, port 8501) with rolling RAGAS proxy, complaint heat map (ML-backed), and sentiment trend.
+- **Live Quality Monitoring** — Manager-only Flask page at `/manager/model-ops` ([`manager_system/model_ops.py`](manager_system/model_ops.py) + [`manager_system/templates/model_ops.html`](manager_system/templates/model_ops.html)) showing the champion model card, rolling RAGAS-proxy means + latency percentiles + cache hit rate, and live RAG-cache state. Read-only — never triggers a `/rag` call.
 - **FastAPI Service** — `api.py` exposes `/sentiment`, `/complaints`, `/rag`, `/metrics/ragas`, `/health/cache` (port 8000). Pydantic v2-validated, async. Existing Flask app (`app.py`, port 5000) is untouched — Hard Rule 5 preserved both `categorize_complaints` and `analyze_text_and_keywords` signatures by `tests/test_signature_contracts.py`.
 - **Comprehensive Visualizations**: 9+ interactive chart types (sentiment distribution, category trends, rating analysis, temporal patterns)
 - **AI-Generated Recommendations**: Data-driven actionable insights for business improvement
@@ -308,7 +301,7 @@ python app.py
 - **FastAPI 0.115**: `api.py` async service on port 8000 (Pydantic v2)
 - **uvicorn**: ASGI server for the FastAPI layer
 - **Redis 7**: RAG response cache (with in-memory LRU fallback if Redis unreachable)
-- **Streamlit 1.39**: Manager dashboard (`app_dashboard.py`) for live RAGAS proxy + complaint heat-map
+- **Flask `/manager/model-ops` dashboard**: Live RAGAS proxy + cache state + champion model card, rendered server-side from the existing Flask app (replaced the earlier Streamlit dashboard for fewer moving parts)
 - **Docker + docker-compose**: One-command stack — FastAPI + Redis + dashboard
 - **pytest**: 88-test suite (`tests/`) covering sentiment, complaints, RAG, cache, observability, API e2e, and signature-contract regression
 

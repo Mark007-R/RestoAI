@@ -407,6 +407,27 @@ def register_manager_routes(app, db, User, Review, manager_required, login_requi
     ALLOWED_EXT = app.config.get('ALLOWED_EXTENSIONS', {'.csv', '.txt'})
     GOOGLE_PLACES_API_KEY = app.config.get('GOOGLE_PLACES_API_KEY')
 
+    @app.route("/manager/model-ops", methods=["GET"])
+    @manager_required
+    def manager_model_ops():
+        """Champion model card + live RAGAS-proxy quality + cache state.
+
+        Replaces the Phase-6 Streamlit dashboard (``app_dashboard.py``, removed)
+        by surfacing the same three views inside Flask. Read-only — never
+        triggers a /rag call, just summarises what the FastAPI service (or
+        prior Flask /chat traffic) has already logged.
+        """
+        from manager_system.model_ops import build_model_ops_context
+        try:
+            ctx = build_model_ops_context()
+        except Exception as exc:  # noqa: BLE001
+            logger.error("model-ops context build failed: %s", exc, exc_info=True)
+            flash("Could not load model-ops context.", "error")
+            ctx = {"champion_card": [], "ragas": {"has_data": False, "recent": []},
+                   "cache": {"available": False, "reason": str(exc)},
+                   "log_path": "(unknown)", "log_exists": False}
+        return render_template("model_ops.html", **ctx)
+
     @app.route("/manager/dashboard", methods=["GET"])
     @manager_required
     def manager_dashboard():

@@ -23,8 +23,10 @@ The composite is the geometric mean of the four — matches Day-3.
 Storage
 -------
 JSONL at `logs/ragas_proxy.jsonl` (configurable via `RAGAS_LOG_PATH`).
-One line per request, fixed schema, append-only. The Streamlit dashboard
-tails the last N lines to render the live distribution.
+One line per request, fixed schema, append-only. The Flask
+`/manager/model-ops` page (manager_system/model_ops.py) reads the last
+N lines server-side to render the rolling summary; `/metrics/ragas` on
+the FastAPI service serves the same summary as JSON.
 """
 
 from __future__ import annotations
