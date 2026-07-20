@@ -1,10 +1,10 @@
-# RestoAI
+# Restaurant-Intelligence-Platform
 
 > 🔗 **Live API:** https://iambatman07-restoai.hf.space — try `/health`, `/sentiment`, `/rag` · [HF Space](https://huggingface.co/spaces/IamBatman07/RestoAI)
 
 **A restaurant-intelligence platform with measured, ML-backed NLP — sentiment, complaint classification, and retrieval-augmented chat.**
 
-RestoAI is a dual system: a **manager dashboard** (Flask, port 5000) for analytics, complaint triage, and RAG-powered chat over customer reviews, and a **customer app** for restaurant discovery and booking. The interesting part of this repo is its honesty story: a 7-day upgrade sprint replaced two components that *looked* like ML but weren't, measured the replacements against real eval sets, and wrapped the champions in a production FastAPI + Redis + Docker service — keeping every existing Flask call-site working.
+Restaurant-Intelligence-Platform is a dual system: a **manager dashboard** (Flask, port 5000) for analytics, complaint triage, and RAG-powered chat over customer reviews, and a **customer app** for restaurant discovery and booking. The interesting part of this repo is its honesty story: a 7-day upgrade sprint replaced two components that *looked* like ML but weren't, measured the replacements against real eval sets, and wrapped the champions in a production FastAPI + Redis + Docker service — keeping every existing Flask call-site working.
 
 ---
 
@@ -162,7 +162,7 @@ The signature-contract tests are the guarantee that the champion swap never brok
 ## Repo layout
 
 ```
-RestoAI/
+Restaurant-Intelligence-Platform/
 ├── app.py                      # Flask entry (manager + customer UI, :5000)
 ├── api.py                      # FastAPI service (:8000)
 ├── Dockerfile, docker-compose.yml, requirements-api.txt
