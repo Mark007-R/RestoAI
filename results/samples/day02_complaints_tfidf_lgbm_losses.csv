@@ -1,6 +1,0 @@
-text_preview,gold,pred,exact_match,source
-Some of the seafood starters are successful. Appetizers are small in portion size for one person. Salads do not meet expectations.,portion,,False,reviews.csv
-"Absolutely Delightful Experience at NEO WELCOME!  We had an amazing time dining at NEO WELCOME. We tried the Mysore Masala Cheese Dosa, and it was simply wow — ","ambience,food_quality,service","food_quality,service",False,mumbaires.csv
-Let me begin by saying this place is in a nice location and thats all which is nice about it. Based on ratings and a few recommendations we visited the place la,"food_quality,hygiene,service","food_quality,service",False,zomato.csv
-Paratha was k... Bt that in that special ntng special ... No papad no salad no dessert... In same amount other restaurants are offering better quality and quant,"delivery,portion",portion,False,zomato.csv
-Visited the oshiwara yokos after a decade & I must say that the quality & quantity of the sizzlers is as good as before. We ordered Steak sizzler & Veg exotica ,"food_quality,portion,service","portion,service",False,mumbaires.csv
