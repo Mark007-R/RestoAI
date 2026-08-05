@@ -1,6 +1,0 @@
-text_preview,gold,vader_pred,vader_compound,rating,source,correct
-We recently dined at this fine dine restaurant and ordered two Bombil thalis along with one extra Bombil fry plate. We were informed that ea,Positive,Positive,0.3508,4.0,mumbaires.csv,True
-All are good. Nice staff and good food,Positive,Positive,0.8225,5.0,mumbaires.csv,True
-It has been a wonderful experience .Been here with my best friend to throw a party . He loved it alot . couldn't have asked for a better day,Positive,Positive,0.9847,5.0,Resreviews.csv,True
-"The food was absolutely delicious, bursting with flavor and beautifully presented. The service was impeccable, with the staff being attentiv",Positive,Positive,0.9787,5.0,mumbaires.csv,True
-They sent mini biryani instead of full biryani and also it was very cold and melted . And price was 250 . Very unhappy with the restaurant..,Negative,Negative,-0.4754,1.0,Resreviews.csv,True
