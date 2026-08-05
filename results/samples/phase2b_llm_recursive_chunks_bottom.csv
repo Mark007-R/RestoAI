@@ -1,6 +1,0 @@
-id,config,restaurant,intent,faithfulness,relevancy,ctx_precision,ctx_recall,ragas_composite,extractiveness,answer_chars,answer_words,sentiment_dir_match,top_category_hit,rating_mention,intent_addressed,specificity,answer_preview
-q028,llm_recursive_chunks,Triptify,hygiene,0.0,0.22724607586860657,0.0,0.0,0.0038826129443838373,0.0,33,5,0,0,0,0,0.0,No retrieved chunks for Triptify.
-q005,llm_recursive_chunks,Barista,ambience,0.0,0.3015359342098236,0.0,0.0,0.004167108118467506,0.0,32,5,0,0,0,0,0.0,No retrieved chunks for Barista.
-q023,llm_recursive_chunks,Aromas@11SIX,ambience,0.0,0.33059751987457275,0.0,0.0,0.004264075618460169,0.0,37,5,0,0,0,0,0.0,No retrieved chunks for Aromas@11SIX.
-q011,llm_recursive_chunks,Behrouz Biryani,ambience,0.0,0.3470265865325928,0.0,0.0,0.004316091937905575,0.0,40,6,0,0,0,0,0.0,No retrieved chunks for Behrouz Biryani.
-q048,llm_recursive_chunks,Hitech Bawarchi Food Zone,recommend,0.0,0.5361620187759399,0.0,0.0,0.004811982191760797,0.0,50,8,0,1,0,0,0.25,No retrieved chunks for Hitech Bawarchi Food Zone.
