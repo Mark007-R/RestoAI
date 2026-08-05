@@ -8,7 +8,7 @@ Restaurant-Intelligence-Platform is a dual system: a **manager dashboard** (Flas
 
 ## The headline: what was "AI" vs what is now ML
 
-A Day-1 audit ([docs/COMPONENT_AUDIT.md](docs/COMPONENT_AUDIT.md)) found that of three "AI" components, only one was a real model:
+A Day-1 audit found that of three "AI" components, only one was a real model:
 
 | Component | Before the sprint | After the sprint |
 |---|---|---|
@@ -22,21 +22,21 @@ Every champion was integrated **behind the original function signatures** (`mana
 
 ## Final metrics (measured, not claimed)
 
-All numbers cite their source file under `results/`. Where the specialized model *lost*, it's reported honestly.
+Where the specialized model *lost*, it's reported honestly.
 
 ### Sentiment (200-review eval)
-| Model | Macro-F1 | Neutral F1 | Source |
-|---|---:|---:|---|
-| VADER (baseline) | 0.466 | 0.081 | `results/baseline_metrics.json` |
-| **NLI zero-shot (champion)** | **0.701** | **0.478** (6× lift) | `results/baseline_metrics.json` |
+| Model | Macro-F1 | Neutral F1 |
+|---|---:|---:|
+| VADER (baseline) | 0.466 | 0.081 |
+| **NLI zero-shot (champion)** | **0.701** | **0.478** (6× lift) |
 
 The Neutral class is where VADER collapsed — lexicon scoring pushes almost everything to positive/negative. NLI entailment recovers it.
 
 ### Complaint classifier (multi-label, 8 categories)
-| Model | Macro-F1 (fresh held-out 100) | Source |
-|---|---:|---|
-| Keyword substring (baseline) | 0.8335 | `results/ablation.csv` |
-| **TF-IDF + LightGBM (champion)** | **0.8525** | `results/ablation.csv` |
+| Model | Macro-F1 (fresh held-out 100) |
+|---|---:|
+| Keyword substring (baseline) | 0.8335 |
+| **TF-IDF + LightGBM (champion)** | **0.8525** |
 
 Per-category, the trained model wins decisively where reviewers *don't* use the literal trigger word, and loses on narrow-lexicon categories — an honest split:
 
@@ -51,13 +51,13 @@ Per-category, the trained model wins decisively where reviewers *don't* use the 
 | Ambience | 0.794 | −0.138 |
 | Price | 0.606 | **−0.294** (keyword decisively better) |
 
-Because of this split, the production classifier **unions** the trained output with the keyword fallback by default, preserving keyword recall on the narrow-lexicon categories. Full model card: [docs/MODEL_CARD.md](docs/MODEL_CARD.md). Serialized bundle: `models/complaints_classifier.joblib` (1.6 MB), tuned with a 30-trial Optuna sweep (Day 5).
+Because of this split, the production classifier **unions** the trained output with the keyword fallback by default, preserving keyword recall on the narrow-lexicon categories. Serialized bundle: `models/complaints_classifier.joblib` (1.6 MB), tuned with a 30-trial Optuna sweep (Day 5).
 
 ### RAG (50-QA structural eval, RAGAS-proxy)
-| Config | Composite | Context recall | Cold latency | Source |
-|---|---:|---:|---:|---|
-| Template synthesis (baseline) | 0.680 | 0.655 | 5.0 s | `results/baseline_metrics.json` |
-| **FAISS + rerank + flan-t5 (champion)** | 0.663 | **0.760** (+0.105) | 2.4 s | `results/frontier_comparison.csv` |
+| Config | Composite | Context recall | Cold latency |
+|---|---:|---:|---:|
+| Template synthesis (baseline) | 0.680 | 0.655 | 5.0 s |
+| **FAISS + rerank + flan-t5 (champion)** | 0.663 | **0.760** (+0.105) | 2.4 s |
 
 Honest read: the structural composite is roughly flat, but the LLM-backed pipeline lifts **context recall** by +0.105 and halves cold latency. With the Redis cache warm, repeat queries return in **<10 ms** (240× faster than the 2.4 s cold path).
 
@@ -68,7 +68,7 @@ Honest read: the structural composite is roughly flat, but the LLM-backed pipeli
 | Complaint subset-accuracy | **0.43** | 0.01 | Specialized |
 | Sentiment macro-F1 | **0.607** (NLI) | 0.560 (DistilBERT-SST2) | Specialized |
 
-With ≥100 labeled examples per class on noisy review text, the specialized multi-label classifier beats frontier zero-shot — especially on subset-accuracy, where getting *all* labels right matters. Source: `results/frontier_comparison.csv`.
+With ≥100 labeled examples per class on noisy review text, the specialized multi-label classifier beats frontier zero-shot — especially on subset-accuracy, where getting *all* labels right matters.
 
 ---
 
@@ -178,10 +178,7 @@ Restaurant-Intelligence-Platform/
 ├── datasets/                   # 5 CSV review sources (~248k rows, ~23.8k unique reviews)
 ├── data/eval/                  # gold eval sets (sentiment / complaint / RAG QA + held-out)
 ├── tests/                      # 88-test suite
-├── scripts/                    # day02..day06 experiment runners
-├── results/                    # ablation.csv, frontier_comparison.csv, baseline_metrics.json
-├── reports/                    # day01..day07 daily research reports
-└── docs/                       # MODEL_CARD.md, COMPONENT_AUDIT.md
+└── scripts/                    # day02..day06 experiment runners
 ```
 
 ---
