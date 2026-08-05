@@ -1,6 +1,0 @@
-text_preview,gold_labels,baseline_pred,exact_match,missed,spurious
-Some of the seafood starters are successful. Appetizers are small in portion size for one person. Salads do not meet expectations.,portion,portion,True,,
-I really loved it... must taste,food_quality,food_quality,True,,
-Paratha was k... Bt that in that special ntng special ... No papad no salad no dessert... In same amount other restaurants are offering better quality and quant,"delivery,portion","delivery,portion",True,,
-"Can't recommend them enough. Thank you so much for the beautiful creation, the exquisite taste and timely delivery.","delivery,food_quality","delivery,food_quality",True,,
-Place is awesome so their craft beers. Liked Belgian Wit and Belgian Strong Ale. Both are amazing. Food taste and quality is good. They must improve a bit on qu,"food_quality,portion,price,service","food_quality,portion,price,service",True,,
