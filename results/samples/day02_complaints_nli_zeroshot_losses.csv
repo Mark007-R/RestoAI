@@ -1,6 +1,0 @@
-text_preview,gold,pred,exact_match,source
-Some of the seafood starters are successful. Appetizers are small in portion size for one person. Salads do not meet expectations.,portion,,False,reviews.csv
-Great place to dine..... The sushis are awesome and the ambience is the best you can get.... dj plays some nice tracks staff is corteous Deepak helped me in sel,"ambience,service",,False,Resreviews.csv
-"Absolutely Delightful Experience at NEO WELCOME!  We had an amazing time dining at NEO WELCOME. We tried the Mysore Masala Cheese Dosa, and it was simply wow — ","ambience,food_quality,service","ambience,delivery,food_quality,portion,price,service",False,mumbaires.csv
-Let me begin by saying this place is in a nice location and thats all which is nice about it. Based on ratings and a few recommendations we visited the place la,"food_quality,hygiene,service","ambience,food_quality,hygiene,service",False,zomato.csv
-I really loved it... must taste,food_quality,portion,False,Resreviews.csv

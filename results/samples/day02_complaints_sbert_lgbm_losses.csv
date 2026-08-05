@@ -1,6 +1,0 @@
-text_preview,gold,pred,exact_match,source
-Some of the seafood starters are successful. Appetizers are small in portion size for one person. Salads do not meet expectations.,portion,food_quality,False,reviews.csv
-Great place to dine..... The sushis are awesome and the ambience is the best you can get.... dj plays some nice tracks staff is corteous Deepak helped me in sel,"ambience,service","food_quality,service",False,Resreviews.csv
-Let me begin by saying this place is in a nice location and thats all which is nice about it. Based on ratings and a few recommendations we visited the place la,"food_quality,hygiene,service","ambience,food_quality,service",False,zomato.csv
-Paratha was k... Bt that in that special ntng special ... No papad no salad no dessert... In same amount other restaurants are offering better quality and quant,"delivery,portion",food_quality,False,zomato.csv
-Visited the oshiwara yokos after a decade & I must say that the quality & quantity of the sizzlers is as good as before. We ordered Steak sizzler & Veg exotica ,"food_quality,portion,service",food_quality,False,mumbaires.csv
